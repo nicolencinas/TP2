@@ -1,6 +1,7 @@
 package tpGrafos;
 
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.Point;
 
@@ -23,7 +24,8 @@ public class Interfaz
 	private String selActual="";
 	LinkedList <JLabel> select=new LinkedList<JLabel>();
 	ArrayList <Integer> relaciones=new ArrayList <Integer>();
-	private Integer ub=0;
+	ArrayList <JLabel> nodos=new ArrayList <JLabel>();
+	private Integer ub=2;
 	JLabel rel=new JLabel(0+" A "+0);
 	
 	
@@ -56,6 +58,7 @@ public class Interfaz
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	
 	
 	public JLabel generarIcono(int id,Point p) 
 	{
@@ -96,13 +99,23 @@ public class Interfaz
 				String name=label.getText();
 				Integer num=Integer.parseInt(name);
 
-				if (relaciones.size()==0)
+				if (relaciones.size()==2) 
+				{
 					relaciones.clear();
+					cambiarLabel(rel);
+				}
+					
 				else 
+				{
 				relaciones.add(num);
+				nodos.add(label);
+				}
 				
 				
-				cambiarLabel(rel,relaciones.get(0),relaciones.get(1));
+				if (relaciones.size()==1)
+					cambiarLabel(rel,relaciones.get(0),0);
+				 if (relaciones.size()==2)
+					cambiarLabel(rel,relaciones.get(0),relaciones.get(1));
 				
 			}
 
@@ -119,6 +132,11 @@ public class Interfaz
 		return label;
 		
 	}
+	
+	private void cambiarLabel(JLabel labe)
+	{
+		labe.setText(0+" A "+ 0);
+	}
 	private void cambiarLabel(JLabel label,Integer desde,Integer hasta) 
 	{
 		label.setText(desde+" A "+ hasta);
@@ -132,7 +150,9 @@ public class Interfaz
 		frame.getContentPane().setLayout(null);
 		
 		frame.setFocusable(true);
-		rel.setLocation(1000, 36);
+		rel.setLocation(1500, 0);
+		rel.setFont(new Font("Tahoma", Font.PLAIN, 26));
+		rel.setSize(100,100);
 		rel.setVisible(true);
 		frame.getContentPane().add(rel);
 	
