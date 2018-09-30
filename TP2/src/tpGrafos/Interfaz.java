@@ -5,10 +5,13 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.Point;
 
+import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.ToolTipManager;
+import javax.swing.UIManager;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -83,15 +86,40 @@ public class Interfaz
 
 		Image im=new ImageIcon(iconos[id]).getImage();
 		label.setIcon(new ImageIcon( im.getScaledInstance(30, 30, Image.SCALE_SMOOTH)));
+		label.setText(id+"");
 		
 		return label;
 		
 	}
 	
+	
+	
 	public JLabel generarNodo(int id,int ub, Point p) 
 	{
 	 
-		JLabel label=new JLabel(ub+"");
+		JLabel label=new JLabel(ub+"")
+		{
+		      /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			public Point getToolTipLocation(MouseEvent event)
+		      {
+				
+		        return new Point(7, 7);
+		        
+		      }
+			
+			
+		    };
+		          
+	
+		ToolTipManager.sharedInstance().setInitialDelay(0);
+		ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
+		
+		
+		label.setToolTipText(ub+"");
 		label.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) 
@@ -156,6 +184,7 @@ public class Interfaz
 		rel.setVisible(true);
 		frame.getContentPane().add(rel);
 	
+
 		
 		Point p1=new Point(71, 36);
 		Point p2=new Point(586, 36);
@@ -172,9 +201,6 @@ public class Interfaz
 		select.add(paso);
 		select.add(consumidor);
 		select.add(productor);
-		
-		
-		
 		
 			frame.addMouseListener(new MouseAdapter() 
 		{
