@@ -20,6 +20,8 @@ import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
+import org.openstreetmap.gui.jmapviewer.JMapViewer;
+
 import Animacion.Animacion;
 
 import java.awt.event.MouseAdapter;
@@ -223,6 +225,15 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		rel.setVisible(true);
 		frame.getContentPane().add(rel);
 	
+		JPanel contenedormapa=new JPanel();
+		contenedormapa.setLayout(new FlowLayout(FlowLayout.LEADING));
+		contenedormapa.setBounds(500,0,1100,860);
+		contenedormapa.setBorder(new LineBorder(Color.blue));
+		
+		JMapViewer map=new JMapViewer();
+		map.setBounds(500,0,1100,860);
+		contenedormapa.add(map);
+		frame.add(contenedormapa);
 
 		JPanel dropmenu= new JPanel();
 		dropmenu.setLayout(null);
