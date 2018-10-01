@@ -24,6 +24,7 @@ import Animacion.Animacion;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -123,7 +124,8 @@ public class Interfaz
 				if (relaciones.size()==2) 
 				{
 					relaciones.clear();
-					cambiarLabel(rel);
+					relaciones.add(num);
+					//cambiarLabel(rel,relaciones.get(0),0);
 				}
 					
 				else 
@@ -190,6 +192,23 @@ icono.setIcon(new ImageIcon("subir.png"));
 icono.setIcon(new ImageIcon("bajar.png"));
 	}
 
+	public void generarArista(JLabel desde,JLabel hasta,String peso) 
+	{
+	
+		Point2D pd=(Point2D) desde.getLocation();
+		Point2D ph=(Point2D) hasta.getLocation();
+		int distancia=(int) pd.distance(ph)+15;
+		JLabel lab=new JLabel(peso);
+		
+		lab.setToolTipText(peso);
+		lab.setSize(distancia,20);
+		lab.setLocation((int)pd.getX(),(int)pd.getY()+5);
+		
+		Image im=new ImageIcon("arrow.png").getImage();
+		lab.setIcon(new ImageIcon( im.getScaledInstance(distancia, 20, Image.SCALE_SMOOTH)));
+		
+		frame.add(lab);
+	}
 	private void initialize() 
 	{
 		frame = new JFrame();
@@ -303,9 +322,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 
 	}
 		});
-		
-		
-		
+
 		
 			frame.addMouseListener(new MouseAdapter() 
 		{
