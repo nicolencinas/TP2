@@ -47,7 +47,7 @@ public class Interfaz
 	ArrayList <Integer> relaciones=new ArrayList <Integer>();
 	ArrayList <JLabel> nodos=new ArrayList <JLabel>();
 	private Integer ub=0;
-	JLabel rel=new JLabel(0+" A "+0);
+	JLabel rel=new JLabel("X"+" A "+"X");
 	Color color=new Color (151, 15, 207  );
 	JMapViewer map=new JMapViewer();
 			
@@ -176,7 +176,7 @@ public class Interfaz
 				if (relaciones.size()==1) 
 				{
 					
-					cambiarLabel(rel,relaciones.get(0),0);
+					cambiarLabel(rel,relaciones.get(0).toString(),"X");
 					
 					label.repaint();
 				}
@@ -187,7 +187,7 @@ public class Interfaz
 				 {
 					
 				 
-				 cambiarLabel(rel,relaciones.get(0),relaciones.get(1));
+				 cambiarLabel(rel,relaciones.get(0).toString(),relaciones.get(1).toString());
 				 label.repaint();
 				 
 				 String option=JOptionPane.showInputDialog(null,"Crear arista entre: "+nodos.get(relaciones.get(0)).getText()+ " y "+nodos.get(relaciones.get(1)).getText());
@@ -202,8 +202,8 @@ public class Interfaz
 				 c=Integer.parseInt(option);
 				 }catch (Exception err)
 				 {
-					 JOptionPane.showConfirmDialog(map,"Error",
-								"Error al parsear datos del tipo String",JOptionPane.YES_NO_OPTION,JOptionPane.ERROR_MESSAGE); 
+					 JOptionPane.showConfirmDialog(map,"Error al parsear datos del tipo String",
+								"Error",JOptionPane.YES_NO_OPTION,JOptionPane.ERROR_MESSAGE); 
 					 continuar=false;
 					 
 				 } finally 
@@ -257,7 +257,7 @@ public class Interfaz
 	{
 		labe.setText(0+" A "+ 0);
 	}
-	private void cambiarLabel(JLabel label,Integer desde,Integer hasta) 
+	private void cambiarLabel(JLabel label,String desde,String hasta) 
 	{
 		label.setText(desde+" A "+ hasta);
 		
@@ -283,9 +283,9 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		frame.getContentPane().setLayout(null);
 		
 		frame.setFocusable(true);
-		rel.setLocation(400, 0);
+		rel.setLocation(0, 200);
 		rel.setFont(new Font("Tahoma", Font.PLAIN, 26));
-		rel.setSize(100,100);
+		rel.setSize(250,100);
 		rel.setVisible(true);
 		frame.getContentPane().add(rel);
 	
