@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
@@ -32,6 +33,8 @@ import Animacion.Animacion;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseWheelListener;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -46,8 +49,9 @@ public class Interfaz
 	LinkedList <JLabel> select=new LinkedList<JLabel>();
 	ArrayList <Integer> relaciones=new ArrayList <Integer>();
 	ArrayList <JLabel> nodos=new ArrayList <JLabel>();
+	ArrayList <Tupla> aristas=new ArrayList<Tupla>();
 	private Integer ub=0;
-	JLabel rel=new JLabel("X"+" A "+"X");
+	JLabel rel=new JLabel("Crear Arista entre: \n "+"X"+" A "+"X");
 	Color color=new Color (151, 15, 207  );
 	JMapViewer map=new JMapViewer();
 			
@@ -83,6 +87,16 @@ public class Interfaz
 	 * Initialize the contents of the frame.
 	 */
 	
+	public boolean existeArista(Tupla tup) 
+	{
+		
+		for (Tupla j:aristas) 
+		{
+			if (j.equals(tup))
+				return true;
+		}
+		return false;
+	}
 	
 	public JLabel generarIcono(int id,Point p) 
 	{
@@ -114,26 +128,64 @@ public class Interfaz
 		
 	}
 	
-	private void addArista(Point desde,Point hasta)
+	private void addArista(Integer p,Point desde,Point hasta,Integer d,Integer h)
 	{
 		desde=new Point((int )desde.getX()+10,(int)desde.getY()+10);
 		hasta=new Point((int )hasta.getX()+10,(int)hasta.getY()+10);
 		
+		int mediox=(int) ((desde.getX()+hasta.getX())/2)-12;
+		int medioy=(int) ((desde.getY()+hasta.getY())/2)-12;
+		
+		
+		Tupla arista=new Tupla(d,h);
+		
+		
+		Point peso=new Point (mediox,medioy);
+		
+		JLabel label=new JLabel(p.toString(),SwingConstants.CENTER)
+		{
+		      /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			public Point getToolTipLocation(MouseEvent event)
+		      {
+				
+		        return new Point(-5, -20);
+		        
+		      }
+			
+			
+		 };
+		          
+	
+		ToolTipManager.sharedInstance().setInitialDelay(0);
+		//ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
+		
+		label.setLocation(peso);
+		label.setSize(30,30);
+		label.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		label.setBackground(Color.white);
+		label.setOpaque(true);
+		label.setBorder(new LineBorder(Color.BLUE));
+		label.setToolTipText(d.toString()+" --> "+h.toString());
+		
+		
+		
+	
 		Coordinate cordinada1=map.getPosition(desde.getLocation());
 		Coordinate cordinada2=map.getPosition(hasta.getLocation());
 		map.addMapPolygon(new MapPolygonImpl(cordinada1,cordinada2,cordinada1));
+		map.add(label);
 		map.repaint();
+		
+		map.add(label);
 	}
 	
 	private void addDot(JMapViewer map,MouseEvent e) 
 	{
-		
-		
-		
-			    Coordinate markeradd = map.getPosition(e.getPoint());
-			    
-				//String nombre = JOptionPane.showInputDialog("Nombre: ");
-			    map.addMapMarker(new MapMarkerDot("", markeradd));
+		 Coordinate markeradd = map.getPosition(e.getPoint());
+		 map.addMapMarker(new MapMarkerDot("", markeradd));
 			
 	
 		
@@ -180,13 +232,9 @@ public class Interfaz
 					
 					label.repaint();
 				}
-					
-
-				 
+				
 				 if (relaciones.size()==2) 
 				 {
-					
-				 
 				 cambiarLabel(rel,relaciones.get(0).toString(),relaciones.get(1).toString());
 				 label.repaint();
 				 
@@ -202,8 +250,8 @@ public class Interfaz
 				 c=Integer.parseInt(option);
 				 }catch (Exception err)
 				 {
-					 JOptionPane.showConfirmDialog(map,"Error al parsear datos del tipo String",
-								"Error",JOptionPane.YES_NO_OPTION,JOptionPane.ERROR_MESSAGE); 
+					 JOptionPane.showConfirmDialog(nodos.get(relaciones.get(1)),"Error de ingreso: debe ingresar un numero.",
+								"Parse to Integer error",JOptionPane.YES_OPTION,JOptionPane.ERROR_MESSAGE); 
 					 continuar=false;
 					 
 				 } finally 
@@ -211,21 +259,14 @@ public class Interfaz
 					 if (continuar)
 					 {
 						 JLabel desde=nodos.get(relaciones.get(0));
-					JLabel hasta=nodos.get(relaciones.get(1));
-				 addArista(hasta.getLocation(),desde.getLocation());
-				 map.repaint();	 
+						 JLabel hasta=nodos.get(relaciones.get(1));
+						 addArista(c,hasta.getLocation(),desde.getLocation(),relaciones.get(0),relaciones.get(1));
+						 map.repaint();	 
 					 }
 					 
 				 }
-					
-				 
-				
-				 
-				
+
 				 }
-				
-				
-				
 				 }
 					
 				
@@ -252,14 +293,10 @@ public class Interfaz
 		return label;
 		
 	}
-	
-	private void cambiarLabel(JLabel labe)
-	{
-		labe.setText(0+" A "+ 0);
-	}
+
 	private void cambiarLabel(JLabel label,String desde,String hasta) 
 	{
-		label.setText(desde+" A "+ hasta);
+		label.setText("Crear Arista entre:\n "+desde+" A "+ hasta);
 		
 	}
 	
@@ -285,7 +322,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		frame.setFocusable(true);
 		rel.setLocation(0, 200);
 		rel.setFont(new Font("Tahoma", Font.PLAIN, 26));
-		rel.setSize(250,100);
+		rel.setSize(350,200);
 		rel.setVisible(true);
 		frame.getContentPane().add(rel);
 	
@@ -299,6 +336,21 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		map.setBounds(0,0,1300,1000);
 		map.setDisplayPositionByLatLon(-40, -59, 5);
 		map.setZoomContolsVisible(false);
+		
+		//No Quiero que el mapa se modifique por ende quito los wheel Listener y action Listener y les agrego los que yo quiera
+		MouseWheelListener[] wheel=map.getMouseWheelListeners();
+		
+		for (MouseWheelListener w: wheel) 
+		{
+			map.removeMouseWheelListener(w);
+		}
+		
+		MouseListener[] actions=map.getMouseListeners();
+		
+		for (MouseListener act:actions)
+		{
+		 map.removeMouseListener(act);
+		}
 		
 		contenedormapa.add(map);
 		frame.add(contenedormapa);
