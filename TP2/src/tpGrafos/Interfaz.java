@@ -153,6 +153,8 @@ public class Interfaz
 				String name=label.getText();
 				Integer num=Integer.parseInt(name);
 
+				
+				
 				if (relaciones.size()==2) 
 				{
 					relaciones.clear();
@@ -163,7 +165,9 @@ public class Interfaz
 					
 				else 
 				{
-				relaciones.add(num);
+					if (relaciones.isEmpty() || relaciones.get(0)!=num)
+		
+						relaciones.add(num);
 				label.repaint();
 				//nodos.add(label);
 				}
@@ -171,7 +175,9 @@ public class Interfaz
 				
 				if (relaciones.size()==1) 
 				{
+					
 					cambiarLabel(rel,relaciones.get(0),0);
+					
 					label.repaint();
 				}
 					
