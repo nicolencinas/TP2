@@ -7,6 +7,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Polygon;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -20,7 +21,12 @@ import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
+import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
+import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
+import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
+import org.openstreetmap.gui.jmapviewer.interfaces.ICoordinate;
+import org.openstreetmap.gui.jmapviewer.interfaces.MapPolygon;
 
 import Animacion.Animacion;
 
@@ -43,6 +49,7 @@ public class Interfaz
 	private Integer ub=0;
 	JLabel rel=new JLabel(0+" A "+0);
 	Color color=new Color (151, 15, 207  );
+	JMapViewer map=new JMapViewer();
 			
 	
 	
@@ -107,7 +114,30 @@ public class Interfaz
 		
 	}
 	
+	private void addArista(Point desde,Point hasta)
+	{
+		desde=new Point((int )desde.getX()+10,(int)desde.getY()+10);
+		hasta=new Point((int )hasta.getX()+10,(int)hasta.getY()+10);
+		
+		Coordinate cordinada1=map.getPosition(desde.getLocation());
+		Coordinate cordinada2=map.getPosition(hasta.getLocation());
+		map.addMapPolygon(new MapPolygonImpl(cordinada1,cordinada2,cordinada1));
+		map.repaint();
+	}
 	
+	private void addDot(JMapViewer map,MouseEvent e) 
+	{
+		
+		
+		
+			    Coordinate markeradd = map.getPosition(e.getPoint());
+			    
+				//String nombre = JOptionPane.showInputDialog("Nombre: ");
+			    map.addMapMarker(new MapMarkerDot("", markeradd));
+			
+	
+		
+	}
 	
 	public JLabel generarNodo(int id,int ub, Point p) 
 	{
@@ -127,24 +157,68 @@ public class Interfaz
 				{
 					relaciones.clear();
 					relaciones.add(num);
+					label.repaint();
 					//cambiarLabel(rel,relaciones.get(0),0);
 				}
 					
 				else 
 				{
 				relaciones.add(num);
+				label.repaint();
 				//nodos.add(label);
 				}
 				
 				
-				if (relaciones.size()==1)
+				if (relaciones.size()==1) 
+				{
 					cambiarLabel(rel,relaciones.get(0),0);
-				
+					label.repaint();
+				}
+					
+
+				 
 				 if (relaciones.size()==2) 
 				 {
-					 cambiarLabel(rel,relaciones.get(0),relaciones.get(1));
+					
 				 
-				 JOptionPane.showInputDialog("Crear arista entre: "+nodos.get(relaciones.get(0)).getText()+ " y "+nodos.get(relaciones.get(1)).getText());
+				 cambiarLabel(rel,relaciones.get(0),relaciones.get(1));
+				 label.repaint();
+				 
+				 String option=JOptionPane.showInputDialog(null,"Crear arista entre: "+nodos.get(relaciones.get(0)).getText()+ " y "+nodos.get(relaciones.get(1)).getText());
+				
+				 boolean continuar=true;
+				 if (option!=null)
+				 {
+					
+					 Integer c=null;
+				 try 
+				 {
+				 c=Integer.parseInt(option);
+				 }catch (Exception err)
+				 {
+					 JOptionPane.showConfirmDialog(map,"Error",
+								"Error al parsear datos del tipo String",JOptionPane.YES_NO_OPTION,JOptionPane.ERROR_MESSAGE); 
+					 continuar=false;
+					 
+				 } finally 
+				 {
+					 if (continuar)
+					 {
+						 JLabel desde=nodos.get(relaciones.get(0));
+					JLabel hasta=nodos.get(relaciones.get(1));
+				 addArista(hasta.getLocation(),desde.getLocation());
+				 map.repaint();	 
+					 }
+					 
+				 }
+					
+				 
+				
+				 
+				
+				 }
+				
+				
 				
 				 }
 					
@@ -154,14 +228,15 @@ public class Interfaz
 			
 		});
 		
-		label.setSize(30, 30);
+		label.setSize(23, 23);
 		label.setLocation(p);
+		//label.setBorder(new LineBorder(Color.BLACK));
 		
 
 		Image im=new ImageIcon(iconos[id]).getImage();
-		label.setIcon(new ImageIcon( im.getScaledInstance(30, 30, Image.SCALE_SMOOTH)));
+		label.setIcon(new ImageIcon( im.getScaledInstance(23, 23, Image.SCALE_SMOOTH)));
 		JLabel numero=new JLabel(ub+"");
-		numero.setFont(new Font ("Tahoma", Font.PLAIN, 16));
+		numero.setFont(new Font ("Tahoma", Font.PLAIN, 13));
 	
 		label.setLayout(new FlowLayout(FlowLayout.CENTER));
 		label.add(numero);
@@ -194,23 +269,6 @@ icono.setIcon(new ImageIcon("subir.png"));
 icono.setIcon(new ImageIcon("bajar.png"));
 	}
 
-	public void generarArista(JLabel desde,JLabel hasta,String peso) 
-	{
-	
-		Point2D pd=(Point2D) desde.getLocation();
-		Point2D ph=(Point2D) hasta.getLocation();
-		int distancia=(int) pd.distance(ph)+15;
-		JLabel lab=new JLabel(peso);
-		
-		lab.setToolTipText(peso);
-		lab.setSize(distancia,20);
-		lab.setLocation((int)pd.getX(),(int)pd.getY()+5);
-		
-		Image im=new ImageIcon("arrow.png").getImage();
-		lab.setIcon(new ImageIcon( im.getScaledInstance(distancia, 20, Image.SCALE_SMOOTH)));
-		
-		frame.add(lab);
-	}
 	private void initialize() 
 	{
 		frame = new JFrame();
@@ -226,12 +284,16 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		frame.getContentPane().add(rel);
 	
 		JPanel contenedormapa=new JPanel();
-		contenedormapa.setLayout(new FlowLayout(FlowLayout.LEADING));
-		contenedormapa.setBounds(500,0,1100,860);
+		//contenedormapa.setLayout(new FlowLayout(FlowLayout.LEADING));
+		contenedormapa.setLayout(null);
+		contenedormapa.setBounds(500,0,1100,1000);
 		contenedormapa.setBorder(new LineBorder(Color.blue));
 		
-		JMapViewer map=new JMapViewer();
-		map.setBounds(500,0,1100,860);
+		//JMapViewer map=new JMapViewer();
+		map.setBounds(0,0,1300,1000);
+		map.setDisplayPositionByLatLon(-40, -59, 5);
+		map.setZoomContolsVisible(false);
+		
 		contenedormapa.add(map);
 		frame.add(contenedormapa);
 
@@ -259,7 +321,6 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		Point p22=new Point (03,18);
 		Point p3=new Point(250, 36);
 		Point p33=new Point (22,18);
-		
 		
 		JLabel productor = generarIcono(0, p1);
 		
@@ -334,14 +395,19 @@ icono.setIcon(new ImageIcon("bajar.png"));
 	}
 		});
 
-		
-			frame.addMouseListener(new MouseAdapter() 
-		{
+			map.addMouseListener(new MouseAdapter() 
+			{
 
+		
 			public void mouseReleased(MouseEvent e)
 			{
+				
+				
+				if (e.getButton()==MouseEvent.BUTTON1)
+				{
+					
 				Point p=new Point();
-				p.setLocation(e.getX()-20, e.getY()-40);
+				p.setLocation(e.getX()-10, e.getY()-10);
 				
 				int i=-1;
 				if (selActual.equals("productor"))
@@ -355,9 +421,11 @@ icono.setIcon(new ImageIcon("bajar.png"));
 				if (i!=-1)
 				{
 				JLabel l=generarNodo(i,ub,p);
-				frame.add(l);
+				map.add(l);
 				nodos.add(l);
-				frame.repaint();
+				map.repaint();
+				addDot(map,e);
+				addDot(map,e);
 					ub++;
 					
 					for (JLabel lab:nodos) 
@@ -369,6 +437,10 @@ icono.setIcon(new ImageIcon("bajar.png"));
 				
 				
 			}
+				}
+
+			
+		
 			
 		});
 		
