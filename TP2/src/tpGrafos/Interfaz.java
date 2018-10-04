@@ -12,6 +12,7 @@ import java.awt.Polygon;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -164,11 +165,11 @@ public class Interfaz
 		
 		label.setLocation(peso);
 		
-		label.setSize(label.getText().length()*10+2,20);
+		label.setSize(label.getText().length()*12+2,20);
 		label.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		label.setBackground(Color.white);
 		label.setOpaque(true);
-		label.setBorder(new LineBorder(Color.BLUE));
+		label.setBorder(new RoundedBorder(5,Color.BLUE));
 		label.setToolTipText(d.toString()+" --> "+h.toString());
 		
 		
@@ -176,7 +177,11 @@ public class Interfaz
 	
 		Coordinate cordinada1=map.getPosition(desde.getLocation());
 		Coordinate cordinada2=map.getPosition(hasta.getLocation());
-		map.addMapPolygon(new MapPolygonImpl(cordinada1,cordinada2,cordinada1));
+		MapPolygonImpl polygon=new MapPolygonImpl(cordinada1,cordinada2,cordinada1);
+		polygon.setColor(Color.GRAY);
+		
+		//polygon.setName("Hola");
+		map.addMapPolygon(polygon);
 		map.add(label);
 		map.repaint();
 		
@@ -187,9 +192,6 @@ public class Interfaz
 	{
 		 Coordinate markeradd = map.getPosition(e.getPoint());
 		 map.addMapMarker(new MapMarkerDot("", markeradd));
-			
-	
-		
 	}
 	
 	public JLabel generarNodo(int id,int ub, Point p) 
@@ -203,76 +205,81 @@ public class Interfaz
 			@Override
 			public void mouseReleased(MouseEvent e) 
 			{
-				String name=label.getText();
-				Integer num=Integer.parseInt(name);
-
-				
-				
-				if (relaciones.size()==2) 
+				if (selActual=="")
 				{
-					relaciones.clear();
+					String name=label.getText();
+					Integer num=Integer.parseInt(name);
+
+					
+					
+					if (relaciones.size()==2) 
+					{
+						relaciones.clear();
+						relaciones.add(num);
+						label.repaint();
+					}
+						
+					else 
+					{
+						if (relaciones.isEmpty() || relaciones.get(0)!=num)
+			
 					relaciones.add(num);
 					label.repaint();
-					//cambiarLabel(rel,relaciones.get(0),0);
-				}
 					
-				else 
-				{
-					if (relaciones.isEmpty() || relaciones.get(0)!=num)
-		
-						relaciones.add(num);
-				label.repaint();
-				//nodos.add(label);
-				}
-				
-				
-				if (relaciones.size()==1) 
-				{
+					}
 					
-					cambiarLabel(rel,relaciones.get(0).toString(),"X");
 					
-					label.repaint();
-				}
-				
-				 if (relaciones.size()==2) 
-				 {
-				 cambiarLabel(rel,relaciones.get(0).toString(),relaciones.get(1).toString());
-				 label.repaint();
-				 
-				 String option=JOptionPane.showInputDialog(null,"Crear arista entre: "+nodos.get(relaciones.get(0)).getText()+ " y "+nodos.get(relaciones.get(1)).getText());
-				
-				 boolean continuar=true;
-				 if (option!=null)
-				 {
+					if (relaciones.size()==1) 
+					{
+						
+						cambiarLabel(rel,relaciones.get(0).toString(),"X");
+						
+						label.repaint();
+					}
 					
-					 Integer c=null;
-				 try 
-				 {
-				 c=Integer.parseInt(option);
-				 }catch (Exception err)
-				 {
-					 JOptionPane.showConfirmDialog(nodos.get(relaciones.get(1)),"Error de ingreso: debe ingresar un numero.",
-								"Parse to Integer error",JOptionPane.YES_OPTION,JOptionPane.ERROR_MESSAGE); 
-					 continuar=false;
-					 
-				 } finally 
-				 {
-					 if (continuar)
+					 if (relaciones.size()==2) 
 					 {
-						 JLabel desde=nodos.get(relaciones.get(0));
-						 JLabel hasta=nodos.get(relaciones.get(1));
-						 addArista(c,hasta.getLocation(),desde.getLocation(),relaciones.get(0),relaciones.get(1));
-						 map.repaint();	 
-					 }
+					 cambiarLabel(rel,relaciones.get(0).toString(),relaciones.get(1).toString());
+					 label.repaint();
 					 
-				 }
-
-				 }
-				 }
+					 String option=JOptionPane.showInputDialog(null,"Crear arista entre: "+nodos.get(relaciones.get(0)).getText()+ " y "+nodos.get(relaciones.get(1)).getText());
 					
-				
-			}
+					 boolean continuar=true;
+					 if (option!=null)
+					 {
+						
+						 Integer c=null;
+					 try 
+					 {
+					 c=Integer.parseInt(option);
+					 }catch (Exception err)
+					 {
+						 JOptionPane.showConfirmDialog(nodos.get(relaciones.get(1)),"Error de ingreso: debe ingresar un numero.",
+									"Parse to Integer error",JOptionPane.YES_OPTION,JOptionPane.ERROR_MESSAGE); 
+						 continuar=false;
+						 
+					 } finally 
+					 {
+						 if (continuar)
+						 {
+							 Integer d=relaciones.get(0);
+							 Integer h=relaciones.get(1);
+							 JLabel desde=nodos.get(d);
+							 JLabel hasta=nodos.get(h);
+							 addArista(c,hasta.getLocation(),desde.getLocation(),d,h);
+							 map.repaint();	 
+						 }
+						 
+					 }
 
+					 }
+					 }
+						
+					
+				}
+
+				}
+				
 			
 		});
 		
@@ -326,6 +333,11 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		rel.setSize(350,200);
 		rel.setVisible(true);
 		frame.getContentPane().add(rel);
+		
+		JButton finalizar=new JButton("Finalizar Agregado");
+		finalizar.setBounds(50,150 , 150, 30);
+		
+		frame.add(finalizar);
 	
 		JPanel contenedormapa=new JPanel();
 		//contenedormapa.setLayout(new FlowLayout(FlowLayout.LEADING));
@@ -502,6 +514,18 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		
 			
 		});
+			
+			finalizar.addMouseListener(new MouseAdapter() 
+			{
+
+		
+			public void mouseReleased(MouseEvent e)
+			{
+				selActual="";
+			}
+			
+			});
+			
 		
 		
 		
