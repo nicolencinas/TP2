@@ -163,7 +163,8 @@ public class Interfaz
 		//ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
 		
 		label.setLocation(peso);
-		label.setSize(30,30);
+		
+		label.setSize(label.getText().length()*10+2,20);
 		label.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		label.setBackground(Color.white);
 		label.setOpaque(true);
