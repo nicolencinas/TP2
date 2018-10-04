@@ -14,7 +14,7 @@ public class Tupla
 	
 	public boolean equals (Tupla tupla) 
 	{
-		return (this.a==tupla.a && this.b==tupla.b);
+		return (this.a==tupla.a && this.b==tupla.b) ;
 	}
 	
 	

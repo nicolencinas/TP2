@@ -102,7 +102,7 @@ public class Interfaz
 	{
 	 
 		JLabel label=new JLabel(id+"");
-		
+		Image im=new ImageIcon(iconos[id]).getImage();
 		label.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) 
@@ -111,8 +111,8 @@ public class Interfaz
 				Integer num=Integer.parseInt(name);
 				selActual=nombres[num];
 				
-				JOptionPane.showConfirmDialog(frame,selActual,
-						selActual,JOptionPane.YES_NO_OPTION,JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showConfirmDialog(null,"Se selecciono el nodo "+selActual.toUpperCase(),
+						"Seleccion tipo de Nodo",JOptionPane.CLOSED_OPTION,JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 	 
@@ -120,7 +120,7 @@ public class Interfaz
 		label.setSize(70, 70);
 		label.setLocation(p);
 
-		Image im=new ImageIcon(iconos[id]).getImage();
+		//Image im=new ImageIcon(iconos[id]).getImage();
 		label.setIcon(new ImageIcon( im.getScaledInstance(70, 70, Image.SCALE_SMOOTH)));
 		label.setText(id+"");
 		
