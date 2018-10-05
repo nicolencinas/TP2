@@ -77,6 +77,7 @@ public class Interfaz
 	 
 		JLabel label=new JLabel(id+"");
 		Image im=new ImageIcon(iconos[id]).getImage();
+		ImageIcon icon=new ImageIcon( im.getScaledInstance(70, 70, Image.SCALE_SMOOTH));
 		label.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseReleased(MouseEvent e) 
@@ -85,8 +86,10 @@ public class Interfaz
 				Integer num=Integer.parseInt(name);
 				selActual=nombres[num];
 				
-				JOptionPane.showConfirmDialog(null,"Se selecciono el nodo "+selActual.toUpperCase(),
-						"Seleccion tipo de Nodo",JOptionPane.CLOSED_OPTION,JOptionPane.INFORMATION_MESSAGE);
+				ImageIcon icon2=new ImageIcon( im.getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+				JOptionPane.showMessageDialog(null,"Se selecciono el nodo "+selActual.toUpperCase(),
+						"Seleccion tipo de Nodo",JOptionPane.CLOSED_OPTION,icon2);
+				
 				addConsoleLine("Se selecciono el Nodo "+selActual.toUpperCase());
 				
 			}
@@ -97,7 +100,7 @@ public class Interfaz
 		label.setLocation(p);
 
 		//Image im=new ImageIcon(iconos[id]).getImage();
-		label.setIcon(new ImageIcon( im.getScaledInstance(70, 70, Image.SCALE_SMOOTH)));
+		label.setIcon(icon);
 		label.setText(id+"");
 		
 		return label;
@@ -185,7 +188,7 @@ public class Interfaz
 			{
 				if (selActual!="") 
 				{
-					Image im=new ImageIcon(iconos[id]).getImage();
+					Image im=new ImageIcon (iconos[id]).getImage();
 					ImageIcon imicon=new ImageIcon( im.getScaledInstance(10, 10, Image.SCALE_SMOOTH));
 					JOptionPane.showMessageDialog(frame, "Para agregar aristas presione el boton finalizar Agregado", "Illegal action", JOptionPane.INFORMATION_MESSAGE,imicon);
 				}
@@ -502,11 +505,10 @@ icono.setIcon(new ImageIcon("bajar.png"));
 					
 					if (selActual=="") 
 					{
-						Random gen=new Random();
-						int icono=gen.nextInt(3);
-						Image im=new ImageIcon(iconos[icono]).getImage();
+						
+						Image im=new ImageIcon("optionpane.gif").getImage();
 					
-						ImageIcon imicon=new ImageIcon( im.getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+						ImageIcon imicon=new ImageIcon( im.getScaledInstance(40, 40, Image.SCALE_DEFAULT));
 						JOptionPane.showMessageDialog(aux, "No se selecciono ningun tipo de nodo", "Seleccione nodo.", JOptionPane.ERROR_MESSAGE,imicon);
 					}
 						
