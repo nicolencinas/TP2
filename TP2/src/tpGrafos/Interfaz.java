@@ -5,6 +5,7 @@ import java.awt.*;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 
 import org.openstreetmap.gui.jmapviewer.*;
 
@@ -27,8 +28,9 @@ public class Interfaz
 	JLabel rel=new JLabel("Crear Arista entre: \n "+"X"+" A "+"X");
 	Color color=new Color (151, 15, 207  );
 	JMapViewer map=new JMapViewer();
-			
-	
+    StringBuilder consoleOut=new StringBuilder("Bienvenido al sistema de planificacion de gasoductos: \n");
+    JTextArea ta = new JTextArea("",33,42);
+    
 	
 	
 
@@ -83,6 +85,8 @@ public class Interfaz
 				
 				JOptionPane.showConfirmDialog(null,"Se selecciono el nodo "+selActual.toUpperCase(),
 						"Seleccion tipo de Nodo",JOptionPane.CLOSED_OPTION,JOptionPane.INFORMATION_MESSAGE);
+				addConsoleLine("Se selecciono el Nodo "+selActual.toUpperCase());
+				
 			}
 		});
 	 
@@ -272,6 +276,13 @@ public class Interfaz
 		
 	}
 
+	public void addConsoleLine(String in) 
+	{
+		consoleOut.append(in);
+		consoleOut.append("\n");
+		ta.setText(consoleOut.toString());
+		
+	}
 	private void cambiarLabel(JLabel label,String desde,String hasta) 
 	{
 		label.setText("Crear Arista entre:\n "+desde+" A "+ hasta);
@@ -306,22 +317,30 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		frame.getContentPane().add(rel);
 		
 		
-//		 JTextArea ta = new JTextArea("",5,50);
-//		 		ta.setLineWrap(true);
-//		 		ta.setSize(500, 500);
-//		 		ta.setLocation(0,300);
-//		 		
-//		JScrollPane	sbrText = new JScrollPane(ta);
-//		sbrText.setBounds(0, 0, 10, 100);
-//			sbrText.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-//		
-//			
-//		frame.getContentPane().add(ta);
+		JPanel consola=new JPanel();
+		consola.setLayout(new FlowLayout(FlowLayout.LEFT));
+		consola.setBounds(0, 300, 500, 600);
+		consola.setBorder(new TitledBorder("Console"));
+		
+	  
+		ta.setFocusable(false);
+	     ta.setLineWrap(true);
+		 ta.setSize(500, 500);
+		 ta.setLocation(0,300);
+		 ta.setText(consoleOut.toString());
+		 		
+		JScrollPane	scroll = new JScrollPane(ta);
+		scroll.setBounds(0, 0, 10, 100);
+			scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		
+		consola.add("East",scroll);
+		//frame.getContentPane().add(scroll);
 		
 		JButton finalizar=new JButton("Finalizar Agregado");
 		finalizar.setBounds(50,150 , 150, 30);
 		
 		frame.add(finalizar);
+		frame.add(consola);
 	
 		JPanel contenedormapa=new JPanel();
 		//contenedormapa.setLayout(new FlowLayout(FlowLayout.LEADING));
@@ -484,7 +503,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 				nodos.add(l);
 				map.repaint();
 				addDot(map,e);
-				addDot(map,e);
+				addConsoleLine("Se agrego el Nodo "+ub+ ": en el punto- X:"+ p.getX()+ " - Y: "+ p.getY());
 					ub++;
 					
 					for (JLabel lab:nodos) 
@@ -510,6 +529,8 @@ icono.setIcon(new ImageIcon("bajar.png"));
 			public void mouseReleased(MouseEvent e)
 			{
 				selActual="";
+		
+				addConsoleLine("\n___________________________\n Se Finalizo la entrada de  Nodos:\n");
 			}
 			
 			});
