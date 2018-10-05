@@ -1,44 +1,17 @@
 package tpGrafos;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.EventQueue;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.Polygon;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.ToolTipManager;
-import javax.swing.UIManager;
-import javax.swing.border.Border;
+import java.awt.*;
+
+import javax.swing.*;
 import javax.swing.border.LineBorder;
 
-import org.openstreetmap.gui.jmapviewer.Coordinate;
-import org.openstreetmap.gui.jmapviewer.JMapViewer;
-import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
-import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
-import org.openstreetmap.gui.jmapviewer.interfaces.ICoordinate;
-import org.openstreetmap.gui.jmapviewer.interfaces.MapPolygon;
+import org.openstreetmap.gui.jmapviewer.*;
 
 import Animacion.Animacion;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseWheelListener;
-import java.awt.geom.Point2D;
+import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class Interfaz 
 {
@@ -47,10 +20,9 @@ public class Interfaz
 	private String []  iconos= {"productor.png","consumidor.png","paso.png"};
 	private String []  nombres= {"productor","consumidor","paso"};
 	private String selActual="";
-	LinkedList <JLabel> select=new LinkedList<JLabel>();
 	ArrayList <Integer> relaciones=new ArrayList <Integer>();
 	ArrayList <JLabel> nodos=new ArrayList <JLabel>();
-	ArrayList <Tupla> aristas=new ArrayList<Tupla>();
+	ArrayList <Arista> aristas=new ArrayList<Arista>();
 	private Integer ub=0;
 	JLabel rel=new JLabel("Crear Arista entre: \n "+"X"+" A "+"X");
 	Color color=new Color (151, 15, 207  );
@@ -88,15 +60,12 @@ public class Interfaz
 	 * Initialize the contents of the frame.
 	 */
 	
-	public boolean existeArista(Tupla tup) 
+	public void repintarNodos()
 	{
-		
-		for (Tupla j:aristas) 
+		for (JLabel nodo : nodos)
 		{
-			if (j.equals(tup))
-				return true;
+			nodo.updateUI();
 		}
-		return false;
 	}
 	
 	public JLabel generarIcono(int id,Point p) 
@@ -138,7 +107,7 @@ public class Interfaz
 		int medioy=(int) ((desde.getY()+hasta.getY())/2)-12;
 		
 		
-		Tupla arista=new Tupla(d,h);
+	
 		
 		
 		Point peso=new Point (mediox,medioy);
@@ -159,6 +128,7 @@ public class Interfaz
 			
 		 };
 		          
+		 
 	
 		ToolTipManager.sharedInstance().setInitialDelay(0);
 		//ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
@@ -216,7 +186,7 @@ public class Interfaz
 					{
 						relaciones.clear();
 						relaciones.add(num);
-						label.repaint();
+						
 					}
 						
 					else 
@@ -224,7 +194,7 @@ public class Interfaz
 						if (relaciones.isEmpty() || relaciones.get(0)!=num)
 			
 					relaciones.add(num);
-					label.repaint();
+					
 					
 					}
 					
@@ -234,13 +204,13 @@ public class Interfaz
 						
 						cambiarLabel(rel,relaciones.get(0).toString(),"X");
 						
-						label.repaint();
+						
 					}
 					
 					 if (relaciones.size()==2) 
 					 {
 					 cambiarLabel(rel,relaciones.get(0).toString(),relaciones.get(1).toString());
-					 label.repaint();
+					
 					 
 					 String option=JOptionPane.showInputDialog(null,"Crear arista entre: "+nodos.get(relaciones.get(0)).getText()+ " y "+nodos.get(relaciones.get(1)).getText());
 					
@@ -295,8 +265,8 @@ public class Interfaz
 	
 		label.setLayout(new FlowLayout(FlowLayout.CENTER));
 		label.add(numero);
-		label.repaint();
-		numero.repaint();
+		
+		
 		
 		return label;
 		
@@ -330,9 +300,23 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		frame.setFocusable(true);
 		rel.setLocation(0, 200);
 		rel.setFont(new Font("Tahoma", Font.PLAIN, 26));
-		rel.setSize(350,200);
+		rel.setSize(350,100);
 		rel.setVisible(true);
+		
 		frame.getContentPane().add(rel);
+		
+		
+//		 JTextArea ta = new JTextArea("",5,50);
+//		 		ta.setLineWrap(true);
+//		 		ta.setSize(500, 500);
+//		 		ta.setLocation(0,300);
+//		 		
+//		JScrollPane	sbrText = new JScrollPane(ta);
+//		sbrText.setBounds(0, 0, 10, 100);
+//			sbrText.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+//		
+//			
+//		frame.getContentPane().add(ta);
 		
 		JButton finalizar=new JButton("Finalizar Agregado");
 		finalizar.setBounds(50,150 , 150, 30);
@@ -349,6 +333,13 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		map.setBounds(0,0,1300,1000);
 		map.setDisplayPositionByLatLon(-40, -59, 5);
 		map.setZoomContolsVisible(false);
+		
+	
+		
+		
+		
+		
+		
 		
 		//No Quiero que el mapa se modifique por ende quito los wheel Listener y action Listener y les agrego los que yo quiera
 		MouseWheelListener[] wheel=map.getMouseWheelListeners();
@@ -434,10 +425,6 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		//JLabel paso = generarIcono(2, p3);
 		
 		
-		select.add(paso);
-		select.add(consumidor);
-		select.add(productor);
-		
 		
 		icono.addMouseListener(new MouseAdapter() 
 		{
@@ -469,10 +456,11 @@ icono.setIcon(new ImageIcon("bajar.png"));
 			map.addMouseListener(new MouseAdapter() 
 			{
 
+				
 		
 			public void mouseReleased(MouseEvent e)
 			{
-				
+				repintarNodos();
 				
 				if (e.getButton()==MouseEvent.BUTTON1)
 				{
