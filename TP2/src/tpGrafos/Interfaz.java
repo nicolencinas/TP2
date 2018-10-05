@@ -13,6 +13,7 @@ import Animacion.Animacion;
 
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Interfaz 
 {
@@ -30,6 +31,7 @@ public class Interfaz
 	JMapViewer map=new JMapViewer();
     StringBuilder consoleOut=new StringBuilder("Bienvenido al sistema de planificacion de gasoductos: \n");
     JTextArea ta = new JTextArea("",33,42);
+    private boolean agregarArista=false;
     
 	
 	
@@ -160,6 +162,8 @@ public class Interfaz
 		map.repaint();
 		
 		map.add(label);
+		
+		addConsoleLine("Se agrego una arista entre nodo: "+d+ " Y "+h+" con peso de: "+p);
 	}
 	
 	private void addDot(JMapViewer map,MouseEvent e) 
@@ -179,10 +183,17 @@ public class Interfaz
 			@Override
 			public void mouseReleased(MouseEvent e) 
 			{
+				if (selActual!="") 
+				{
+					Image im=new ImageIcon(iconos[id]).getImage();
+					ImageIcon imicon=new ImageIcon( im.getScaledInstance(10, 10, Image.SCALE_SMOOTH));
+					JOptionPane.showMessageDialog(frame, "Para agregar aristas presione el boton finalizar Agregado", "Illegal action", JOptionPane.INFORMATION_MESSAGE,imicon);
+				}
 				if (selActual=="")
 				{
 					String name=label.getText();
 					Integer num=Integer.parseInt(name);
+					
 
 					
 					
@@ -332,6 +343,8 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		JScrollPane	scroll = new JScrollPane(ta);
 		scroll.setBounds(0, 0, 10, 100);
 			scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+			
+			
 		
 		consola.add("East",scroll);
 		//frame.getContentPane().add(scroll);
@@ -472,6 +485,9 @@ icono.setIcon(new ImageIcon("bajar.png"));
 	}
 		});
 
+		JLabel aux=new JLabel("h");
+		aux.setBounds(20,200,20,20);
+		
 			map.addMouseListener(new MouseAdapter() 
 			{
 
@@ -484,6 +500,16 @@ icono.setIcon(new ImageIcon("bajar.png"));
 				if (e.getButton()==MouseEvent.BUTTON1)
 				{
 					
+					if (selActual=="") 
+					{
+						Random gen=new Random();
+						int icono=gen.nextInt(3);
+						Image im=new ImageIcon(iconos[icono]).getImage();
+					
+						ImageIcon imicon=new ImageIcon( im.getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+						JOptionPane.showMessageDialog(aux, "No se selecciono ningun tipo de nodo", "Seleccione nodo.", JOptionPane.ERROR_MESSAGE,imicon);
+					}
+						
 				Point p=new Point();
 				p.setLocation(e.getX()-10, e.getY()-10);
 				
