@@ -188,9 +188,8 @@ public class Interfaz
 			{
 				if (selActual!="") 
 				{
-					Image im=new ImageIcon (iconos[id]).getImage();
-					ImageIcon imicon=new ImageIcon( im.getScaledInstance(10, 10, Image.SCALE_SMOOTH));
-					JOptionPane.showMessageDialog(frame, "Para agregar aristas presione el boton finalizar Agregado", "Illegal action", JOptionPane.INFORMATION_MESSAGE,imicon);
+					
+					JOptionPane.showMessageDialog(frame, "Para agregar aristas presione el boton finalizar Agregado", "Illegal action", JOptionPane.INFORMATION_MESSAGE);
 				}
 				if (selActual=="")
 				{
@@ -229,8 +228,9 @@ public class Interfaz
 					 {
 					 cambiarLabel(rel,relaciones.get(0).toString(),relaciones.get(1).toString());
 					
-					 
-					 String option=JOptionPane.showInputDialog(null,"Crear arista entre: "+nodos.get(relaciones.get(0)).getText()+ " y "+nodos.get(relaciones.get(1)).getText());
+					 Image im=new ImageIcon("arista.png").getImage();
+					 ImageIcon icon=new ImageIcon(im.getScaledInstance(100, 50, Image.SCALE_SMOOTH));
+					 String option=(String) JOptionPane.showInputDialog(null,"Crear Arista","Crear arista entre: "+nodos.get(relaciones.get(0)).getText()+ " y "+nodos.get(relaciones.get(1)).getText(),JOptionPane.QUESTION_MESSAGE,icon, null, null);
 					
 					 boolean continuar=true;
 					 if (option!=null)
@@ -489,7 +489,9 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		});
 
 		JLabel aux=new JLabel("h");
-		aux.setBounds(20,200,20,20);
+		aux.setBounds(500,60,20,20);
+		aux.setBorder(new LineBorder(color.BLACK));
+		frame.add(aux);
 		
 			map.addMouseListener(new MouseAdapter() 
 			{
