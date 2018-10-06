@@ -529,7 +529,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 						
 						Image im=new ImageIcon("optionpane.gif").getImage();
 					
-						ImageIcon imicon=new ImageIcon( im.getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+						ImageIcon imicon=new ImageIcon( im.getScaledInstance(55, 55, Image.SCALE_DEFAULT));
 						JOptionPane.showMessageDialog(aux, "No se selecciono ningun tipo de nodo", "Seleccione nodo.", JOptionPane.ERROR_MESSAGE,imicon);
 					}
 						
