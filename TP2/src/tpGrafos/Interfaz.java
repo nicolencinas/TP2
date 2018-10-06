@@ -13,7 +13,7 @@ import Animacion.Animacion;
 
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Random;
+
 
 public class Interfaz 
 {
@@ -32,6 +32,7 @@ public class Interfaz
     StringBuilder consoleOut=new StringBuilder("Bienvenido al sistema de planificacion de gasoductos: \n");
     JTextArea ta = new JTextArea("",33,42);
     private boolean agregarArista=false;
+    
     
 	
 	
@@ -229,8 +230,8 @@ public class Interfaz
 					 cambiarLabel(rel,relaciones.get(0).toString(),relaciones.get(1).toString());
 					
 					 Image im=new ImageIcon("arista.png").getImage();
-					 ImageIcon icon=new ImageIcon(im.getScaledInstance(100, 50, Image.SCALE_SMOOTH));
-					 String option=(String) JOptionPane.showInputDialog(null,"Crear Arista","Crear arista entre: "+nodos.get(relaciones.get(0)).getText()+ " y "+nodos.get(relaciones.get(1)).getText(),JOptionPane.QUESTION_MESSAGE,icon, null, null);
+					 ImageIcon icon=new ImageIcon(im.getScaledInstance(120, 40, Image.SCALE_SMOOTH));
+					 String option=(String) JOptionPane.showInputDialog(null,"Crear arista entre: "+nodos.get(relaciones.get(0)).getText()+ " y "+nodos.get(relaciones.get(1)).getText(),"Crear Arista",JOptionPane.QUESTION_MESSAGE,icon, null, null);
 					
 					 boolean continuar=true;
 					 if (option!=null)
@@ -244,6 +245,8 @@ public class Interfaz
 					 {
 						 JOptionPane.showConfirmDialog(nodos.get(relaciones.get(1)),"Error de ingreso: debe ingresar un numero.",
 									"Parse to Integer error",JOptionPane.YES_OPTION,JOptionPane.ERROR_MESSAGE); 
+						 addConsoleLine(">> "+err.toString()+" <<");
+						 addConsoleLine("Error en el parseo de datos: Debe ingresar un valor numerico");
 						 continuar=false;
 						 
 					 } finally 
@@ -329,8 +332,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		rel.setVisible(true);
 		
 		frame.getContentPane().add(rel);
-		
-		
+
 		JPanel consola=new JPanel();
 		consola.setLayout(new FlowLayout(FlowLayout.LEFT));
 		consola.setBounds(0, 300, 500, 600);
@@ -491,13 +493,30 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		JLabel aux=new JLabel("h");
 		aux.setBounds(500,60,20,20);
 		aux.setBorder(new LineBorder(color.BLACK));
+		
 		frame.add(aux);
+		
+		Image im=new ImageIcon(selActual+".png").getImage();
+		
+		ImageIcon imicon=new ImageIcon( im.getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+		aux.setIcon(imicon);
+		aux.updateUI();
 		
 			map.addMouseListener(new MouseAdapter() 
 			{
 
 				
 		
+//			public void mouseEntered(MouseEvent e) 
+//			{
+//				frame.setCursor(Cursor.CUSTOM_CURSOR);	
+//			}
+//			
+//			@SuppressWarnings("deprecation")
+//			public void mouseExited(MouseEvent e)
+//			{
+//				frame.setCursor(Cursor.CROSSHAIR_CURSOR);
+//			}
 			public void mouseReleased(MouseEvent e)
 			{
 				repintarNodos();
@@ -558,9 +577,14 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		
 			public void mouseReleased(MouseEvent e)
 			{
-				selActual="";
-		
+				if (selActual!="") 
+				{
 				addConsoleLine("\n___________________________\n Se Finalizo la entrada de  Nodos:\n");
+				selActual="";	
+				}
+				
+		
+				
 			}
 			
 			});
