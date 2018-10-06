@@ -168,6 +168,8 @@ public class Interfaz
 		map.add(label);
 		
 		addConsoleLine("Se agrego una arista entre nodo: "+d+ " Y "+h+" con peso de: "+p);
+		
+		selActual="";
 	}
 	
 	private void addDot(JMapViewer map,MouseEvent e) 
@@ -259,6 +261,7 @@ public class Interfaz
 							 JLabel hasta=nodos.get(h);
 							 addArista(c,hasta.getLocation(),desde.getLocation(),d,h);
 							 map.repaint();	 
+							 selActual="";
 						 }
 						 
 					 }
@@ -456,13 +459,6 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		dropmenu.add(consumidor);
 		dropmenu.add(productor);
 		
-	
-		
-		//JLabel consumidor = generarIcono(1, p2);
-		//JLabel paso = generarIcono(2, p3);
-		
-		
-		
 		icono.addMouseListener(new MouseAdapter() 
 		{
 
@@ -505,18 +501,6 @@ icono.setIcon(new ImageIcon("bajar.png"));
 			map.addMouseListener(new MouseAdapter() 
 			{
 
-				
-		
-//			public void mouseEntered(MouseEvent e) 
-//			{
-//				frame.setCursor(Cursor.CUSTOM_CURSOR);	
-//			}
-//			
-//			@SuppressWarnings("deprecation")
-//			public void mouseExited(MouseEvent e)
-//			{
-//				frame.setCursor(Cursor.CROSSHAIR_CURSOR);
-//			}
 			public void mouseReleased(MouseEvent e)
 			{
 				repintarNodos();
@@ -579,9 +563,12 @@ icono.setIcon(new ImageIcon("bajar.png"));
 			{
 				if (selActual!="") 
 				{
+					selActual="";
 				addConsoleLine("\n___________________________\n Se Finalizo la entrada de  Nodos:\n");
-				selActual="";	
 				}
+				
+					
+				
 				
 		
 				
