@@ -119,7 +119,7 @@ public class Interfaz
 		{
 			if (ar.equals(a)) 
 			{
-				addConsoleLine("Ya existe la arista "+ar.getText());
+				
 				return true;
 			}
 			
@@ -135,7 +135,7 @@ public class Interfaz
 		{
 			if (ar.existeReciproca(a)) 
 			{
-				addConsoleLine("Existe una reciproca "+ar.getText());
+				
 				return true;
 			}
 				
@@ -321,9 +321,11 @@ public class Interfaz
 						  {
 							  getArista(d,h).setSize(option.length()*15+2,20);
 							  getArista(d,h).setText(option);
+							  addConsoleLine("Se cambio el peso de la arista entre : "+d+" y "+h+" a "+option);
 							  try 
 							  {
-								getReciproca(h,d).setText(option);  
+								getReciproca(h,d).setText(option);
+								 addConsoleLine("Se cambio el peso de la arista entre : "+h+" y "+d+" a "+option);
 							  }catch(Exception err) 
 							  {
 								  
@@ -345,7 +347,7 @@ public class Interfaz
 					if (!existeArista(arista) && existeReciproca(arista)) 
 					{
 						continuar=false;
-						int i=JOptionPane.showConfirmDialog(label, "Desea agregar un nodo de vuelta");
+						int i=JOptionPane.showConfirmDialog(label, "Desea agregar una de vuelta entre "+h+" y "+d);
 						if (i==0)
 						{
 							addConsoleLine("Se agrego una arista de vuelta entre "+h+" y "+d);
