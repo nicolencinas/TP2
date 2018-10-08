@@ -108,6 +108,50 @@ public class Interfaz
 		
 	}
 	
+	public boolean existeArista(Arista ar) 
+	{
+		for (Arista a: aristas) 
+		{
+			if (ar.equals(a)) 
+			{
+				addConsoleLine("Ya existe la arista "+ar.getText());
+				return true;
+			}
+			
+			
+		}
+		return false;
+	}
+	
+	public boolean aristaReciproca(Arista ar) 
+	{
+		for (Arista a : aristas)
+		{
+			if (ar.existeReciproca(a)) 
+			{
+				addConsoleLine("Existe una reciproca "+ar.getText());
+				return true;
+			}
+				
+			
+		}
+		return false;
+	}
+	
+	public Arista getArista(Integer d,Integer h ) 
+	{
+		Integer e=0;
+		for (Arista a : aristas) 
+		{
+			if ((a.getDesde()==d && a.getHasta()==h) || (a.getDesde()==h && a.getHasta()==d)) 
+			{
+				return aristas.get(e);
+			}
+			e++;
+		}
+		return null;
+	}
+	
 	private void addArista(Integer p,Point desde,Point hasta,Integer d,Integer h)
 	{
 		desde=new Point((int )desde.getX()+10,(int)desde.getY()+10);
@@ -122,7 +166,7 @@ public class Interfaz
 		
 		Point peso=new Point (mediox,medioy);
 		
-		JLabel label=new JLabel(p.toString(),SwingConstants.CENTER)
+		Arista label=new Arista(p.toString(),SwingConstants.CENTER)
 		{
 		      /**
 			 * 
@@ -137,7 +181,9 @@ public class Interfaz
 			
 			
 		 };
-		          
+		 label.setValores(d, h);
+		       
+		
 		 
 	
 		ToolTipManager.sharedInstance().setInitialDelay(0);
@@ -151,9 +197,6 @@ public class Interfaz
 		label.setOpaque(true);
 		label.setBorder(new RoundedBorder(5,Color.BLUE));
 		label.setToolTipText(d.toString()+" --> "+h.toString());
-		
-		
-		
 	
 		Coordinate cordinada1=map.getPosition(desde.getLocation());
 		Coordinate cordinada2=map.getPosition(hasta.getLocation());
@@ -170,8 +213,12 @@ public class Interfaz
 		addConsoleLine("Se agrego una arista entre nodo: "+d+ " Y "+h+" con peso de: "+p);
 		
 		selActual="";
+		
+		aristas.add(label);
 	}
 	
+
+
 	private void addDot(JMapViewer map,MouseEvent e) 
 	{
 		 Coordinate markeradd = map.getPosition(e.getPoint());
@@ -181,7 +228,7 @@ public class Interfaz
 	public JLabel generarNodo(int id,int ub, Point p) 
 	{
 		
-		JLabel label=new JLabel(ub+"");
+		Arista label=new Arista(ub+"",0);
 	
 		
 		label.addMouseListener(new MouseAdapter() 
@@ -192,7 +239,7 @@ public class Interfaz
 				if (selActual!="") 
 				{
 					
-					JOptionPane.showMessageDialog(frame, "Para agregar aristas presione el boton finalizar Agregado", "Illegal action", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(frame, "Para agregar aristas presione el boton finalizar agregado de nodos", "Illegal action", JOptionPane.INFORMATION_MESSAGE);
 				}
 				if (selActual=="")
 				{
@@ -234,6 +281,7 @@ public class Interfaz
 					 Image im=new ImageIcon("arista.png").getImage();
 					 ImageIcon icon=new ImageIcon(im.getScaledInstance(120, 40, Image.SCALE_SMOOTH));
 					 String option=(String) JOptionPane.showInputDialog(null,"Crear arista entre: "+nodos.get(relaciones.get(0)).getText()+ " y "+nodos.get(relaciones.get(1)).getText(),"Crear Arista",JOptionPane.QUESTION_MESSAGE,icon, null, null);
+
 					
 					 boolean continuar=true;
 					 if (option!=null)
@@ -357,8 +405,8 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		consola.add("East",scroll);
 		//frame.getContentPane().add(scroll);
 		
-		JButton finalizar=new JButton("Finalizar Agregado");
-		finalizar.setBounds(50,150 , 150, 30);
+		JButton finalizar=new JButton("Finalizar Agregado de Nodos");
+		finalizar.setBounds(10,150 , 200, 30);
 		
 		frame.add(finalizar);
 		frame.add(consola);
@@ -514,7 +562,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 						Image im=new ImageIcon("optionpane.gif").getImage();
 					
 						ImageIcon imicon=new ImageIcon( im.getScaledInstance(55, 55, Image.SCALE_DEFAULT));
-						JOptionPane.showMessageDialog(aux, "No se selecciono ningun tipo de nodo", "Seleccione nodo.", JOptionPane.ERROR_MESSAGE,imicon);
+						JOptionPane.showMessageDialog(aux, "No se selecciono ningun tipo de nodo \n Presione el nodo que desea agregar.", "Seleccione nodo.", JOptionPane.ERROR_MESSAGE,imicon);
 					}
 						
 				Point p=new Point();
@@ -565,6 +613,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 				{
 					selActual="";
 				addConsoleLine("\n___________________________\n Se Finalizo la entrada de  Nodos:\n");
+				addConsoleLine("Ahora se puede agregar aristas");
 				}
 				
 					
