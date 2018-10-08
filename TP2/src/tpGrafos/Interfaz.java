@@ -325,6 +325,7 @@ public class Interfaz
 							  try 
 							  {
 								getReciproca(h,d).setText(option);
+								getReciproca(d,h).setText(option);
 								 addConsoleLine("Se cambio el peso de la arista entre : "+h+" y "+d+" a "+option);
 							  }catch(Exception err) 
 							  {
