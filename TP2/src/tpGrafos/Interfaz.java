@@ -158,6 +158,21 @@ public class Interfaz
 		return null;
 	}
 	
+
+	private JLabel getReciproca(Integer h, Integer d) 
+	{
+		Integer e=0;
+		for (Arista a : aristas) 
+		{
+			if ((a.getDesde()==h && a.getHasta()==d) ) 
+			{
+				return aristas.get(e);
+			}
+			e++;
+		}
+		return null;
+	}
+	
 	private void addArista(Integer p,Point desde,Point hasta,Integer d,Integer h)
 	{
 		desde=new Point((int )desde.getX()+10,(int)desde.getY()+10);
@@ -189,6 +204,7 @@ public class Interfaz
 			
 		 };
 		 label.setValores(d, h);
+		
 		       
 	
 		
@@ -289,6 +305,7 @@ public class Interfaz
 					 Integer h=relaciones.get(1);
 					 cambiarLabel(rel,d.toString(),h.toString());
 					 arista.setValores(relaciones.get(0), relaciones.get(1));
+					 
 					 Image im=new ImageIcon("arista.png").getImage();
 					 ImageIcon icon=new ImageIcon(im.getScaledInstance(120, 40, Image.SCALE_SMOOTH));
 					 String option="";
@@ -303,7 +320,16 @@ public class Interfaz
 						  if (option!=null)
 						  {
 							  getArista(d,h).setSize(option.length()*15+2,20);
-							  getArista(d,h).setText(option);;
+							  getArista(d,h).setText(option);
+							  try 
+							  {
+								getReciproca(h,d).setText(option);  
+							  }catch(Exception err) 
+							  {
+								  
+							  }
+							  
+							  
 						  }
 						  
 					 }
@@ -313,15 +339,21 @@ public class Interfaz
 					
 					option=(String) JOptionPane.showInputDialog(null,"Crear arista entre: "+nodos.get(d).getText()+ " y "+nodos.get(h).getText(),
 							"Crear Arista",JOptionPane.QUESTION_MESSAGE,icon, null, null);
+					
 
 					}
 					if (!existeArista(arista) && existeReciproca(arista)) 
 					{
 						continuar=false;
 						int i=JOptionPane.showConfirmDialog(label, "Desea agregar un nodo de vuelta");
+						if (i==0)
+						{
+							addConsoleLine("Se agrego una arista de vuelta entre "+h+" y "+d);
+							getArista(d,h).setToolTipText(d+"<--->"+h);;
+							arista.setText(getArista(d,h).getText());
+							aristas.add(arista);
+						}
 						
-						 getArista(d,h).setToolTipText(d+"<--->"+h);;
-						aristas.add(arista);
 					}
 					
 
@@ -338,10 +370,15 @@ public class Interfaz
 					 c=Integer.parseInt(option);
 					 }catch (Exception err)
 					 {
-						 JOptionPane.showConfirmDialog(nodos.get(relaciones.get(1)),"Error de ingreso: debe ingresar un numero.",
+						 if (continuar) 
+						 {
+							 JOptionPane.showConfirmDialog(nodos.get(relaciones.get(1)),"Error de ingreso: debe ingresar un numero.",
 									"Parse to Integer error",JOptionPane.YES_OPTION,JOptionPane.ERROR_MESSAGE); 
 						 addConsoleLine(">> "+err.toString()+" <<");
-						 addConsoleLine("Error en el parseo de datos: Debe ingresar un valor numerico");
+						 addConsoleLine("Error en el parseo de datos: Debe ingresar un valor numerico"); 
+						// arista.setText(option);
+						 }
+						
 						 continuar=false;
 						 
 					 } finally 
@@ -352,6 +389,7 @@ public class Interfaz
 							 JLabel desde=nodos.get(d);
 							 JLabel hasta=nodos.get(h);
 							 addArista(c,hasta.getLocation(),desde.getLocation(),d,h);
+							 arista.setText(option);
 							 map.repaint();	 
 							 selActual="";
 						 }
@@ -360,11 +398,18 @@ public class Interfaz
 
 					 }
 					 }
+					 
+					 for (Arista a: aristas)
+					 {
+						 System.out.println("Arista: " +a.getDesde()+" "+a.getHasta()+" peso "+a.getText());
+					 }
+					 System.out.println("");
 						
 					
 				}
 
 				}
+
 				
 			
 		});
