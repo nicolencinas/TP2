@@ -11,7 +11,7 @@ public class Arista extends JLabel
 	
 	public Arista(String text,int center)
 	{
-		super(text);
+		super(text,center);
 		
 	}
 	

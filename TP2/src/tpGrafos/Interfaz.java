@@ -73,6 +73,10 @@ public class Interfaz
 		}
 	}
 	
+	public void changesize(Arista ar) 
+	{
+		ar.setSize(ar.getText().length()*12+2,20);
+	}
 	public JLabel generarIcono(int id,Point p) 
 	{
 	 
@@ -163,13 +167,14 @@ public class Interfaz
 		int medioy=(int) ((desde.getY()+hasta.getY())/2)-12;
 		
 		
-	
+	System.out.println(SwingConstants.CENTER);
 		
 		
 		Point peso=new Point (mediox,medioy);
 		
 		Arista label=new Arista(p.toString(),SwingConstants.CENTER)
 		{
+			
 		      /**
 			 * 
 			 */
@@ -192,7 +197,7 @@ public class Interfaz
 		
 		label.setLocation(peso);
 		
-		label.setSize(label.getText().length()*12+2,20);
+		label.setSize(label.getText().length()*15+2,20);
 		label.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		label.setBackground(Color.white);
 		label.setOpaque(true);
@@ -231,7 +236,8 @@ public class Interfaz
 	public JLabel generarNodo(int id,int ub, Point p) 
 	{
 		
-		Arista label=new Arista(ub+"",0);
+		JLabel label=new JLabel(ub+"");
+		Arista arista=new Arista(ub+"",SwingConstants.CENTER);
 	
 	
 		label.addMouseListener(new MouseAdapter() 
@@ -282,37 +288,40 @@ public class Interfaz
 					 Integer d=relaciones.get(0);
 					 Integer h=relaciones.get(1);
 					 cambiarLabel(rel,d.toString(),h.toString());
-					 label.setValores(relaciones.get(0), relaciones.get(1));
+					 arista.setValores(relaciones.get(0), relaciones.get(1));
 					 Image im=new ImageIcon("arista.png").getImage();
 					 ImageIcon icon=new ImageIcon(im.getScaledInstance(120, 40, Image.SCALE_SMOOTH));
 					 String option="";
 					 boolean continuar=true;
 					 
 					 
-					 if (existeArista(label)) 
+					 if (existeArista(arista)) 
 					 {
 						 option=(String) JOptionPane.showInputDialog(null,"Desea cambiar el valor de la arista "+nodos.get(relaciones.get(0)).getText()+ " y "+nodos.get(relaciones.get(1)).getText(),
 									"Cambiar Valores",JOptionPane.QUESTION_MESSAGE,icon, null, null);
 						  continuar=false;
 						  if (option!=null)
 						  {
+							  getArista(d,h).setSize(option.length()*15+2,20);
 							  getArista(d,h).setText(option);;
 						  }
 						  
 					 }
 					
-					if (!existeArista(label) && !existeReciproca(label)) 
+					if (!existeArista(arista) && !existeReciproca(arista)) 
 					{
 					
 					option=(String) JOptionPane.showInputDialog(null,"Crear arista entre: "+nodos.get(d).getText()+ " y "+nodos.get(h).getText(),
 							"Crear Arista",JOptionPane.QUESTION_MESSAGE,icon, null, null);
 
 					}
-					if (existeReciproca(label)) 
+					if (!existeArista(arista) && existeReciproca(arista)) 
 					{
 						continuar=false;
 						int i=JOptionPane.showConfirmDialog(label, "Desea agregar un nodo de vuelta");
+						
 						 getArista(d,h).setToolTipText(d+"<--->"+h);;
+						aristas.add(arista);
 					}
 					
 
@@ -320,7 +329,7 @@ public class Interfaz
 
 					
 					 //boolean continuar=true;
-					 if (option!=null)
+					 if (option!=null )
 					 {
 						
 						 Integer c=null;
