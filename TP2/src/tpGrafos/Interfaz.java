@@ -110,6 +110,7 @@ public class Interfaz
 	
 	public boolean existeArista(Arista ar) 
 	{
+	
 		for (Arista a: aristas) 
 		{
 			if (ar.equals(a)) 
@@ -123,8 +124,9 @@ public class Interfaz
 		return false;
 	}
 	
-	public boolean aristaReciproca(Arista ar) 
+	public boolean existeReciproca(Arista ar) 
 	{
+		
 		for (Arista a : aristas)
 		{
 			if (ar.existeReciproca(a)) 
@@ -183,9 +185,8 @@ public class Interfaz
 		 };
 		 label.setValores(d, h);
 		       
-		
-		 
 	
+		
 		ToolTipManager.sharedInstance().setInitialDelay(0);
 		//ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
 		
@@ -212,6 +213,8 @@ public class Interfaz
 		
 		addConsoleLine("Se agrego una arista entre nodo: "+d+ " Y "+h+" con peso de: "+p);
 		
+	
+		
 		selActual="";
 		
 		aristas.add(label);
@@ -230,7 +233,7 @@ public class Interfaz
 		
 		Arista label=new Arista(ub+"",0);
 	
-		
+	
 		label.addMouseListener(new MouseAdapter() 
 		{
 			@Override
@@ -276,14 +279,47 @@ public class Interfaz
 					
 					 if (relaciones.size()==2) 
 					 {
-					 cambiarLabel(rel,relaciones.get(0).toString(),relaciones.get(1).toString());
-					
+					 Integer d=relaciones.get(0);
+					 Integer h=relaciones.get(1);
+					 cambiarLabel(rel,d.toString(),h.toString());
+					 label.setValores(relaciones.get(0), relaciones.get(1));
 					 Image im=new ImageIcon("arista.png").getImage();
 					 ImageIcon icon=new ImageIcon(im.getScaledInstance(120, 40, Image.SCALE_SMOOTH));
-					 String option=(String) JOptionPane.showInputDialog(null,"Crear arista entre: "+nodos.get(relaciones.get(0)).getText()+ " y "+nodos.get(relaciones.get(1)).getText(),"Crear Arista",JOptionPane.QUESTION_MESSAGE,icon, null, null);
+					 String option="";
+					 boolean continuar=true;
+					 
+					 
+					 if (existeArista(label)) 
+					 {
+						 option=(String) JOptionPane.showInputDialog(null,"Desea cambiar el valor de la arista "+nodos.get(relaciones.get(0)).getText()+ " y "+nodos.get(relaciones.get(1)).getText(),
+									"Cambiar Valores",JOptionPane.QUESTION_MESSAGE,icon, null, null);
+						  continuar=false;
+						  if (option!=null)
+						  {
+							  getArista(d,h).setText(option);;
+						  }
+						  
+					 }
+					
+					if (!existeArista(label) && !existeReciproca(label)) 
+					{
+					
+					option=(String) JOptionPane.showInputDialog(null,"Crear arista entre: "+nodos.get(d).getText()+ " y "+nodos.get(h).getText(),
+							"Crear Arista",JOptionPane.QUESTION_MESSAGE,icon, null, null);
+
+					}
+					if (existeReciproca(label)) 
+					{
+						continuar=false;
+						int i=JOptionPane.showConfirmDialog(label, "Desea agregar un nodo de vuelta");
+						 getArista(d,h).setToolTipText(d+"<--->"+h);;
+					}
+					
 
 					
-					 boolean continuar=true;
+
+					
+					 //boolean continuar=true;
 					 if (option!=null)
 					 {
 						
@@ -303,8 +339,7 @@ public class Interfaz
 					 {
 						 if (continuar)
 						 {
-							 Integer d=relaciones.get(0);
-							 Integer h=relaciones.get(1);
+//							
 							 JLabel desde=nodos.get(d);
 							 JLabel hasta=nodos.get(h);
 							 addArista(c,hasta.getLocation(),desde.getLocation(),d,h);
