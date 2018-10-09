@@ -73,10 +73,6 @@ public class Interfaz
 		}
 	}
 	
-	public void changesize(Arista ar) 
-	{
-		ar.setSize(ar.getText().length()*12+2,20);
-	}
 	public JLabel generarIcono(int id,Point p) 
 	{
 	 
@@ -112,67 +108,6 @@ public class Interfaz
 		
 	}
 	
-	public boolean existeArista(Arista ar) 
-	{
-	
-		for (Arista a: aristas) 
-		{
-			if (ar.equals(a)) 
-			{
-				
-				return true;
-			}
-			
-			
-		}
-		return false;
-	}
-	
-	public boolean existeReciproca(Arista ar) 
-	{
-		
-		for (Arista a : aristas)
-		{
-			if (ar.existeReciproca(a)) 
-			{
-				
-				return true;
-			}
-				
-			
-		}
-		return false;
-	}
-	
-	public Arista getArista(Integer d,Integer h ) 
-	{
-		Integer e=0;
-		for (Arista a : aristas) 
-		{
-			if ((a.getDesde()==d && a.getHasta()==h) || (a.getDesde()==h && a.getHasta()==d)) 
-			{
-				return aristas.get(e);
-			}
-			e++;
-		}
-		return null;
-	}
-	
-
-	private JLabel getReciproca(Integer h, Integer d) 
-	{
-		Integer e=0;
-		for (Arista a : aristas) 
-		{
-			if ((a.getDesde()==h && a.getHasta()==d) ) 
-			{
-				return aristas.get(e);
-			}
-			e++;
-		}
-		return null;
-	}
-	
 	private void addArista(Integer p,Point desde,Point hasta,Integer d,Integer h)
 	{
 		desde=new Point((int )desde.getX()+10,(int)desde.getY()+10);
@@ -182,14 +117,13 @@ public class Interfaz
 		int medioy=(int) ((desde.getY()+hasta.getY())/2)-12;
 		
 		
-	System.out.println(SwingConstants.CENTER);
+	
 		
 		
 		Point peso=new Point (mediox,medioy);
 		
-		Arista label=new Arista(p.toString(),SwingConstants.CENTER)
+		JLabel label=new JLabel(p.toString(),SwingConstants.CENTER)
 		{
-			
 		      /**
 			 * 
 			 */
@@ -203,22 +137,23 @@ public class Interfaz
 			
 			
 		 };
-		 label.setValores(d, h);
-		
-		       
+		          
+		 
 	
-		
 		ToolTipManager.sharedInstance().setInitialDelay(0);
 		//ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
 		
 		label.setLocation(peso);
 		
-		label.setSize(label.getText().length()*15+2,20);
+		label.setSize(label.getText().length()*12+2,20);
 		label.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		label.setBackground(Color.white);
 		label.setOpaque(true);
 		label.setBorder(new RoundedBorder(5,Color.BLUE));
 		label.setToolTipText(d.toString()+" --> "+h.toString());
+		
+		
+		
 	
 		Coordinate cordinada1=map.getPosition(desde.getLocation());
 		Coordinate cordinada2=map.getPosition(hasta.getLocation());
@@ -233,16 +168,8 @@ public class Interfaz
 		map.add(label);
 		
 		addConsoleLine("Se agrego una arista entre nodo: "+d+ " Y "+h+" con peso de: "+p);
-		
-	
-		
-		selActual="";
-		
-		aristas.add(label);
 	}
 	
-
-
 	private void addDot(JMapViewer map,MouseEvent e) 
 	{
 		 Coordinate markeradd = map.getPosition(e.getPoint());
@@ -253,9 +180,8 @@ public class Interfaz
 	{
 		
 		JLabel label=new JLabel(ub+"");
-		Arista arista=new Arista(ub+"",SwingConstants.CENTER);
 	
-	
+		
 		label.addMouseListener(new MouseAdapter() 
 		{
 			@Override
@@ -264,7 +190,7 @@ public class Interfaz
 				if (selActual!="") 
 				{
 					
-					JOptionPane.showMessageDialog(frame, "Para agregar aristas presione el boton finalizar agregado de nodos", "Illegal action", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(frame, "Para agregar aristas presione el boton finalizar Agregado", "Illegal action", JOptionPane.INFORMATION_MESSAGE);
 				}
 				if (selActual=="")
 				{
@@ -301,70 +227,14 @@ public class Interfaz
 					
 					 if (relaciones.size()==2) 
 					 {
-					 Integer d=relaciones.get(0);
-					 Integer h=relaciones.get(1);
-					 cambiarLabel(rel,d.toString(),h.toString());
-					 arista.setValores(relaciones.get(0), relaciones.get(1));
-					 
+					 cambiarLabel(rel,relaciones.get(0).toString(),relaciones.get(1).toString());
+					
 					 Image im=new ImageIcon("arista.png").getImage();
 					 ImageIcon icon=new ImageIcon(im.getScaledInstance(120, 40, Image.SCALE_SMOOTH));
-					 String option="";
+					 String option=(String) JOptionPane.showInputDialog(null,"Crear arista entre: "+nodos.get(relaciones.get(0)).getText()+ " y "+nodos.get(relaciones.get(1)).getText(),"Crear Arista",JOptionPane.QUESTION_MESSAGE,icon, null, null);
+					
 					 boolean continuar=true;
-					 
-					 
-					 if (existeArista(arista)) 
-					 {
-						 option=(String) JOptionPane.showInputDialog(null,"Desea cambiar el valor de la arista "+nodos.get(relaciones.get(0)).getText()+ " y "+nodos.get(relaciones.get(1)).getText(),
-									"Cambiar Valores",JOptionPane.QUESTION_MESSAGE,icon, null, null);
-						  continuar=false;
-						  if (option!=null)
-						  {
-							  getArista(d,h).setSize(option.length()*15+2,20);
-							  getArista(d,h).setText(option);
-							  addConsoleLine("Se cambio el peso de la arista entre : "+d+" y "+h+" a "+option);
-							  try 
-							  {
-								getReciproca(h,d).setText(option);
-								getReciproca(d,h).setText(option);
-								 addConsoleLine("Se cambio el peso de la arista entre : "+h+" y "+d+" a "+option);
-							  }catch(Exception err) 
-							  {
-								  
-							  }
-							  
-							  
-						  }
-						  
-					 }
-					
-					if (!existeArista(arista) && !existeReciproca(arista)) 
-					{
-					
-					option=(String) JOptionPane.showInputDialog(null,"Crear arista entre: "+nodos.get(d).getText()+ " y "+nodos.get(h).getText(),
-							"Crear Arista",JOptionPane.QUESTION_MESSAGE,icon, null, null);
-					
-
-					}
-					if (!existeArista(arista) && existeReciproca(arista)) 
-					{
-						continuar=false;
-						int i=JOptionPane.showConfirmDialog(label, "Desea agregar una de vuelta entre "+h+" y "+d);
-						if (i==0)
-						{
-							addConsoleLine("Se agrego una arista de vuelta entre "+h+" y "+d);
-							getArista(d,h).setToolTipText(d+"<--->"+h);;
-							arista.setText(getArista(d,h).getText());
-							aristas.add(arista);
-						}
-						
-					}
-					
-
-					
-
-					
-					 //boolean continuar=true;
-					 if (option!=null )
+					 if (option!=null)
 					 {
 						
 						 Integer c=null;
@@ -373,46 +243,33 @@ public class Interfaz
 					 c=Integer.parseInt(option);
 					 }catch (Exception err)
 					 {
-						 if (continuar) 
-						 {
-							 JOptionPane.showConfirmDialog(nodos.get(relaciones.get(1)),"Error de ingreso: debe ingresar un numero.",
+						 JOptionPane.showConfirmDialog(nodos.get(relaciones.get(1)),"Error de ingreso: debe ingresar un numero.",
 									"Parse to Integer error",JOptionPane.YES_OPTION,JOptionPane.ERROR_MESSAGE); 
 						 addConsoleLine(">> "+err.toString()+" <<");
-						 addConsoleLine("Error en el parseo de datos: Debe ingresar un valor numerico"); 
-						// arista.setText(option);
-						 }
-						
+						 addConsoleLine("Error en el parseo de datos: Debe ingresar un valor numerico");
 						 continuar=false;
 						 
 					 } finally 
 					 {
 						 if (continuar)
 						 {
-//							
+							 Integer d=relaciones.get(0);
+							 Integer h=relaciones.get(1);
 							 JLabel desde=nodos.get(d);
 							 JLabel hasta=nodos.get(h);
 							 addArista(c,hasta.getLocation(),desde.getLocation(),d,h);
-							 arista.setText(option);
 							 map.repaint();	 
-							 selActual="";
 						 }
 						 
 					 }
 
 					 }
 					 }
-					 
-					 for (Arista a: aristas)
-					 {
-						 System.out.println("Arista: " +a.getDesde()+" "+a.getHasta()+" peso "+a.getText());
-					 }
-					 System.out.println("");
 						
 					
 				}
 
 				}
-
 				
 			
 		});
@@ -497,8 +354,8 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		consola.add("East",scroll);
 		//frame.getContentPane().add(scroll);
 		
-		JButton finalizar=new JButton("Finalizar Agregado de Nodos");
-		finalizar.setBounds(10,150 , 200, 30);
+		JButton finalizar=new JButton("Finalizar Agregado");
+		finalizar.setBounds(50,150 , 150, 30);
 		
 		frame.add(finalizar);
 		frame.add(consola);
@@ -599,6 +456,13 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		dropmenu.add(consumidor);
 		dropmenu.add(productor);
 		
+	
+		
+		//JLabel consumidor = generarIcono(1, p2);
+		//JLabel paso = generarIcono(2, p3);
+		
+		
+		
 		icono.addMouseListener(new MouseAdapter() 
 		{
 
@@ -654,7 +518,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 						Image im=new ImageIcon("optionpane.gif").getImage();
 					
 						ImageIcon imicon=new ImageIcon( im.getScaledInstance(55, 55, Image.SCALE_DEFAULT));
-						JOptionPane.showMessageDialog(aux, "No se selecciono ningun tipo de nodo \n Presione el nodo que desea agregar.", "Seleccione nodo.", JOptionPane.ERROR_MESSAGE,imicon);
+						JOptionPane.showMessageDialog(aux, "No se selecciono ningun tipo de nodo", "Seleccione nodo.", JOptionPane.ERROR_MESSAGE,imicon);
 					}
 						
 				Point p=new Point();
@@ -703,13 +567,9 @@ icono.setIcon(new ImageIcon("bajar.png"));
 			{
 				if (selActual!="") 
 				{
-					selActual="";
 				addConsoleLine("\n___________________________\n Se Finalizo la entrada de  Nodos:\n");
-				addConsoleLine("Ahora se puede agregar aristas");
+				selActual="";	
 				}
-				
-					
-				
 				
 		
 				
