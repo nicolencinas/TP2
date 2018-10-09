@@ -1,46 +1,68 @@
 package tpGrafos;
 
-import javax.swing.JLabel;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
-public class Arista extends JLabel
+public class Arista 
 {
 
-	private static final long serialVersionUID = 1L;
-	private Integer a;
-	private Integer b;
+	ArrayList <HashMap <Integer,Integer>> lista;
 	
-	public Arista(String text,int center)
+	public Arista() 
 	{
-		super(text,center);
+		lista=new ArrayList<HashMap <Integer,Integer>>();
+	}
+	
+	public void addArista(Integer d,Integer h,Integer peso) 
+	{
+		lista.get(d).put(h, peso);
+	}
+	
+	public void addNodo() 
+	{
+		HashMap<Integer,Integer> map=new HashMap<Integer,Integer>();
+		lista.add(map);
+	}
+	
+	public Integer getPeso(Integer d,Integer h) 
+	{
+		HashMap<Integer,Integer> map=lista.get(d);
+		Integer ret=map.get(h);
+		return ret;
 		
 	}
 	
-	
-	public boolean equals (Arista arista) 
+	public boolean existeArista(Integer d,Integer h) 
 	{
-		return ((this.a==arista.a && this.b==arista.b) );
-		
+		return lista.get(d).containsKey(h);
 	}
 	
-	public boolean existeReciproca(Arista arista)
+	public boolean existeReciproca(Integer d, Integer h) 
 	{
-		return ((this.a==arista.b && this.b==arista.a));
+		return lista.get(h).containsKey(d);
 	}
 	
-	public void setValores(Integer a,Integer b) 
+	public void imprimir() 
 	{
-		this.a=a;
-		this.b=b;
+		int i=0;
+		for (HashMap<Integer,Integer> map:lista) 
+		{
+			System.out.println("Desde: "+i+toString(map));
+			i++;
+		}
 	}
-	
-	public Integer getDesde()
+
+	private String toString(HashMap<Integer,Integer> map) 
 	{
-		return a;
-	}
-	
-	public Integer getHasta()
-	{
-		return b;
+		String ret="";
+		for (Entry<Integer, Integer> entry : map.entrySet()) 
+		{
+			ret+=" Hasta "+entry.getKey()+" con peso: "+entry.getValue();
+		}
+		return ret;
 	}
 	
 	

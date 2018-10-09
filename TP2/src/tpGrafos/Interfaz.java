@@ -24,7 +24,8 @@ public class Interfaz
 	private String selActual="";
 	ArrayList <Integer> relaciones=new ArrayList <Integer>();
 	ArrayList <JLabel> nodos=new ArrayList <JLabel>();
-	ArrayList <Arista> aristas=new ArrayList<Arista>();
+	ArrayList <JLabel> aristas=new ArrayList<JLabel>();
+	Arista arista=new Arista();
 	private Integer ub=0;
 	JLabel rel=new JLabel("Crear Arista entre: \n "+"X"+" A "+"X");
 	Color color=new Color (151, 15, 207  );
@@ -110,6 +111,7 @@ public class Interfaz
 	
 	private void addArista(Integer p,Point desde,Point hasta,Integer d,Integer h)
 	{
+		arista.imprimir();
 		desde=new Point((int )desde.getX()+10,(int)desde.getY()+10);
 		hasta=new Point((int )hasta.getX()+10,(int)hasta.getY()+10);
 		
@@ -145,7 +147,7 @@ public class Interfaz
 		
 		label.setLocation(peso);
 		
-		label.setSize(label.getText().length()*12+2,20);
+		label.setSize(label.getText().length()*12+5,20);
 		label.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		label.setBackground(Color.white);
 		label.setOpaque(true);
@@ -166,6 +168,7 @@ public class Interfaz
 		map.repaint();
 		
 		map.add(label);
+		aristas.add(label);
 		
 		addConsoleLine("Se agrego una arista entre nodo: "+d+ " Y "+h+" con peso de: "+p);
 	}
@@ -174,6 +177,23 @@ public class Interfaz
 	{
 		 Coordinate markeradd = map.getPosition(e.getPoint());
 		 map.addMapMarker(new MapMarkerDot("", markeradd));
+	}
+	
+	public void changeArista(Integer value,String option) 
+	{
+		 for (JLabel nodo: aristas)
+		  {
+			  if (nodo.getText().equals(value.toString())) 
+			  {
+				  nodo.setText(option);
+				  nodo.setSize(option.length()*12+5, 20);
+				  nodo.updateUI();
+			  }
+				  
+		  
+
+			  
+		  }
 	}
 	
 	public JLabel generarNodo(int id,int ub, Point p) 
@@ -190,7 +210,7 @@ public class Interfaz
 				if (selActual!="") 
 				{
 					
-					JOptionPane.showMessageDialog(frame, "Para agregar aristas presione el boton finalizar Agregado", "Illegal action", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(frame, "Para agregar aristas presione el boton finalizar agregado de nodos", "Illegal action", JOptionPane.INFORMATION_MESSAGE);
 				}
 				if (selActual=="")
 				{
@@ -227,14 +247,67 @@ public class Interfaz
 					
 					 if (relaciones.size()==2) 
 					 {
-					 cambiarLabel(rel,relaciones.get(0).toString(),relaciones.get(1).toString());
-					
+					 Integer d=relaciones.get(0);
+					 Integer h=relaciones.get(1);
+					 cambiarLabel(rel,d.toString(),h.toString());
+					 
+					 
 					 Image im=new ImageIcon("arista.png").getImage();
 					 ImageIcon icon=new ImageIcon(im.getScaledInstance(120, 40, Image.SCALE_SMOOTH));
-					 String option=(String) JOptionPane.showInputDialog(null,"Crear arista entre: "+nodos.get(relaciones.get(0)).getText()+ " y "+nodos.get(relaciones.get(1)).getText(),"Crear Arista",JOptionPane.QUESTION_MESSAGE,icon, null, null);
-					
+					 String option="";
 					 boolean continuar=true;
-					 if (option!=null)
+					 
+					 
+					 if (arista.existeArista(d, h)) 
+					 {
+						 Integer value=arista.getPeso(d, h);
+						 System.out.println(value);
+						 option=(String) JOptionPane.showInputDialog(null,"Desea cambiar el valor de la arista "+nodos.get(relaciones.get(0)).getText()+ " y "+nodos.get(relaciones.get(1)).getText(),
+									"Cambiar Valores",JOptionPane.QUESTION_MESSAGE,icon, null, null);
+						  continuar=false;
+						  if (option!=null)
+						  {
+							  arista.addArista(d, h, Integer.parseInt(option));
+							  arista.imprimir();
+							  
+							 changeArista(value,option);
+							  
+							
+							  addConsoleLine("Se cambio el peso de la arista entre : "+d+" y "+h+" a "+option);
+		
+						  }
+						  
+					 }
+					
+					if (!arista.existeArista(d, h) && !(arista.existeReciproca(d, h))) 
+					{
+					
+					option=(String) JOptionPane.showInputDialog(null,"Crear arista entre: "+nodos.get(d).getText()+ " y "+nodos.get(h).getText(),
+							"Crear Arista",JOptionPane.QUESTION_MESSAGE,icon, null, null);
+					arista.addArista(d, h, Integer.parseInt(option));
+					arista.imprimir();
+					
+
+					}
+					if (!arista.existeArista(d, h) && arista.existeReciproca(d, h)) 
+					{
+						continuar=false;
+						int i=JOptionPane.showConfirmDialog(label, "Desea agregar una de vuelta entre "+d+" y "+h);
+						if (i==0)
+						{
+							arista.imprimir();
+							arista.addArista(d,h, arista.getPeso(h, d));
+							addConsoleLine("Se agrego una arista de vuelta entre "+d+" y "+h);
+						}
+						
+					}
+					
+
+					
+
+					
+					 //boolean continuar=true;
+					 if (option!=null )
 					 {
 						
 						 Integer c=null;
@@ -243,37 +316,45 @@ public class Interfaz
 					 c=Integer.parseInt(option);
 					 }catch (Exception err)
 					 {
-						 JOptionPane.showConfirmDialog(nodos.get(relaciones.get(1)),"Error de ingreso: debe ingresar un numero.",
+						 if (continuar) 
+						 {
+							 JOptionPane.showConfirmDialog(nodos.get(relaciones.get(1)),"Error de ingreso: debe ingresar un numero.",
 									"Parse to Integer error",JOptionPane.YES_OPTION,JOptionPane.ERROR_MESSAGE); 
 						 addConsoleLine(">> "+err.toString()+" <<");
-						 addConsoleLine("Error en el parseo de datos: Debe ingresar un valor numerico");
+						 addConsoleLine("Error en el parseo de datos: Debe ingresar un valor numerico"); 
+						// arista.setText(option);
+						 }
+						
 						 continuar=false;
 						 
 					 } finally 
 					 {
 						 if (continuar)
 						 {
-							 Integer d=relaciones.get(0);
-							 Integer h=relaciones.get(1);
+//							
 							 JLabel desde=nodos.get(d);
 							 JLabel hasta=nodos.get(h);
 							 addArista(c,hasta.getLocation(),desde.getLocation(),d,h);
+							
 							 map.repaint();	 
+							 selActual="";
 						 }
 						 
 					 }
 
 					 }
 					 }
+					 
+					
 						
 					
 				}
 
 				}
+
 				
 			
 		});
-		
 		label.setSize(23, 23);
 		label.setLocation(p);
 		//label.setBorder(new LineBorder(Color.BLACK));
@@ -536,6 +617,12 @@ icono.setIcon(new ImageIcon("bajar.png"));
 				if (i!=-1)
 				{
 				JLabel l=generarNodo(i,ub,p);
+				arista.addNodo();
+				
+				for(int r=0;r<arista.lista.size();r++) 
+				{
+					System.out.println("Nodo agregado "+r);
+				}
 				map.add(l);
 				nodos.add(l);
 				map.repaint();
