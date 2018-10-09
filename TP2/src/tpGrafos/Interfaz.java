@@ -111,7 +111,7 @@ public class Interfaz
 	
 	private void addArista(Integer p,Point desde,Point hasta,Integer d,Integer h)
 	{
-		arista.imprimir();
+		
 		desde=new Point((int )desde.getX()+10,(int)desde.getY()+10);
 		hasta=new Point((int )hasta.getX()+10,(int)hasta.getY()+10);
 		
@@ -169,6 +169,7 @@ public class Interfaz
 		
 		map.add(label);
 		aristas.add(label);
+		arista.imprimir();
 		
 		addConsoleLine("Se agrego una arista entre nodo: "+d+ " Y "+h+" con peso de: "+p);
 	}
@@ -261,19 +262,20 @@ public class Interfaz
 					 if (arista.existeArista(d, h)) 
 					 {
 						 Integer value=arista.getPeso(d, h);
-						 System.out.println(value);
+						 
 						 option=(String) JOptionPane.showInputDialog(null,"Desea cambiar el valor de la arista "+nodos.get(relaciones.get(0)).getText()+ " y "+nodos.get(relaciones.get(1)).getText(),
 									"Cambiar Valores",JOptionPane.QUESTION_MESSAGE,icon, null, null);
 						  continuar=false;
 						  if (option!=null)
 						  {
 							  arista.addArista(d, h, Integer.parseInt(option));
-							  arista.imprimir();
-							  
-							 changeArista(value,option);
-							  
-							
+							   changeArista(value,option);
 							  addConsoleLine("Se cambio el peso de la arista entre : "+d+" y "+h+" a "+option);
+							  
+							  if (arista.existeReciproca(d, h)) 
+							  {
+								  arista.addArista(h, d, Integer.parseInt(option));
+							  }
 		
 						  }
 						  
@@ -285,7 +287,7 @@ public class Interfaz
 					option=(String) JOptionPane.showInputDialog(null,"Crear arista entre: "+nodos.get(d).getText()+ " y "+nodos.get(h).getText(),
 							"Crear Arista",JOptionPane.QUESTION_MESSAGE,icon, null, null);
 					arista.addArista(d, h, Integer.parseInt(option));
-					arista.imprimir();
+				
 					
 
 					}
@@ -295,9 +297,10 @@ public class Interfaz
 						int i=JOptionPane.showConfirmDialog(label, "Desea agregar una de vuelta entre "+d+" y "+h);
 						if (i==0)
 						{
-							arista.imprimir();
-							arista.addArista(d,h, arista.getPeso(h, d));
-							addConsoleLine("Se agrego una arista de vuelta entre "+d+" y "+h);
+							Integer r=arista.getPeso(h, d);
+							
+							arista.addArista(d,h, r);
+							addConsoleLine("Se agrego una arista de vuelta entre "+d+" y "+h+" con peso "+r);
 						}
 						
 					}
@@ -618,23 +621,13 @@ icono.setIcon(new ImageIcon("bajar.png"));
 				{
 				JLabel l=generarNodo(i,ub,p);
 				arista.addNodo();
-				
-				for(int r=0;r<arista.lista.size();r++) 
-				{
-					System.out.println("Nodo agregado "+r);
-				}
 				map.add(l);
 				nodos.add(l);
 				map.repaint();
 				addDot(map,e);
 				addConsoleLine("Se agrego el Nodo "+ub+ ": en el punto- X:"+ p.getX()+ " - Y: "+ p.getY());
 					ub++;
-					
-					for (JLabel lab:nodos) 
-					{
-						System.out.print(lab.getText()+" ");
-					}
-					System.out.println("");
+			
 				}
 				
 				
