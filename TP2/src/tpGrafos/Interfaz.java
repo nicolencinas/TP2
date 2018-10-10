@@ -285,41 +285,32 @@ public class Interfaz
 					 
 					 if (arista.existeArista(d, h)) 
 					 {
-						 Integer value=arista.getPeso(d, h);
 						 
-						 option=(String) JOptionPane.showInputDialog(null,"Desea cambiar el valor de la arista "+nodos.get(relaciones.get(0)).getText()+ " y "+nodos.get(relaciones.get(1)).getText(),
+						  option=(String) JOptionPane.showInputDialog(null,"Desea cambiar el valor de la arista "+nodos.get(d).getText()+ " y "+nodos.get(h).getText(),
 									"Cambiar Valores",JOptionPane.QUESTION_MESSAGE,icon, null, null);
 						  continuar=false;
 						  
 						  if (option!=null)
 						  {
-							  arista.addArista(d, h, Integer.parseInt(option));
-								
-							
-								
-								changeArista(option,d,h);
-							   
-							  addConsoleLine("Se cambio el peso de la arista entre : "+d+" y "+h+" a "+option);
+							arista.addArista(d, h, Integer.parseInt(option));
+							changeArista(option,d,h);
+							addConsoleLine("Se cambio el peso de la arista entre : "+d+" y "+h+" a "+option);
 							  
 							  if (arista.existeReciproca(d, h)) 
 							  {
 								  arista.addArista(h, d, Integer.parseInt(option));
 							  }
-		
 						  }
-						  
 					 }
 					
 					if (!arista.existeArista(d, h) && !(arista.existeReciproca(d, h))) 
 					{
 					
-					option=(String) JOptionPane.showInputDialog(null,"Crear arista entre: "+nodos.get(d).getText()+ " y "+nodos.get(h).getText(),
+					option=(String) JOptionPane.showInputDialog(null,"Crear arista entre: "+nodos.get(d).getText()+" y "+nodos.get(h).getText(),
 							"Crear Arista",JOptionPane.QUESTION_MESSAGE,icon, null, null);
 					arista.addArista(d, h, Integer.parseInt(option));
-				
-					
-
 					}
+					
 					if (!arista.existeArista(d, h) && arista.existeReciproca(d, h)) 
 					{
 						continuar=false;
