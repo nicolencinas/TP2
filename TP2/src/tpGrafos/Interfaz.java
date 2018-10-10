@@ -25,7 +25,7 @@ public class Interfaz
 	ArrayList <Integer> relaciones=new ArrayList <Integer>();
 	ArrayList <JLabel> nodos=new ArrayList <JLabel>();
 	ArrayList <JLabel> aristas=new ArrayList<JLabel>();
-	Arista arista=new Arista();
+	Arista mapArista=new Arista();
 	private Integer ub=0;
 	JLabel rel=new JLabel("Crear Arista entre: \n "+"X"+" A "+"X");
 	Color color=new Color (151, 15, 207);
@@ -33,13 +33,7 @@ public class Interfaz
     StringBuilder consoleOut=new StringBuilder("Bienvenido al sistema de planificacion de gasoductos: \n");
     JTextArea ta = new JTextArea("",33,42);
     
-    
-	
-	
-
-	/**
-	 * Launch the application.
-	 */
+ 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -54,17 +48,10 @@ public class Interfaz
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
 	public Interfaz() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	
 	public void repintarNodos()
 	{
 		for (JLabel nodo : nodos)
@@ -99,8 +86,6 @@ public class Interfaz
 	
 		label.setSize(70, 70);
 		label.setLocation(p);
-
-		//Image im=new ImageIcon(iconos[id]).getImage();
 		label.setIcon(icon);
 		label.setText(id+"");
 		
@@ -116,18 +101,11 @@ public class Interfaz
 		
 		int mediox=(int) ((desde.getX()+hasta.getX())/2)-12;
 		int medioy=(int) ((desde.getY()+hasta.getY())/2)-12;
-		
-		
-	
-		
-		
 		Point peso=new Point (mediox,medioy);
 		
 		JLabel label=new JLabel(p.toString(),SwingConstants.CENTER)
 		{
-		      /**
-			 * 
-			 */
+
 			private static final long serialVersionUID = 1L;
 			public Point getToolTipLocation(MouseEvent event)
 		      {
@@ -135,17 +113,12 @@ public class Interfaz
 		        return new Point(-5, -20);
 		        
 		      }
-			
-			
+
 		 };
 		          
-		 
-	
 		ToolTipManager.sharedInstance().setInitialDelay(0);
-		//ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
 		
 		label.setLocation(peso);
-		
 		label.setSize(label.getText().length()*12+5,20);
 		label.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		label.setBackground(Color.white);
@@ -153,22 +126,18 @@ public class Interfaz
 		label.setBorder(new RoundedBorder(5,Color.BLUE));
 		label.setToolTipText(d.toString()+" --> "+h.toString());
 		
-		
-		
-	
 		Coordinate cordinada1=map.getPosition(desde.getLocation());
 		Coordinate cordinada2=map.getPosition(hasta.getLocation());
 		MapPolygonImpl polygon=new MapPolygonImpl(cordinada1,cordinada2,cordinada1);
 		polygon.setColor(Color.GRAY);
 		
-		//polygon.setName("Hola");
+		
 		map.addMapPolygon(polygon);
 		map.add(label);
 		map.repaint();
-		
 		map.add(label);
 		aristas.add(label);
-		arista.imprimir();
+		mapArista.imprimir();
 		
 		addConsoleLine("Se agrego una arista entre nodo: "+d+ " Y "+h+" con peso de: "+p);
 	}
@@ -209,6 +178,7 @@ public class Interfaz
 
 		  }
 	}
+	
 	public Point encontrarPuntoMedio(Integer d,Integer h) 
 	{
 		 JLabel desde=nodos.get(d);
@@ -220,6 +190,7 @@ public class Interfaz
 			return punto;
 		
 	}
+	
 	public JLabel generarNodo(int id,int ub, Point p) 
 	{
 		
@@ -240,33 +211,22 @@ public class Interfaz
 				{
 					String name=label.getText();
 					Integer num=Integer.parseInt(name);
-					
-
-					
-					
+		
 					if (relaciones.size()==2) 
 					{
 						relaciones.clear();
-						relaciones.add(num);
-						
+						relaciones.add(num);	
 					}
 						
 					else 
 					{
 						if (relaciones.isEmpty() || relaciones.get(0)!=num)
-			
-					relaciones.add(num);
-					
-					
+							relaciones.add(num);
 					}
-					
 					
 					if (relaciones.size()==1) 
 					{
-						
 						cambiarLabel(rel,relaciones.get(0).toString(),"X");
-						
-						
 					}
 					
 					 if (relaciones.size()==2) 
@@ -282,7 +242,7 @@ public class Interfaz
 					 boolean continuar=true;
 					 
 					 
-					 if (arista.existeArista(d, h)) 
+					 if (mapArista.existeArista(d, h)) 
 					 {
 						 
 						  option=(String) JOptionPane.showInputDialog(null,"Desea cambiar el valor de la arista "+nodos.get(d).getText()+ " y "+nodos.get(h).getText(),
@@ -291,47 +251,42 @@ public class Interfaz
 						  
 						  if (option!=null)
 						  {
-							arista.addArista(d, h, Integer.parseInt(option));
+							mapArista.addArista(d, h, Integer.parseInt(option));
 							changeArista(option,d,h);
 							addConsoleLine("Se cambio el peso de la arista entre : "+d+" y "+h+" a "+option);
 							  
-							  if (arista.existeReciproca(d, h)) 
+							  if (mapArista.existeReciproca(d, h)) 
 							  {
-								  arista.addArista(h, d, Integer.parseInt(option));
-								  arista.imprimir();
+								  mapArista.addArista(h, d, Integer.parseInt(option));
+								  mapArista.imprimir();
 							  }
 						  }
 					 }
 					
-					if (!arista.existeArista(d, h) && !(arista.existeReciproca(d, h))) 
+					if (!mapArista.existeArista(d, h) && !(mapArista.existeReciproca(d, h))) 
 					{
 					
 					option=(String) JOptionPane.showInputDialog(null,"Crear arista entre: "+nodos.get(d).getText()+" y "+nodos.get(h).getText(),
 							"Crear Arista",JOptionPane.QUESTION_MESSAGE,icon, null, null);
-					arista.addArista(d, h, Integer.parseInt(option));
+					mapArista.addArista(d, h, Integer.parseInt(option));
 					}
 					
-					if (!arista.existeArista(d, h) && arista.existeReciproca(d, h)) 
+					if (!mapArista.existeArista(d, h) && mapArista.existeReciproca(d, h)) 
 					{
 						continuar=false;
 						int i=JOptionPane.showConfirmDialog(label, "Desea agregar una de vuelta entre "+d+" y "+h);
 						if (i==0)
 						{
-							Integer r=arista.getPeso(h, d);
+							Integer r=mapArista.getPeso(h, d);
 							
-							arista.addArista(d,h, r);
+							mapArista.addArista(d,h, r);
 							changeArista(d,h);
 							addConsoleLine("Se agrego una arista de vuelta entre "+d+" y "+h+" con peso "+r);
 						}
-						arista.imprimir();
+						mapArista.imprimir();
 						
 					}
-					
-
-					
-
-					
-					 //boolean continuar=true;
+				
 					 if (option!=null )
 					 {
 						
@@ -346,10 +301,9 @@ public class Interfaz
 							 JOptionPane.showConfirmDialog(nodos.get(relaciones.get(1)),"Error de ingreso: debe ingresar un numero.",
 									"Parse to Integer error",JOptionPane.YES_OPTION,JOptionPane.ERROR_MESSAGE); 
 						 addConsoleLine(">> "+err.toString()+" <<");
-						 addConsoleLine("Error en el parseo de datos: Debe ingresar un valor numerico"); 
-						// arista.setText(option);
+						 addConsoleLine("Error en el parseo de datos: Debe ingresar un valor numerico");
 						 }
-						
+						 
 						 continuar=false;
 						 
 					 } finally 
@@ -360,13 +314,11 @@ public class Interfaz
 							 JLabel desde=nodos.get(d);
 							 JLabel hasta=nodos.get(h);
 							 addArista(c,hasta.getLocation(),desde.getLocation(),d,h);
-							
 							 map.repaint();	 
 							 selActual="";
 						 }
 						 
 					 }
-
 					 }
 					 }
 					 
@@ -382,9 +334,6 @@ public class Interfaz
 		});
 		label.setSize(23, 23);
 		label.setLocation(p);
-		//label.setBorder(new LineBorder(Color.BLACK));
-		
-
 		Image im=new ImageIcon(iconos[id]).getImage();
 		label.setIcon(new ImageIcon( im.getScaledInstance(23, 23, Image.SCALE_SMOOTH)));
 		JLabel numero=new JLabel(ub+"");
@@ -392,9 +341,6 @@ public class Interfaz
 	
 		label.setLayout(new FlowLayout(FlowLayout.CENTER));
 		label.add(numero);
-		
-		
-		
 		return label;
 		
 	}
@@ -408,17 +354,14 @@ public class Interfaz
 	}
 	private void cambiarLabel(JLabel label,String desde,String hasta) 
 	{
-		label.setText("Crear Arista entre:\n "+desde+" A "+ hasta);
-		
+		label.setText("Crear Arista entre:\n "+desde+" A "+ hasta);	
 	}
-	
-	//Utilizada como recurso grafico para cambiar imagen de un drop menu
+
 	public void im_up(JLabel icono)
 	{
 icono.setIcon(new ImageIcon("subir.png"));
 	}
 	
-	//Utilizada como recurso grafico para cambiar imagen de un drop menu
 	public void im_down(JLabel icono)
 	{
 icono.setIcon(new ImageIcon("bajar.png"));
@@ -458,8 +401,6 @@ icono.setIcon(new ImageIcon("bajar.png"));
 			
 		
 		consola.add("East",scroll);
-		//frame.getContentPane().add(scroll);
-		
 		JButton finalizar=new JButton("Finalizar Agregado");
 		finalizar.setBounds(50,150 , 150, 30);
 		
@@ -467,33 +408,22 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		frame.add(consola);
 	
 		JPanel contenedormapa=new JPanel();
-		//contenedormapa.setLayout(new FlowLayout(FlowLayout.LEADING));
 		contenedormapa.setLayout(null);
 		contenedormapa.setBounds(500,0,1100,1000);
 		contenedormapa.setBorder(new LineBorder(Color.blue));
-		
-		//JMapViewer map=new JMapViewer();
+	
 		map.setBounds(0,0,1300,1000);
 		map.setDisplayPositionByLatLon(-40, -59, 5);
 		map.setZoomContolsVisible(false);
-		
 	
-		
-		
-		
-		
-		
-		
 		//No Quiero que el mapa se modifique por ende quito los wheel Listener y action Listener y les agrego los que yo quiera
 		MouseWheelListener[] wheel=map.getMouseWheelListeners();
-		
 		for (MouseWheelListener w: wheel) 
 		{
 			map.removeMouseWheelListener(w);
 		}
 		
 		MouseListener[] actions=map.getMouseListeners();
-		
 		for (MouseListener act:actions)
 		{
 		 map.removeMouseListener(act);
@@ -533,11 +463,9 @@ icono.setIcon(new ImageIcon("bajar.png"));
 	
 		JLabel paso = generarIcono(2, p3);
 		
-		
 		productor.setLayout(null);
 		consumidor.setLayout(null);
 		paso.setLayout(null);
-		
 		
 		JLabel productorTitle = new JLabel("Productor");
 		productorTitle.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -557,42 +485,30 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		pasoTitle.setSize(100,30);
 		pasoTitle.setLocation(p33);
 		paso.add(pasoTitle);
-		
 		dropmenu.add(paso);
 		dropmenu.add(consumidor);
 		dropmenu.add(productor);
-		
-	
-		
-		//JLabel consumidor = generarIcono(1, p2);
-		//JLabel paso = generarIcono(2, p3);
-		
-		
-		
+
 		icono.addMouseListener(new MouseAdapter() 
 		{
-
 			public void mouseReleased(MouseEvent e)
 			{
 		int posicion=dropmenu.getY();
 		if (posicion>=0)
 		{
-			
-			
 			Animacion.subir(0, -115, 2,1,dropmenu);
 			dropmenu.setBorder(null);
 			icono.setToolTipText("Desplegar drop menu");
 			im_down(icono);
-		}else
+		}
+		else
 		{
 			
 			Animacion.bajar(-100, 0, 2,1, dropmenu);
 			dropmenu.setBorder(new RoundedBorder(10, color));
 			im_up(icono);
-			icono.setToolTipText("Retraer drop menu");
-			
+			icono.setToolTipText("Retraer drop menu");	
 		}
-
 	}
 		});
 
@@ -617,12 +533,9 @@ icono.setIcon(new ImageIcon("bajar.png"));
 				
 				if (e.getButton()==MouseEvent.BUTTON1)
 				{
-					
 					if (selActual=="") 
 					{
-						
 						Image im=new ImageIcon("optionpane.gif").getImage();
-					
 						ImageIcon imicon=new ImageIcon( im.getScaledInstance(55, 55, Image.SCALE_DEFAULT));
 						JOptionPane.showMessageDialog(aux, "No se selecciono ningun tipo de nodo", "Seleccione nodo.", JOptionPane.ERROR_MESSAGE,imicon);
 					}
@@ -636,13 +549,12 @@ icono.setIcon(new ImageIcon("bajar.png"));
 				if (selActual.equals("consumidor"))
 					i=1;
 				if (selActual.equals("paso"))
-				 
 					i=2;
 				
 				if (i!=-1)
 				{
 				JLabel l=generarNodo(i,ub,p);
-				arista.addNodo();
+				mapArista.addNodo();
 				map.add(l);
 				nodos.add(l);
 				map.repaint();
@@ -663,18 +575,14 @@ icono.setIcon(new ImageIcon("bajar.png"));
 			
 			finalizar.addMouseListener(new MouseAdapter() 
 			{
-
-		
+				
 			public void mouseReleased(MouseEvent e)
 			{
 				if (selActual!="") 
 				{
 				addConsoleLine("\n___________________________\n Se Finalizo la entrada de  Nodos:\n");
 				selActual="";	
-				}
-				
-		
-				
+				}	
 			}
 			
 			});
