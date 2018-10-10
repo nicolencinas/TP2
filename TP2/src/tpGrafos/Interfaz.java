@@ -180,23 +180,47 @@ public class Interfaz
 		 map.addMapMarker(new MapMarkerDot("", markeradd));
 	}
 	
-	public void changeArista(Integer value,String option) 
+	public void changeArista(Integer d,Integer h) 
 	{
+		Point p=encontrarPuntoMedio(d,h);
+		
 		 for (JLabel nodo: aristas)
 		  {
-			  if (nodo.getText().equals(value.toString())) 
+			  if (nodo.getLocation().equals(p)) 
 			  {
+				   nodo.setToolTipText(d+"<--->"+h);
+				 
+			  }
+
+		  }
+	}
+	
+	public void changeArista(String option,Integer d,Integer h) 
+	{
+		Point p=encontrarPuntoMedio(d,h);
+		 for (JLabel nodo: aristas)
+		  {
+			  if (nodo.getLocation().equals(p)) 
+			  {
+				  
 				  nodo.setText(option);
 				  nodo.setSize(option.length()*12+5, 20);
 				  nodo.updateUI();
 			  }
-				  
-		  
 
-			  
 		  }
 	}
-	
+	public Point encontrarPuntoMedio(Integer d,Integer h) 
+	{
+		 JLabel desde=nodos.get(d);
+		  JLabel hasta=nodos.get(h);
+			
+			int mediox=(int) ((desde.getX()+hasta.getX())/2)-2;
+			int medioy=(int) ((desde.getY()+hasta.getY())/2)-2;
+			Point punto=new Point (mediox,medioy);
+			return punto;
+		
+	}
 	public JLabel generarNodo(int id,int ub, Point p) 
 	{
 		
@@ -266,10 +290,15 @@ public class Interfaz
 						 option=(String) JOptionPane.showInputDialog(null,"Desea cambiar el valor de la arista "+nodos.get(relaciones.get(0)).getText()+ " y "+nodos.get(relaciones.get(1)).getText(),
 									"Cambiar Valores",JOptionPane.QUESTION_MESSAGE,icon, null, null);
 						  continuar=false;
+						  
 						  if (option!=null)
 						  {
 							  arista.addArista(d, h, Integer.parseInt(option));
-							   changeArista(value,option);
+								
+							
+								
+								changeArista(option,d,h);
+							   
 							  addConsoleLine("Se cambio el peso de la arista entre : "+d+" y "+h+" a "+option);
 							  
 							  if (arista.existeReciproca(d, h)) 
@@ -300,6 +329,7 @@ public class Interfaz
 							Integer r=arista.getPeso(h, d);
 							
 							arista.addArista(d,h, r);
+							changeArista(d,h);
 							addConsoleLine("Se agrego una arista de vuelta entre "+d+" y "+h+" con peso "+r);
 						}
 						
