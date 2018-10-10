@@ -53,6 +53,7 @@ public class Arista
 			System.out.println("Desde: "+i+toString(map));
 			i++;
 		}
+		System.out.println("");
 	}
 
 	private String toString(HashMap<Integer,Integer> map) 

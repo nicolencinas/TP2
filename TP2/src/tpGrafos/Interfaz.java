@@ -28,11 +28,10 @@ public class Interfaz
 	Arista arista=new Arista();
 	private Integer ub=0;
 	JLabel rel=new JLabel("Crear Arista entre: \n "+"X"+" A "+"X");
-	Color color=new Color (151, 15, 207  );
+	Color color=new Color (151, 15, 207);
 	JMapViewer map=new JMapViewer();
     StringBuilder consoleOut=new StringBuilder("Bienvenido al sistema de planificacion de gasoductos: \n");
     JTextArea ta = new JTextArea("",33,42);
-    private boolean agregarArista=false;
     
     
 	
@@ -299,6 +298,7 @@ public class Interfaz
 							  if (arista.existeReciproca(d, h)) 
 							  {
 								  arista.addArista(h, d, Integer.parseInt(option));
+								  arista.imprimir();
 							  }
 						  }
 					 }
@@ -323,6 +323,7 @@ public class Interfaz
 							changeArista(d,h);
 							addConsoleLine("Se agrego una arista de vuelta entre "+d+" y "+h+" con peso "+r);
 						}
+						arista.imprimir();
 						
 					}
 					
