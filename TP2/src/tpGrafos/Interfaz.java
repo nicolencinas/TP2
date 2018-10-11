@@ -438,6 +438,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		consoleIcon.setBounds(55,296,25,25);
 		Image im2=new ImageIcon("console.png").getImage();
 		consoleIcon.setIcon(new ImageIcon(im2.getScaledInstance(25, 25, Image.SCALE_SMOOTH)));
+		consoleIcon.setToolTipText("Consola de informacion");
 		frame.add(consoleIcon);
 		
 		frame.add(finalizar);
