@@ -199,9 +199,11 @@ public class Interfaz
 		
 		label.addMouseListener(new MouseAdapter() 
 		{
+			
 			@Override
 			public void mouseReleased(MouseEvent e) 
 			{
+				mapArista.matrizDePesos();
 				if (selActual!="") 
 				{
 					
@@ -268,7 +270,8 @@ public class Interfaz
 					
 					option=(String) JOptionPane.showInputDialog(null,"Crear arista entre: "+nodos.get(d).getText()+" y "+nodos.get(h).getText(),
 							"Crear Arista",JOptionPane.QUESTION_MESSAGE,icon, null, null);
-					mapArista.addArista(d, h, Integer.parseInt(option));
+					if (option!=null)
+						mapArista.addArista(d, h, Integer.parseInt(option));
 					}
 					
 					if (!mapArista.existeArista(d, h) && mapArista.existeReciproca(d, h)) 
@@ -373,7 +376,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		frame.setBounds(100, 100, 1600, 900);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		
+		mapArista.matrizDePesos();
 		frame.setFocusable(true);
 		rel.setLocation(0, 200);
 		rel.setFont(new Font("Tahoma", Font.PLAIN, 26));

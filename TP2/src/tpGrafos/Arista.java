@@ -65,6 +65,34 @@ public class Arista
 		return ret;
 	}
 	
+	public int [][] matrizDePesos()
+	{
+		int size=lista.size();
+		int[][] ret=new int[size][size];
+	
+		int fila=0;
+		for (HashMap <Integer,Integer> map :lista) 
+		{
+			for (Entry<Integer, Integer> entry : map.entrySet()) 
+			{
+				ret[fila][entry.getKey()]=entry.getValue();
+			}
+			fila++;
+		}	
+		
+		for (int i=0;i<size;i++) 
+		{
+			for (int j=0;j<size;j++) 
+			{
+				System.out.print(ret[i][j]+" ");
+			}
+			System.out.println("");
+		}
+		System.out.println("");
+		
+		return ret;
+	}
+	
 	
 	
 	
