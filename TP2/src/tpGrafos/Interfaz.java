@@ -253,14 +253,32 @@ public class Interfaz
 						  
 						  if (option!=null)
 						  {
-							mapArista.addArista(d, h, Integer.parseInt(option));
-							changeArista(option,d,h);
+							  try
+							  {
+								  mapArista.addArista(d, h, Integer.parseInt(option));
+							  }catch(Exception f)
+							  {
+								  continuar=true;
+							  }
+							if (!continuar)
+							{
+							changeArista(option,d,h);	
+							}
+							
 							addConsoleLine("Se cambio el peso de la arista entre : "+d+" y "+h+" a "+option);
 							  
 							  if (mapArista.existeReciproca(d, h)) 
 							  {
-								  mapArista.addArista(h, d, Integer.parseInt(option));
+								  try
+								  {
+									  mapArista.addArista(h, d, Integer.parseInt(option));
+								  }catch(Exception f)
+								  {
+									  continuar=true;
+								  }
+								 
 								  mapArista.imprimir();
+								  addConsoleLine("Se cambio el peso de la arista entre : "+h+" y "+d+" a "+option);
 							  }
 						  }
 					 }
@@ -271,7 +289,14 @@ public class Interfaz
 					option=(String) JOptionPane.showInputDialog(null,"Crear arista entre: "+nodos.get(d).getText()+" y "+nodos.get(h).getText(),
 							"Crear Arista",JOptionPane.QUESTION_MESSAGE,icon, null, null);
 					if (option!=null)
-						mapArista.addArista(d, h, Integer.parseInt(option));
+						try
+						{
+						mapArista.addArista(d, h, Integer.parseInt(option));	
+						}catch (Exception f )
+						{
+							
+						}
+						
 					}
 					
 					if (!mapArista.existeArista(d, h) && mapArista.existeReciproca(d, h)) 
