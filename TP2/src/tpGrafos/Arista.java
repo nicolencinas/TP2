@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 public class Arista 
 {
 
-	ArrayList <HashMap <Integer,Integer>> lista;
+	private ArrayList <HashMap <Integer,Integer>> lista;
 	
 	public Arista() 
 	{

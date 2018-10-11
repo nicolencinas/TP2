@@ -22,16 +22,16 @@ public class Interfaz
 	private String []  iconos= {"productor.png","consumidor.png","paso.png"};
 	private String []  nombres= {"productor","consumidor","paso"};
 	private String selActual="";
-	ArrayList <Integer> relaciones=new ArrayList <Integer>();
-	ArrayList <JLabel> nodos=new ArrayList <JLabel>();
-	ArrayList <JLabel> aristas=new ArrayList<JLabel>();
-	Arista mapArista=new Arista();
+	private ArrayList <Integer> relaciones=new ArrayList <Integer>();
+	private ArrayList <JLabel> nodos=new ArrayList <JLabel>();
+	private ArrayList <JLabel> aristas=new ArrayList<JLabel>();
+	private Arista mapArista=new Arista();
 	private Integer ub=0;
-	JLabel rel=new JLabel("Crear Arista entre: \n "+"X"+" A "+"X");
-	Color color=new Color (151, 15, 207);
-	JMapViewer map=new JMapViewer();
-    StringBuilder consoleOut=new StringBuilder("Bienvenido al sistema de planificacion de gasoductos: \n");
-    JTextArea ta = new JTextArea("",33,42);
+	private JLabel rel=new JLabel("Crear Arista entre: \n "+"X"+" A "+"X");
+	private Color color=new Color (151, 15, 207);
+	private JMapViewer map=new JMapViewer();
+    private StringBuilder consoleOut=new StringBuilder("Bienvenido al sistema de planificacion de gasoductos: \n");
+    private JTextArea ta = new JTextArea("",33,42);
     
  
 	public static void main(String[] args) {
@@ -355,10 +355,6 @@ public class Interfaz
 					 }
 					 }
 					 }
-					 
-					
-						
-					
 				}
 
 				}
@@ -548,7 +544,6 @@ icono.setIcon(new ImageIcon("bajar.png"));
 
 		JLabel aux=new JLabel("h");
 		aux.setBounds(500,60,20,20);
-		aux.setBorder(new LineBorder(color.BLACK));
 		
 		frame.add(aux);
 		
@@ -597,14 +592,8 @@ icono.setIcon(new ImageIcon("bajar.png"));
 					ub++;
 			
 				}
-				
-				
 			}
 				}
-
-			
-		
-			
 		});
 			
 			finalizar.addMouseListener(new MouseAdapter() 
@@ -615,6 +604,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 				if (selActual!="") 
 				{
 				addConsoleLine("\n___________________________\n Se Finalizo la entrada de  Nodos:\n");
+				addConsoleLine("Ya se pueden agregar aristas: ");
 				selActual="";	
 				}	
 			}
