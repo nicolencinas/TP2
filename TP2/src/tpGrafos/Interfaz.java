@@ -415,7 +415,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		JPanel consola=new JPanel();
 		consola.setLayout(new FlowLayout(FlowLayout.LEFT));
 		consola.setBounds(0, 300, 500, 600);
-		consola.setBorder(new TitledBorder("Console"));
+		consola.setBorder(new TitledBorder("Console: "));
 		
 	  
 		ta.setFocusable(false);
@@ -433,6 +433,12 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		consola.add("East",scroll);
 		JButton finalizar=new JButton("Finalizar Agregado");
 		finalizar.setBounds(50,150 , 150, 30);
+		
+		JLabel consoleIcon=new JLabel("");
+		consoleIcon.setBounds(55,296,25,25);
+		Image im2=new ImageIcon("console.png").getImage();
+		consoleIcon.setIcon(new ImageIcon(im2.getScaledInstance(25, 25, Image.SCALE_SMOOTH)));
+		frame.add(consoleIcon);
 		
 		frame.add(finalizar);
 		frame.add(consola);
@@ -518,6 +524,8 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		dropmenu.add(paso);
 		dropmenu.add(consumidor);
 		dropmenu.add(productor);
+		
+	
 
 		icono.addMouseListener(new MouseAdapter() 
 		{
@@ -552,6 +560,8 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		ImageIcon imicon=new ImageIcon( im.getScaledInstance(40, 40, Image.SCALE_DEFAULT));
 		aux.setIcon(imicon);
 		aux.updateUI();
+		
+	
 		
 			map.addMouseListener(new MouseAdapter() 
 			{
