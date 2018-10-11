@@ -247,8 +247,9 @@ public class Interfaz
 					 if (mapArista.existeArista(d, h)) 
 					 {
 						 
-						  option=(String) JOptionPane.showInputDialog(null,"Desea cambiar el valor de la arista "+nodos.get(d).getText()+ " y "+nodos.get(h).getText(),
-									"Cambiar Valores",JOptionPane.QUESTION_MESSAGE,icon, null, null);
+						  option=(String) JOptionPane.showInputDialog(null,"Desea cambiar el valor de la arista "+
+								  				nodos.get(d).getText()+ " y "+nodos.get(h).getText(),
+								  					"Cambiar Valores",JOptionPane.QUESTION_MESSAGE,icon, null, null);
 						  continuar=false;
 						  
 						  if (option!=null)
@@ -272,7 +273,8 @@ public class Interfaz
 								  try
 								  {
 									  mapArista.addArista(h, d, Integer.parseInt(option));
-								  }catch(Exception f)
+								  }
+								  catch(Exception f)
 								  {
 									  continuar=true;
 								  }
@@ -322,7 +324,8 @@ public class Interfaz
 					 try 
 					 {
 					 c=Integer.parseInt(option);
-					 }catch (Exception err)
+					 }
+					 catch (Exception err)
 					 {
 						 if (continuar) 
 						 {
@@ -344,6 +347,9 @@ public class Interfaz
 							 addArista(c,hasta.getLocation(),desde.getLocation(),d,h);
 							 map.repaint();	 
 							 selActual="";
+							 
+							 for (JLabel lab:aristas)
+								System.out.println(lab.getText());
 						 }
 						 
 					 }
