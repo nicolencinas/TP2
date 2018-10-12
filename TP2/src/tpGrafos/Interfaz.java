@@ -737,6 +737,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 					mapArista.addArista(0, num, peso);
 					
 				}
+				finNodos=true;
 			}
 			
 			});
@@ -746,7 +747,9 @@ icono.setIcon(new ImageIcon("bajar.png"));
 				
 			public void mouseReleased(MouseEvent e)
 			{
-				addConsoleLine("Se finalizo la entrada de aristas. Ya puede analizar el flujo maximo:");
+				if(finNodos) 
+				{
+					addConsoleLine("Se finalizo la entrada de aristas. Ya puede analizar el flujo maximo:");
 				JLabel t=new JLabel(ub+""); 
 				map.add(t);
 				mapArista.addNodo();
@@ -764,7 +767,13 @@ icono.setIcon(new ImageIcon("bajar.png"));
 				    String name=cons.getName();
 				    Integer peso=Integer.parseInt(name);
 					mapArista.addArista(ub, num, peso);
+				}	
+				
+				}else 
+				{
+					addConsoleLine("Aun no se finalizo el agregado de nodos");
 				}
+			
 			}
 
 			
