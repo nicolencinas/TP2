@@ -364,6 +364,7 @@ public class Interfaz
 				
 			
 		});
+		
 		label.setSize(23, 23);
 		label.setLocation(p);
 		Image im=new ImageIcon(iconos[id]).getImage();
