@@ -36,6 +36,7 @@ public class Interfaz
     private JTextArea ta = new JTextArea("",33,42);
     private boolean finNodos=false;
     private boolean finAristas=false;
+    private Red gasoducto=new Red(ub);
  
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -514,6 +515,13 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		finalizarNodos.setBounds(10,150 , 200, 30);
 		JButton finalizarAristas=new JButton("Finalizar Agregado de Aristas");
 		finalizarAristas.setBounds(10,185 , 200, 30);
+		JButton flujoMAX=new JButton("Calcular Flujo Maximo");
+		flujoMAX.setBounds(-300,167 , 200, 30);
+		finalizarNodos.setBorder(new RoundedBorder(10,Color.black));
+		finalizarAristas.setBorder(new RoundedBorder(10,Color.black));
+		flujoMAX.setBorder(new RoundedBorder(10,Color.black));
+		frame.add(flujoMAX);
+		
 		
 		JLabel consoleIcon=new JLabel("");
 		consoleIcon.setBounds(55,296,25,25);
@@ -712,9 +720,6 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		}
 			}
 
-		
-	
-		
 	});
 			
 			finalizarNodos.addMouseListener(new MouseAdapter() 
@@ -748,7 +753,13 @@ icono.setIcon(new ImageIcon("bajar.png"));
 				for(MouseListener n: eventos)
 					map.removeMouseListener(n);
 				finalizarAristas.setEnabled(false);
+				finalizarNodos.setEnabled(false);
 				
+				Animacion.mover_izquierda(10, -300, 2,1, finalizarNodos);
+			
+				Animacion.mover_izquierda(10, -300, 2,1, finalizarAristas);
+				
+				Animacion.mover_derecha(-300, 10, 2, 1, flujoMAX);
 				
 				for (JLabel cons :consumidores)
 				{
@@ -774,6 +785,17 @@ icono.setIcon(new ImageIcon("bajar.png"));
 
 			
 			
+			});
+			
+			flujoMAX.addMouseListener(new MouseAdapter() 
+			{
+				public void mouseReleased(MouseEvent e) 
+				{
+					addConsoleLine("hola");
+				}
+
+				
+				
 			});
 			
 		
