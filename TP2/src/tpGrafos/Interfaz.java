@@ -34,7 +34,8 @@ public class Interfaz
 	private JMapViewer map=new JMapViewer();
     private StringBuilder consoleOut=new StringBuilder("Bienvenido al sistema de planificacion de gasoductos: \n");
     private JTextArea ta = new JTextArea("",33,42);
-    
+    private boolean finNodos=false;
+    private boolean finAristas=false;
  
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -734,6 +735,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 				    String name=cons.getName();
 				    Integer peso=Integer.parseInt(name);
 					mapArista.addArista(0, num, peso);
+					
 				}
 			}
 			
