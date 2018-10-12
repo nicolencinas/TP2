@@ -215,6 +215,7 @@ public class Interfaz
 				{
 					String name=label.getText();
 					Integer num=Integer.parseInt(name);
+				
 		
 					if (relaciones.size()==2) 
 					{
@@ -249,40 +250,20 @@ public class Interfaz
 					 if (mapArista.existeArista(d, h)) 
 					 {
 						 
-						  option=(String) JOptionPane.showInputDialog(null,"Desea cambiar el valor de la arista "+
-								  				nodos.get(d).getText()+ " y "+nodos.get(h).getText(),
-								  					"Cambiar Valores",JOptionPane.QUESTION_MESSAGE,icon, null, null);
+						  option=(String) JOptionPane.showInputDialog(null,"Desea cambiar el valor de la arista "+nodos.get(d).getText()+ " y "+nodos.get(h).getText(),
+									"Cambiar Valores",JOptionPane.QUESTION_MESSAGE,icon, null, null);
 						  continuar=false;
 						  
 						  if (option!=null)
 						  {
-							  try
-							  {
-								  mapArista.addArista(d, h, Integer.parseInt(option));
-							  }catch(Exception f)
-							  {
-								  continuar=true;
-							  }
-							if (!continuar)
-							{
-							changeArista(option,d,h);	
-							}
-							
+							mapArista.addArista(d, h, Integer.parseInt(option));
+							changeArista(option,d,h);
 							addConsoleLine("Se cambio el peso de la arista entre : "+d+" y "+h+" a "+option);
 							  
 							  if (mapArista.existeReciproca(d, h)) 
 							  {
-								  try
-								  {
-									  mapArista.addArista(h, d, Integer.parseInt(option));
-								  }
-								  catch(Exception f)
-								  {
-									  continuar=true;
-								  }
-								 
+								  mapArista.addArista(h, d, Integer.parseInt(option));
 								  mapArista.imprimir();
-								  addConsoleLine("Se cambio el peso de la arista entre : "+h+" y "+d+" a "+option);
 							  }
 						  }
 					 }
@@ -293,14 +274,7 @@ public class Interfaz
 					option=(String) JOptionPane.showInputDialog(null,"Crear arista entre: "+nodos.get(d).getText()+" y "+nodos.get(h).getText(),
 							"Crear Arista",JOptionPane.QUESTION_MESSAGE,icon, null, null);
 					if (option!=null)
-						try
-						{
-						mapArista.addArista(d, h, Integer.parseInt(option));	
-						}catch (Exception f )
-						{
-							
-						}
-						
+						mapArista.addArista(d, h, Integer.parseInt(option));
 					}
 					
 					if (!mapArista.existeArista(d, h) && mapArista.existeReciproca(d, h)) 
@@ -326,8 +300,7 @@ public class Interfaz
 					 try 
 					 {
 					 c=Integer.parseInt(option);
-					 }
-					 catch (Exception err)
+					 }catch (Exception err)
 					 {
 						 if (continuar) 
 						 {
@@ -343,20 +316,22 @@ public class Interfaz
 					 {
 						 if (continuar)
 						 {
-//							
+							
+							 
 							 JLabel desde=nodos.get(d);
 							 JLabel hasta=nodos.get(h);
 							 addArista(c,hasta.getLocation(),desde.getLocation(),d,h);
 							 map.repaint();	 
 							 selActual="";
-							 
-							 for (JLabel lab:aristas)
-								System.out.println(lab.getText());
 						 }
 						 
 					 }
 					 }
 					 }
+					 
+					
+						
+					
 				}
 
 				}
@@ -364,6 +339,77 @@ public class Interfaz
 				
 			
 		});
+		
+		boolean continua=true;;
+		if (selActual=="productor") 
+		{
+			String op=null;
+			int i=0;
+			while(op==null) 
+			{
+				if (i==0)
+			op=JOptionPane.showInputDialog(null,"Agregar la oferta del productor: ",
+					"Agregar Oferta",JOptionPane.QUESTION_MESSAGE);
+				else
+					op=JOptionPane.showInputDialog(null,"Debe agregar una oferta para el productor antes de continuar: ",
+							"Agregar Oferta",JOptionPane.QUESTION_MESSAGE);
+				
+				i=1;
+			}
+			
+			try 
+			{
+				Integer e=Integer.parseInt(op);
+			}catch (Exception e ) 
+			{
+				continua=false;
+				JOptionPane.showMessageDialog(label, "No se puede agregar valores que no sean numericos", "Parse to Integer Exception", JOptionPane.ERROR_MESSAGE);
+				addConsoleLine("No se puede agregar valores que no sean numericos");
+			}
+			
+			if (continua) 
+			{
+			label.setName(op);
+			label.setToolTipText(op);
+			productores.add(label);
+			
+			}
+			
+		}
+		
+		if (selActual=="consumidor") 
+		{
+			String op=null;
+			int i=0;
+			while(op==null) 
+			{
+				if (i==0)
+			op=JOptionPane.showInputDialog(null,"Agregar la demanda del consumidor: ",
+					"Agregar Oferta",JOptionPane.QUESTION_MESSAGE);
+				else
+					op=JOptionPane.showInputDialog(null,"Debe agregar una demanda para el consumidor antes antes de continuar: ",
+							"Agregar Oferta",JOptionPane.QUESTION_MESSAGE);
+				
+				i=1;
+			}
+			try 
+			{
+				Integer e=Integer.parseInt(op);
+			}catch (Exception e ) 
+			{
+				JOptionPane.showMessageDialog(label, "No se puede agregar valores que no sean numericos", "Parse to Integer Exception", JOptionPane.ERROR_MESSAGE);
+				addConsoleLine("No se puede agregar valores que no sean numericos");
+				continua=false;
+			}
+			if (continua)
+			{
+				
+			label.setName(op);
+			label.setToolTipText(op);
+			consumidores.add(label);
+			}
+			
+		}
 		
 		label.setSize(23, 23);
 		label.setLocation(p);
@@ -374,8 +420,12 @@ public class Interfaz
 	
 		label.setLayout(new FlowLayout(FlowLayout.CENTER));
 		label.add(numero);
-		clasificar(label);
+		
+			repintarNodos();
+		
+			if (continua)
 		return label;
+			else return null;
 		
 	}
 
@@ -426,14 +476,10 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		
 		frame.getContentPane().add(rel);
 		
-		JLabel s=generarNodo(2,ub,new Point (50,400));
-		s.setFocusable(false);
-		for (MouseListener m :s.getMouseListeners())
-		s.removeMouseListener(m);
-		s.setName("s");
+		JLabel s=new JLabel(0+"");
 		nodos.add(s);
-		mapArista.addNodo();
 		map.add(s);
+		mapArista.addNodo();
 
 		JPanel consola=new JPanel();
 		consola.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -589,55 +635,76 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		
 	
 		
-			map.addMouseListener(new MouseAdapter() 
-			{
-				
-			public void mouseReleased(MouseEvent e)
-			{
-				for (JLabel l:productores)
-					System.out.println ("productor "+l.getText());
-				System.out.println ("");
-				for (JLabel l:consumidores)
-					System.out.println("consumidor "+ l.getText());
-				System.out.println ("");
-				
-				repintarNodos();
-				
-				if (e.getButton()==MouseEvent.BUTTON1)
-				{
-					if (selActual=="") 
-					{
-						Image im=new ImageIcon("optionpane.gif").getImage();
-						ImageIcon imicon=new ImageIcon( im.getScaledInstance(55, 55, Image.SCALE_DEFAULT));
-						JOptionPane.showMessageDialog(aux, "No se selecciono ningun tipo de nodo", "Seleccione nodo.", JOptionPane.ERROR_MESSAGE,imicon);
-					}
-						
-				Point p=new Point();
-				p.setLocation(e.getX()-10, e.getY()-10);
-				
-				int i=-1;
-				if (selActual.equals("productor"))
-					i=0;
-				if (selActual.equals("consumidor"))
-					i=1;
-				if (selActual.equals("paso"))
-					i=2;
-				
-				if (i!=-1)
-				{
-				JLabel l=generarNodo(i,ub,p);
-				mapArista.addNodo();
-				map.add(l);
-				nodos.add(l);
-				map.repaint();
-				addDot(map,e);
-				addConsoleLine("Se agrego el Nodo "+ub+ ": en el punto- X:"+ p.getX()+ " - Y: "+ p.getY());
-					ub++;
+		map.addMouseListener(new MouseAdapter() 
+		{
+
+		public void mouseReleased(MouseEvent e)
+		{
+			repintarNodos();
 			
+			if (e.getButton()==MouseEvent.BUTTON1)
+			{
+				if (selActual=="") 
+				{
+					Image im=new ImageIcon("optionpane.gif").getImage();
+					ImageIcon imicon=new ImageIcon( im.getScaledInstance(55, 55, Image.SCALE_DEFAULT));
+					JOptionPane.showMessageDialog(aux, "No se selecciono ningun tipo de nodo", "Seleccione nodo.", JOptionPane.ERROR_MESSAGE,imicon);
 				}
+					
+			Point p=new Point();
+			p.setLocation(e.getX()-10, e.getY()-10);
+			
+			int i=-1;
+			if (selActual.equals("productor"))
+				i=0;
+			if (selActual.equals("consumidor"))
+				i=1;
+			if (selActual.equals("paso"))
+				i=2;
+			
+			if (i!=-1)
+			{
+			JLabel l=generarNodo(i,ub,p);
+			
+			if (l!=null)
+			{
+			mapArista.addNodo();
+			map.add(l);
+			nodos.add(l);	
+			addConsoleLine("Se agrego el Nodo "+ub+ ": en el punto- X:"+ p.getX()+ " - Y: "+ p.getY());
+			ub++;
+			map.repaint();
 			}
-				}
-		});
+			
+			System.out.println("Lista de productores");
+			
+			for (JLabel j:productores)
+			{
+				System.out.println(j.getText()+" "+j.getName()+" ");
+			}
+			System.out.println();
+			
+			System.out.println("Lista de consumidores");
+			
+			for (JLabel j:consumidores)
+			{
+				System.out.println(j.getText()+" "+j.getName()+" ");
+			}
+			System.out.println();
+			
+			
+			
+		
+			}
+			
+			
+		}
+			}
+
+		
+	
+		
+	});
 			
 			finalizarNodos.addMouseListener(new MouseAdapter() 
 			{
@@ -646,19 +713,18 @@ icono.setIcon(new ImageIcon("bajar.png"));
 			{
 				if (selActual!="") 
 				{
-				
 				addConsoleLine("\n___________________________\n Se Finalizo la entrada de  Nodos:\n");
-				addConsoleLine("Ya se pueden agregar aristas: ");
 				selActual="";	
 				}	
 				
 				for (JLabel cons :productores)
 				{
-					String name=cons.getText();
-				    Integer num=Integer.parseInt(name);
-					addArista(10,cons.getLocation(),new Point (50,400),0,num);
-					mapArista.addArista(0, num, 200);
-					}
+					String text=cons.getText();
+				    Integer num=Integer.parseInt(text);
+				    String name=cons.getName();
+				    Integer peso=Integer.parseInt(name);
+					mapArista.addArista(0, num, peso);
+				}
 			}
 			
 			});
