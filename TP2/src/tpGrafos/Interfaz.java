@@ -729,6 +729,33 @@ icono.setIcon(new ImageIcon("bajar.png"));
 			
 			});
 			
+			finalizarAristas.addMouseListener(new MouseAdapter() 
+			{
+				
+			public void mouseReleased(MouseEvent e)
+			{
+				addConsoleLine("Se finalizo la entrada de aristas. Ya puede analizar el flujo maximo:");
+				JLabel t=new JLabel(ub+""); 
+				map.add(t);
+				mapArista.addNodo();
+				
+				MouseListener [] eventos=map.getMouseListeners();
+				
+				for(MouseListener n: eventos)
+					map.removeMouseListener(n);
+				finalizarAristas.setEnabled(false);
+				for (JLabel cons :consumidores)
+				{
+					String text=cons.getText();
+				    Integer num=Integer.parseInt(text);
+				    String name=cons.getName();
+				    Integer peso=Integer.parseInt(name);
+					mapArista.addArista(ub, num, peso);
+				}
+			}
+			
+			});
+			
 		
 		
 		
