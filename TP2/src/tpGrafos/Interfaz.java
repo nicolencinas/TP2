@@ -386,10 +386,6 @@ public class Interfaz
 		if (selActual=="consumidor")
 			consumidores.add(label);
 
-		//if (selActual=="paso")
-			//productores.add(label);
-				
-				
 		
 	}
 	public void addConsoleLine(String in) 
@@ -456,8 +452,10 @@ icono.setIcon(new ImageIcon("bajar.png"));
 			
 			
 		consola.add("East",scroll);
-		JButton finalizar=new JButton("Finalizar Agregado");
-		finalizar.setBounds(50,150 , 150, 30);
+		JButton finalizarNodos=new JButton("Finalizar Agregado de Nodos");
+		finalizarNodos.setBounds(10,150 , 200, 30);
+		JButton finalizarAristas=new JButton("Finalizar Agregado de Aristas");
+		finalizarAristas.setBounds(10,185 , 200, 30);
 		
 		JLabel consoleIcon=new JLabel("");
 		consoleIcon.setBounds(55,296,25,25);
@@ -466,7 +464,8 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		consoleIcon.setToolTipText("Consola de informacion");
 		frame.add(consoleIcon);
 		
-		frame.add(finalizar);
+		frame.add(finalizarNodos);
+		frame.add(finalizarAristas);
 		frame.add(consola);
 	
 		JPanel contenedormapa=new JPanel();
@@ -639,7 +638,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 				}
 		});
 			
-			finalizar.addMouseListener(new MouseAdapter() 
+			finalizarNodos.addMouseListener(new MouseAdapter() 
 			{
 				
 			public void mouseReleased(MouseEvent e)
