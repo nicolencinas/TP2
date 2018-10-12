@@ -28,7 +28,7 @@ public class Interfaz
 	private ArrayList <JLabel> consumidores=new ArrayList<JLabel>();
 	private ArrayList <JLabel> productores=new ArrayList<JLabel>();
 	private Arista mapArista=new Arista();
-	private Integer ub=0;
+	private Integer ub=1;
 	private JLabel rel=new JLabel("Crear Arista entre: \n "+"X"+" A "+"X");
 	private Color color=new Color (151, 15, 207);
 	private JMapViewer map=new JMapViewer();
@@ -431,7 +431,11 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		
 		JLabel s=generarNodo(2,ub,new Point (50,400));
 		s.setFocusable(false);
+		for (MouseListener m :s.getMouseListeners())
+		s.removeMouseListener(m);
 		s.setName("s");
+		nodos.add(s);
+		mapArista.addNodo();
 		map.add(s);
 
 		JPanel consola=new JPanel();
@@ -652,7 +656,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 				{
 					String name=cons.getText();
 				    Integer num=Integer.parseInt(name);
-					addArista(200,cons.getLocation(),new Point (50,400),0,num);
+					addArista(10,cons.getLocation(),new Point (50,400),0,num);
 					mapArista.addArista(0, num, 200);
 					}
 			}
