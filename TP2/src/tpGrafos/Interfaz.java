@@ -728,16 +728,6 @@ icono.setIcon(new ImageIcon("bajar.png"));
 				selActual="";	
 				}	
 				
-				for (JLabel cons :productores)
-				{
-					String text=cons.getText();
-				    Integer num=Integer.parseInt(text);
-				    String name=cons.getName();
-				    Integer peso=Integer.parseInt(name);
-					mapArista.addArista(0, num, peso);
-					
-				}
-				finNodos=true;
 			}
 			
 			});
@@ -747,9 +737,8 @@ icono.setIcon(new ImageIcon("bajar.png"));
 				
 			public void mouseReleased(MouseEvent e)
 			{
-				if(finNodos) 
-				{
-					addConsoleLine("Se finalizo la entrada de aristas. Ya puede analizar el flujo maximo:");
+				
+				addConsoleLine("Se finalizo la entrada de aristas. Ya puede analizar el flujo maximo:");
 				JLabel t=new JLabel(ub+""); 
 				map.add(t);
 				mapArista.addNodo();
@@ -759,7 +748,8 @@ icono.setIcon(new ImageIcon("bajar.png"));
 				for(MouseListener n: eventos)
 					map.removeMouseListener(n);
 				finalizarAristas.setEnabled(false);
-				removeActionsNodes();
+				
+				
 				for (JLabel cons :consumidores)
 				{
 					String text=cons.getText();
@@ -769,10 +759,16 @@ icono.setIcon(new ImageIcon("bajar.png"));
 					mapArista.addArista(ub, num, peso);
 				}	
 				
-				}else 
+				for (JLabel cons :productores)
 				{
-					addConsoleLine("Aun no se finalizo el agregado de nodos");
+					String text=cons.getText();
+				    Integer num=Integer.parseInt(text);
+				    String name=cons.getName();
+				    Integer peso=Integer.parseInt(name);
+					mapArista.addArista(0, num, peso);
+					
 				}
+				removeActionsNodes();
 			
 			}
 
