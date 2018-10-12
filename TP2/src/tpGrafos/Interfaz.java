@@ -25,6 +25,8 @@ public class Interfaz
 	private ArrayList <Integer> relaciones=new ArrayList <Integer>();
 	private ArrayList <JLabel> nodos=new ArrayList <JLabel>();
 	private ArrayList <JLabel> aristas=new ArrayList<JLabel>();
+	private ArrayList <JLabel> consumidores=new ArrayList<JLabel>();
+	private ArrayList <JLabel> productores=new ArrayList<JLabel>();
 	private Arista mapArista=new Arista();
 	private Integer ub=0;
 	private JLabel rel=new JLabel("Crear Arista entre: \n "+"X"+" A "+"X");
@@ -371,10 +373,25 @@ public class Interfaz
 	
 		label.setLayout(new FlowLayout(FlowLayout.CENTER));
 		label.add(numero);
+		clasificar(label);
 		return label;
 		
 	}
 
+	
+	public void clasificar(JLabel label)
+	{
+		if (selActual=="productor")
+			productores.add(label);
+		if (selActual=="consumidor")
+			consumidores.add(label);
+
+		//if (selActual=="paso")
+			//productores.add(label);
+				
+				
+		
+	}
 	public void addConsoleLine(String in) 
 	{
 		consoleOut.append(in);
@@ -411,6 +428,11 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		rel.setVisible(true);
 		
 		frame.getContentPane().add(rel);
+		
+		JLabel s=generarNodo(2,ub,new Point (50,400));
+		s.setFocusable(false);
+		s.setName("s");
+		map.add(s);
 
 		JPanel consola=new JPanel();
 		consola.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -429,7 +451,6 @@ icono.setIcon(new ImageIcon("bajar.png"));
 			scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 			
 			
-		
 		consola.add("East",scroll);
 		JButton finalizar=new JButton("Finalizar Agregado");
 		finalizar.setBounds(50,150 , 150, 30);
@@ -566,9 +587,16 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		
 			map.addMouseListener(new MouseAdapter() 
 			{
-
+				
 			public void mouseReleased(MouseEvent e)
 			{
+				for (JLabel l:productores)
+					System.out.println ("productor "+l.getText());
+				System.out.println ("");
+				for (JLabel l:consumidores)
+					System.out.println("consumidor "+ l.getText());
+				System.out.println ("");
+				
 				repintarNodos();
 				
 				if (e.getButton()==MouseEvent.BUTTON1)
@@ -614,10 +642,19 @@ icono.setIcon(new ImageIcon("bajar.png"));
 			{
 				if (selActual!="") 
 				{
+				
 				addConsoleLine("\n___________________________\n Se Finalizo la entrada de  Nodos:\n");
 				addConsoleLine("Ya se pueden agregar aristas: ");
 				selActual="";	
 				}	
+				
+				for (JLabel cons :productores)
+				{
+					String name=cons.getText();
+				    Integer num=Integer.parseInt(name);
+					addArista(200,cons.getLocation(),new Point (50,400),0,num);
+					mapArista.addArista(0, num, 200);
+					}
 			}
 			
 			});
