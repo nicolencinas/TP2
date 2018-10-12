@@ -61,7 +61,17 @@ public class Interfaz
 			nodo.updateUI();
 		}
 	}
+	private void removeActionsNodes()
+	{
+	for (JLabel l:nodos)
+	{
+		MouseListener[] m=l.getMouseListeners();
+		for (MouseListener mo : m)
+		l.removeMouseListener(mo);
+	}
 	
+		
+	}
 	public JLabel generarIcono(int id,Point p) 
 	{
 	 
@@ -744,6 +754,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 				for(MouseListener n: eventos)
 					map.removeMouseListener(n);
 				finalizarAristas.setEnabled(false);
+				removeActionsNodes();
 				for (JLabel cons :consumidores)
 				{
 					String text=cons.getText();
@@ -753,6 +764,8 @@ icono.setIcon(new ImageIcon("bajar.png"));
 					mapArista.addArista(ub, num, peso);
 				}
 			}
+
+			
 			
 			});
 			
