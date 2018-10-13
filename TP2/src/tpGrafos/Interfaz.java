@@ -808,8 +808,29 @@ icono.setIcon(new ImageIcon("bajar.png"));
 						Integer num=Integer.parseInt(name);
 						produccion+=num;
 					}
+					
+					Integer demanda=0;
+					for (JLabel lab:consumidores
+							) 
+					{
+						String name=lab.getName();
+						Integer num=Integer.parseInt(name);
+						demanda+=num;
+					}
+					
 					int flujomaximo=gasoducto.flujo_Maximo(grafo2,0,ub-1);
 					addConsoleLine("La produccion total de gas es de: "+produccion+" El flujo maximo del grafo es: "+flujomaximo);
+					
+					if (demanda<flujomaximo) 
+					{
+						addConsoleLine("Se puede suplir la demanda de los consumidores, la demanda total es de: "+demanda);
+					
+					}
+					if (demanda>flujomaximo) 
+					{
+						addConsoleLine("NO Se puede suplir la demanda de los consumidores, la demanda total es de: "+demanda);
+					
+					}
 				}
 
 				
