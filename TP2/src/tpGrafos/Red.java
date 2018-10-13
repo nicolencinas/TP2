@@ -19,6 +19,14 @@ public class Red {
 			this.grupo = new String[vertice];
 		}
 	}
+	
+	Red () 
+	{
+		this.grafoPesos = new int[10][10];
+		this.grupo = new String[10];
+	}
+	
+	
 
 	// Getters and setters
 

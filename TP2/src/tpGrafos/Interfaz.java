@@ -36,7 +36,7 @@ public class Interfaz
     private JTextArea ta = new JTextArea("",33,42);
     private boolean finNodos=false;
     private boolean finAristas=false;
-    private Red gasoducto=new Red(ub);
+    private Red gasoducto=new Red();
  
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -791,7 +791,25 @@ icono.setIcon(new ImageIcon("bajar.png"));
 			{
 				public void mouseReleased(MouseEvent e) 
 				{
-					addConsoleLine("hola");
+					Red gasoducto=new Red(ub);
+					int grafo[][]= {{0 ,0 ,0 ,1114, 0} ,
+							{0 ,0 ,332, 0 ,0 },
+							{0 ,0 ,0 ,0 ,0 },
+							{0, 124, 0 ,0 ,0} ,
+							{0 ,0 ,332, 0, 0 }};
+					
+					int grafo2[][]=mapArista.matrizDePesos();
+					
+					Integer produccion=0;
+					for (JLabel lab:productores
+							) 
+					{
+						String name=lab.getName();
+						Integer num=Integer.parseInt(name);
+						produccion+=num;
+					}
+					int flujomaximo=gasoducto.flujo_Maximo(grafo2,0,ub-1);
+					addConsoleLine("La produccion total de gas es de: "+produccion+" El flujo maximo del grafo es: "+flujomaximo);
 				}
 
 				
