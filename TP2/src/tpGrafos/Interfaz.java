@@ -266,18 +266,30 @@ public class Interfaz
 									"Cambiar Valores",JOptionPane.QUESTION_MESSAGE,icon, null, null);
 						  continuar=false;
 						  
-						  if (option!=null)
+						  if (option!=null )
 						  {
-							mapArista.addArista(d, h, Integer.parseInt(option));
-							changeArista(option,d,h);
-							addConsoleLine("Se cambio el peso de la arista entre : "+d+" y "+h+" a "+option);
+							  if(Integer.parseInt(option)>0) 
+							  {
+								  mapArista.addArista(d, h, Integer.parseInt(option));
+								  changeArista(option,d,h);
+								  addConsoleLine("Se cambio el peso de la arista entre : "+d+" y "+h+" a "+option);
 							  
 							  if (mapArista.existeReciproca(d, h)) 
 							  {
 								  mapArista.addArista(h, d, Integer.parseInt(option));
 								  mapArista.imprimir();
 							  }
-						  }
+							  
+							  }  
+							  else 
+							  {
+									JOptionPane.showMessageDialog(label, "No se puede agregar pesos negativos", "Negative weight Exception", JOptionPane.ERROR_MESSAGE);
+									addConsoleLine(">> Negative weight Exception <<");
+									addConsoleLine("No se puede agregar pesos negativos");
+							  }
+								  
+							  }
+						
 					 }
 					
 					if (!mapArista.existeArista(d, h) && !(mapArista.existeReciproca(d, h))) 
@@ -286,7 +298,18 @@ public class Interfaz
 					option=(String) JOptionPane.showInputDialog(null,"Crear arista entre: "+nodos.get(d).getText()+" y "+nodos.get(h).getText(),
 							"Crear Arista",JOptionPane.QUESTION_MESSAGE,icon, null, null);
 					if (option!=null)
+					{
+						if (Integer.parseInt(option)<0)
+						{
+							JOptionPane.showMessageDialog(label, "No se puede agregar pesos negativos", "Negative weight Exception", JOptionPane.ERROR_MESSAGE);
+							addConsoleLine(">> Negative weight Exception <<");
+							addConsoleLine("No se puede agregar pesos negativos");
+							continuar=false;
+						}
+						else 
 						mapArista.addArista(d, h, Integer.parseInt(option));
+					}
+						
 					}
 					
 					if (!mapArista.existeArista(d, h) && mapArista.existeReciproca(d, h)) 
@@ -295,6 +318,7 @@ public class Interfaz
 						int i=JOptionPane.showConfirmDialog(label, "Desea agregar una de vuelta entre "+d+" y "+h);
 						if (i==0)
 						{
+							
 							Integer r=mapArista.getPeso(h, d);
 							
 							mapArista.addArista(d,h, r);
@@ -312,8 +336,11 @@ public class Interfaz
 					 try 
 					 {
 					 c=Integer.parseInt(option);
+					 
+					 
 					 }catch (Exception err)
 					 {
+						 
 						 if (continuar) 
 						 {
 							 JOptionPane.showConfirmDialog(nodos.get(relaciones.get(1)),"Error de ingreso: debe ingresar un numero.",
@@ -372,6 +399,12 @@ public class Interfaz
 			try 
 			{
 				Integer e=Integer.parseInt(op);
+				if (e<0)
+				{
+					JOptionPane.showMessageDialog(label, "No se puede agregar pesos negativos", "Negative weight Exception", JOptionPane.ERROR_MESSAGE);
+					addConsoleLine("No se puede agregar valores que no sean numericos");
+					continua=false;
+				}
 			}catch (Exception e ) 
 			{
 				continua=false;
@@ -407,6 +440,13 @@ public class Interfaz
 			try 
 			{
 				Integer e=Integer.parseInt(op);
+				
+				if (e<0)
+				{
+					JOptionPane.showMessageDialog(label, "No se puede agregar pesos negativos", "Negative weight Exception", JOptionPane.ERROR_MESSAGE);
+					addConsoleLine("No se puede agregar valores que no sean numericos");
+					continua=false;
+				}
 			}catch (Exception e ) 
 			{
 				JOptionPane.showMessageDialog(label, "No se puede agregar valores que no sean numericos", "Parse to Integer Exception", JOptionPane.ERROR_MESSAGE);
