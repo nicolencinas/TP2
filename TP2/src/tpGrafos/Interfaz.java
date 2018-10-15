@@ -779,7 +779,13 @@ icono.setIcon(new ImageIcon("bajar.png"));
 			mapArista.addNodo();
 			map.add(l);
 			nodos.add(l);	
-			addConsoleLine("Se agrego el Nodo "+ub+ ": en el punto- X:"+ p.getX()+ " - Y: "+ p.getY());
+			
+			
+			String nombre=nombres[i];
+			addConsoleLine("Se agrego el Nodo ("+ub +")"+" "+nombre.toUpperCase()+" en el punto- X:"+ p.getX()+ " - Y: "+ p.getY());
+			String pe =l.getName()==null ? "0" : l.getName();
+			
+			addConsoleLine("Con peso: "+ pe );
 			ub++;
 			map.repaint();
 			}
