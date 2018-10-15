@@ -884,7 +884,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 					}
 					
 					int flujomaximo=gasoducto.flujo_Maximo(grafo2,0,g-1);
-					addConsoleLine("La produccion total de gas es de: "+produccion+" El flujo maximo del grafo es: "+flujomaximo);
+					addConsoleLine("\nLa produccion total de gas es de: "+produccion+" El flujo maximo del grafo es: "+flujomaximo);
 					
 					for (JLabel lab:consumidores) 
 					{
