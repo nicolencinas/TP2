@@ -32,7 +32,7 @@ public class Interfaz
 	private JLabel rel=new JLabel("Crear Arista entre: \n "+"X"+" A "+"X");
 	private Color color=new Color (151, 15, 207);
 	private JMapViewer map=new JMapViewer();
-    private StringBuilder consoleOut=new StringBuilder("Bienvenido al sistema de planificacion de gasoductos: \n");
+    private StringBuilder consoleOut=new StringBuilder("Bienvenido al sistema de planificacion de redes de gas: \n");
     private JTextArea ta = new JTextArea("",33,42);
  
 	public static void main(String[] args) {
@@ -561,10 +561,13 @@ icono.setIcon(new ImageIcon("bajar.png"));
 
 	private void initialize() 
 	{
-		frame = new JFrame();
+		frame = new JFrame("Sistema de planificacion de redes de gas: Ministerio de energia y minera de la Nacion");
 		frame.setBounds(100, 100, 1600, 900);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	
 		frame.getContentPane().setLayout(null);
+		Image titleIcon=new ImageIcon("logo.png").getImage();
+		frame.setIconImage(titleIcon);
 		mapArista.matrizDePesos();
 		frame.setFocusable(true);
 		rel.setLocation(0, 200);
