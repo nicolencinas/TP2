@@ -106,7 +106,21 @@ public class Interfaz
 		return label;
 		
 	}
+	private boolean parseInteger(String op) 
+	 {
+		 boolean ret=true;
+		 try 
+		 {
+			 
+			 Integer.parseInt(op);
+		 }catch(Exception e) 
+		 {
+			 ret=false;
+		 }
+		 return ret;
+	 }
 	
+
 	private void addArista(Integer p,Point desde,Point hasta,Integer d,Integer h)
 	{
 		
@@ -129,7 +143,9 @@ public class Interfaz
 		      }
 
 		 };
-		          
+		    
+		 
+		 
 		ToolTipManager.sharedInstance().setInitialDelay(0);
 		
 		label.setLocation(peso);
@@ -154,12 +170,6 @@ public class Interfaz
 		mapArista.imprimir();
 		
 		addConsoleLine("Se agrego una arista entre nodo: "+d+ " Y "+h+" con peso de: "+p);
-	}
-	
-	private void addDot(JMapViewer map,MouseEvent e) 
-	{
-		 Coordinate markeradd = map.getPosition(e.getPoint());
-		 map.addMapMarker(new MapMarkerDot("", markeradd));
 	}
 	
 	public void changeArista(Integer d,Integer h) 
@@ -205,6 +215,21 @@ public class Interfaz
 		
 	}
 	
+	public void NegativeWeightException(JLabel lab) 
+	{
+		JOptionPane.showMessageDialog(lab, "No se puede agregar pesos negativos", "Negative weight Exception", JOptionPane.ERROR_MESSAGE);
+		addConsoleLine("\n>> Negative weight Exception <<");
+		addConsoleLine("No se puede agregar pesos negativos");
+	}
+	
+	private void ParseIntException(JLabel label) 
+	{
+		JOptionPane.showMessageDialog(label, "No se puede agregar valores que no sean numericos", "Parse to Integer Exception", JOptionPane.ERROR_MESSAGE);
+		addConsoleLine("\n >> Parse to Integer Exception <<");
+		addConsoleLine("No se puede agregar valores que no sean numericos");
+		
+	}
+	
 	public JLabel generarNodo(int id,int ub, Point p) 
 	{
 		
@@ -218,6 +243,7 @@ public class Interfaz
 			public void mouseReleased(MouseEvent e) 
 			{
 				mapArista.matrizDePesos();
+				
 				if (selActual!="") 
 				{
 					
@@ -248,6 +274,7 @@ public class Interfaz
 					
 					 if (relaciones.size()==2) 
 					 {
+						 
 					 Integer d=relaciones.get(0);
 					 Integer h=relaciones.get(1);
 					 cambiarLabel(rel,d.toString(),h.toString());
@@ -268,7 +295,9 @@ public class Interfaz
 						  
 						  if (option!=null )
 						  {
-							  if(Integer.parseInt(option)>0) 
+							  if (parseInteger(option))
+							  {
+								  if(Integer.parseInt(option)>0) 
 							  {
 								  mapArista.addArista(d, h, Integer.parseInt(option));
 								  changeArista(option,d,h);
@@ -283,10 +312,15 @@ public class Interfaz
 							  }  
 							  else 
 							  {
-									JOptionPane.showMessageDialog(label, "No se puede agregar pesos negativos", "Negative weight Exception", JOptionPane.ERROR_MESSAGE);
-									addConsoleLine(">> Negative weight Exception <<");
-									addConsoleLine("No se puede agregar pesos negativos");
+									NegativeWeightException(label);
+							  }  
+								  
 							  }
+							  else 
+								  {
+									ParseIntException(label);
+								  }
+							
 								  
 							  }
 						
@@ -299,15 +333,20 @@ public class Interfaz
 							"Crear Arista",JOptionPane.QUESTION_MESSAGE,icon, null, null);
 					if (option!=null)
 					{
-						if (Integer.parseInt(option)<0)
+						if (parseInteger(option)) 
 						{
-							JOptionPane.showMessageDialog(label, "No se puede agregar pesos negativos", "Negative weight Exception", JOptionPane.ERROR_MESSAGE);
-							addConsoleLine(">> Negative weight Exception <<");
-							addConsoleLine("No se puede agregar pesos negativos");
+							if (Integer.parseInt(option)<0)
+						{
+							NegativeWeightException(label);
 							continuar=false;
-						}
-						else 
+						}else 
 						mapArista.addArista(d, h, Integer.parseInt(option));
+						}
+						
+						else 
+						{
+							ParseIntException(label);
+						}
 					}
 						
 					}
@@ -341,22 +380,12 @@ public class Interfaz
 					 }catch (Exception err)
 					 {
 						 
-						 if (continuar) 
-						 {
-							 JOptionPane.showConfirmDialog(nodos.get(relaciones.get(1)),"Error de ingreso: debe ingresar un numero.",
-									"Parse to Integer error",JOptionPane.YES_OPTION,JOptionPane.ERROR_MESSAGE); 
-						 addConsoleLine(">> "+err.toString()+" <<");
-						 addConsoleLine("Error en el parseo de datos: Debe ingresar un valor numerico");
-						 }
-						 
 						 continuar=false;
 						 
 					 } finally 
 					 {
 						 if (continuar)
 						 {
-							
-							 
 							 JLabel desde=nodos.get(d);
 							 JLabel hasta=nodos.get(h);
 							 addArista(c,hasta.getLocation(),desde.getLocation(),d,h);
@@ -374,6 +403,8 @@ public class Interfaz
 				}
 
 				}
+
+			
 
 				
 			
@@ -402,13 +433,15 @@ public class Interfaz
 				if (e<0)
 				{
 					JOptionPane.showMessageDialog(label, "No se puede agregar pesos negativos", "Negative weight Exception", JOptionPane.ERROR_MESSAGE);
-					addConsoleLine("No se puede agregar valores que no sean numericos");
+					addConsoleLine("\n>> Negative weight Exception <<");
+					addConsoleLine("No se puede agregar pesos negativos");
 					continua=false;
 				}
 			}catch (Exception e ) 
 			{
 				continua=false;
 				JOptionPane.showMessageDialog(label, "No se puede agregar valores que no sean numericos", "Parse to Integer Exception", JOptionPane.ERROR_MESSAGE);
+				addConsoleLine("\n >> Parse to Integer Exception << ");
 				addConsoleLine("No se puede agregar valores que no sean numericos");
 			}
 			
@@ -444,13 +477,13 @@ public class Interfaz
 				if (e<0)
 				{
 					JOptionPane.showMessageDialog(label, "No se puede agregar pesos negativos", "Negative weight Exception", JOptionPane.ERROR_MESSAGE);
-					addConsoleLine("No se puede agregar valores que no sean numericos");
+					addConsoleLine("\n>> Negative weight Exception <<");
+					addConsoleLine("No se puede agregar pesos negativos");
 					continua=false;
 				}
 			}catch (Exception e ) 
 			{
-				JOptionPane.showMessageDialog(label, "No se puede agregar valores que no sean numericos", "Parse to Integer Exception", JOptionPane.ERROR_MESSAGE);
-				addConsoleLine("No se puede agregar valores que no sean numericos");
+			
 				continua=false;
 			}
 			if (continua)
@@ -832,11 +865,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 				public void mouseReleased(MouseEvent e) 
 				{
 					Red gasoducto=new Red(ub);
-					int grafo[][]= {{0 ,0 ,0 ,1114, 0} ,
-							{0 ,0 ,332, 0 ,0 },
-							{0 ,0 ,0 ,0 ,0 },
-							{0, 124, 0 ,0 ,0} ,
-							{0 ,0 ,332, 0, 0 }};
+					
 					
 					int grafo2[][]=mapArista.matrizDePesos();
 					
