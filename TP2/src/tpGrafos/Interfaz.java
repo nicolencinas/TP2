@@ -217,16 +217,16 @@ public class Interfaz
 	
 	public void NegativeWeightException(JLabel lab) 
 	{
-		JOptionPane.showMessageDialog(lab, "No se puede agregar pesos negativos", "Negative weight Exception", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(lab, "No se pueden agregar pesos negativos", "Negative weight Exception", JOptionPane.ERROR_MESSAGE);
 		addConsoleLine("\n>> Negative weight Exception <<");
-		addConsoleLine("No se puede agregar pesos negativos");
+		addConsoleLine("No se pueden agregar pesos negativos");
 	}
 	
 	private void ParseIntException(JLabel label) 
 	{
-		JOptionPane.showMessageDialog(label, "No se puede agregar valores que no sean numericos", "Parse to Integer Exception", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(label, "No se pueden agregar valores que no sean numericos", "Parse to Integer Exception", JOptionPane.ERROR_MESSAGE);
 		addConsoleLine("\n >> Parse to Integer Exception <<");
-		addConsoleLine("No se puede agregar valores que no sean numericos");
+		addConsoleLine("No se pueden agregar valores que no sean numericos");
 		
 	}
 	
@@ -410,47 +410,39 @@ public class Interfaz
 			
 		});
 		
-		boolean continua=true;;
+		boolean continua=true;
 		if (selActual=="productor") 
 		{
-			String op=null;
-			int i=0;
-			while(op==null) 
-			{
-				if (i==0)
+	String op=null;
+			
 			op=JOptionPane.showInputDialog(null,"Agregar la oferta del productor: ",
 					"Agregar Oferta",JOptionPane.QUESTION_MESSAGE);
-				else
-					op=JOptionPane.showInputDialog(null,"Debe agregar una oferta para el productor antes de continuar: ",
-							"Agregar Oferta",JOptionPane.QUESTION_MESSAGE);
-				
-				i=1;
-			}
-			
-			try 
+			if (op==null || op.equals("")) 
 			{
-				Integer e=Integer.parseInt(op);
-				if (e<0)
-				{
-					JOptionPane.showMessageDialog(label, "No se puede agregar pesos negativos", "Negative weight Exception", JOptionPane.ERROR_MESSAGE);
-					addConsoleLine("\n>> Negative weight Exception <<");
-					addConsoleLine("No se puede agregar pesos negativos");
-					continua=false;
-				}
-			}catch (Exception e ) 
-			{
+				addConsoleLine("Se cancelo el agregado del nodo productor ");
 				continua=false;
-				JOptionPane.showMessageDialog(label, "No se puede agregar valores que no sean numericos", "Parse to Integer Exception", JOptionPane.ERROR_MESSAGE);
-				addConsoleLine("\n >> Parse to Integer Exception << ");
-				addConsoleLine("No se puede agregar valores que no sean numericos");
 			}
 			
 			if (continua) 
 			{
+			try 
+			{
+				Integer e=Integer.parseInt(op);
+				
+				if (e<0)
+				{
+					NegativeWeightException(label);
+					continua=false;
+				}
+			}catch (Exception e ) 
+			{
+				ParseIntException(label);
+				continua=false;
+			}
+			
 			label.setName(op);
 			label.setToolTipText(op);
-			productores.add(label);
-			
+			consumidores.add(label);
 			}
 			
 		}
@@ -458,41 +450,37 @@ public class Interfaz
 		if (selActual=="consumidor") 
 		{
 			String op=null;
-			int i=0;
-			while(op==null) 
-			{
-				if (i==0)
+			
 			op=JOptionPane.showInputDialog(null,"Agregar la demanda del consumidor: ",
 					"Agregar Oferta",JOptionPane.QUESTION_MESSAGE);
-				else
-					op=JOptionPane.showInputDialog(null,"Debe agregar una demanda para el consumidor antes antes de continuar: ",
-							"Agregar Oferta",JOptionPane.QUESTION_MESSAGE);
-				
-				i=1;
+			if (op==null || op.equals("")) 
+			{
+				addConsoleLine("Se cancelo el agregado del nodo consumidor ");
+				continua=false;
 			}
+			if (continua) 
+			{
 			try 
 			{
 				Integer e=Integer.parseInt(op);
 				
 				if (e<0)
 				{
-					JOptionPane.showMessageDialog(label, "No se puede agregar pesos negativos", "Negative weight Exception", JOptionPane.ERROR_MESSAGE);
-					addConsoleLine("\n>> Negative weight Exception <<");
-					addConsoleLine("No se puede agregar pesos negativos");
+					NegativeWeightException(label);
 					continua=false;
 				}
 			}catch (Exception e ) 
 			{
-			
+				ParseIntException(label);
 				continua=false;
 			}
-			if (continua)
-			{
-				
+			
 			label.setName(op);
 			label.setToolTipText(op);
 			consumidores.add(label);
 			}
+			
+			
 			
 		}
 		
@@ -816,7 +804,11 @@ icono.setIcon(new ImageIcon("bajar.png"));
 			public void mouseReleased(MouseEvent e)
 			{
 				
-				addConsoleLine("Se finalizo la entrada de aristas. Ya puede analizar el flujo maximo:");
+				int i=JOptionPane.showConfirmDialog(frame, "¿Esta seguro que quiere finalizar el agregado de aristas. Ya no podra agregar nodos ni aristas nuevas", "Finalizar agregado de aristas", JOptionPane.OK_CANCEL_OPTION);
+				
+				if (i==0) 
+				{
+					addConsoleLine("Se finalizo la entrada de aristas. Ya puede analizar el flujo maximo:");
 				JLabel t=new JLabel(ub+""); 
 				map.add(t);
 				mapArista.addNodo();
@@ -855,6 +847,10 @@ icono.setIcon(new ImageIcon("bajar.png"));
 				removeActionsNodes();
 			
 			}
+				
+				}
+				
+				
 
 			
 			
@@ -879,8 +875,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 					}
 					
 					Integer demanda=0;
-					for (JLabel lab:consumidores
-							) 
+					for (JLabel lab:consumidores) 
 					{
 						String name=lab.getName();
 						Integer num=Integer.parseInt(name);
