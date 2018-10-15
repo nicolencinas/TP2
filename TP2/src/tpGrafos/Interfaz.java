@@ -451,7 +451,7 @@ public class Interfaz
 			
 			label.setName(op);
 			label.setToolTipText(op);
-			consumidores.add(label);
+			productores.add(label);
 			}
 			
 		}
@@ -476,8 +476,8 @@ public class Interfaz
 				}
 				
 			}
-			if (continua) 
-			{
+			
+			
 			try 
 			{
 				Integer e=Integer.parseInt(op);
@@ -494,7 +494,8 @@ public class Interfaz
 			}
 			
 			
-			}
+			
+			
 			if (continua) 
 			{
 			label.setName(op);
