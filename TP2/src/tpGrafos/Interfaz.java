@@ -417,10 +417,19 @@ public class Interfaz
 			
 			op=JOptionPane.showInputDialog(null,"Agregar la oferta del productor: ",
 					"Agregar Oferta",JOptionPane.QUESTION_MESSAGE);
-			if (op==null || op.equals("")) 
+			if (op==null ) 
 			{
 				addConsoleLine("Se cancelo el agregado del nodo productor ");
 				continua=false;
+			}
+			else  
+			{
+				if (op.equals("")) 
+				{
+					addConsoleLine("Sin datos: el agregado del nodo no puede continuar.");
+				continua=false;
+				}
+				
 			}
 			
 			if (continua) 
@@ -453,10 +462,19 @@ public class Interfaz
 			
 			op=JOptionPane.showInputDialog(null,"Agregar la demanda del consumidor: ",
 					"Agregar Oferta",JOptionPane.QUESTION_MESSAGE);
-			if (op==null || op.equals("")) 
+			if (op==null) 
 			{
 				addConsoleLine("Se cancelo el agregado del nodo consumidor ");
 				continua=false;
+			}
+			else 
+			{
+				if (op.equals("")) 
+				{
+					addConsoleLine("Sin datos: el agregado del nodo no puede continuar.");
+				continua=false;
+				}
+				
 			}
 			if (continua) 
 			{
@@ -475,6 +493,10 @@ public class Interfaz
 				continua=false;
 			}
 			
+			
+			}
+			if (continua) 
+			{
 			label.setName(op);
 			label.setToolTipText(op);
 			consumidores.add(label);
