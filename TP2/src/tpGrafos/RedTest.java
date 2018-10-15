@@ -1,11 +1,9 @@
 package tpGrafos;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.Assert.*;
 
 import org.junit.Before;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 public class RedTest {
 
@@ -128,3 +126,5 @@ public class RedTest {
 		assertFalse(b.equals(red4.flujo_Maximo(red4.obtenerGrafo(), 0, 5)));
 	}
 }
+
+

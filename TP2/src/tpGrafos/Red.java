@@ -19,9 +19,6 @@ public class Red {
 			this.grupo = new String[vertice];
 		}
 	}
-	
-	
-	
 
 	// Getters and setters
 
