@@ -432,8 +432,7 @@ public class Interfaz
 				
 			}
 			
-			if (continua) 
-			{
+			
 			try 
 			{
 				Integer e=Integer.parseInt(op);
@@ -443,12 +442,17 @@ public class Interfaz
 					NegativeWeightException(label);
 					continua=false;
 				}
-			}catch (Exception e ) 
+				
+			}
+			catch (Exception e ) 
 			{
+				if (continua)
 				ParseIntException(label);
 				continua=false;
 			}
 			
+			if (continua) 
+			{
 			label.setName(op);
 			label.setToolTipText(op);
 			productores.add(label);
@@ -489,6 +493,7 @@ public class Interfaz
 				}
 			}catch (Exception e ) 
 			{
+				if (continua)
 				ParseIntException(label);
 				continua=false;
 			}
