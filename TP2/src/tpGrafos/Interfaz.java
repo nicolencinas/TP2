@@ -164,7 +164,7 @@ public class Interfaz
 		map.repaint();
 		map.add(label);
 		aristas.add(label);
-		mapArista.imprimir();
+		
 		
 		addConsoleLine("Se agrego una arista entre nodo: "+d+ " Y "+h+" con peso de: "+p);
 	}
@@ -303,7 +303,7 @@ public class Interfaz
 							  if (mapArista.existeReciproca(d, h)) 
 							  {
 								  mapArista.addArista(h, d, Integer.parseInt(option));
-								  mapArista.imprimir();
+								 
 							  }
 							  
 							  }  
@@ -361,7 +361,7 @@ public class Interfaz
 							changeArista(d,h);
 							addConsoleLine("Se agrego una arista de vuelta entre "+d+" y "+h+" con peso "+r);
 						}
-						mapArista.imprimir();
+						
 						
 					}
 				
@@ -835,7 +835,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 			public void mouseReleased(MouseEvent e)
 			{
 				
-				int i=JOptionPane.showConfirmDialog(frame, "¿Esta seguro que quiere finalizar el agregado de aristas. Ya no podra agregar nodos ni aristas nuevas", "Finalizar agregado de aristas", JOptionPane.OK_CANCEL_OPTION);
+				int i=JOptionPane.showConfirmDialog(paso, "¿Esta seguro que quiere finalizar el agregado de aristas. Ya no podra agregar nodos ni aristas nuevas", "Finalizar agregado de aristas", JOptionPane.OK_CANCEL_OPTION);
 				
 				if (i==0) 
 				{
@@ -880,11 +880,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 			}
 				
 				}
-				
-				
-
-			
-			
+	
 			});
 			
 			flujoMAX.addMouseListener(new MouseAdapter() 
@@ -897,8 +893,6 @@ icono.setIcon(new ImageIcon("bajar.png"));
 					
 					int grafo2[][]=mapArista.matrizDePesos();
 					
-					gasoducto.imprimirGrafoPesos();
-					
 					Integer produccion=0;
 					for (JLabel lab:productores
 							) 
@@ -908,27 +902,36 @@ icono.setIcon(new ImageIcon("bajar.png"));
 						produccion+=num;
 					}
 					
-					Integer demanda=0;
-					for (JLabel lab:consumidores) 
-					{
-						String name=lab.getName();
-						Integer num=Integer.parseInt(name);
-						demanda+=num;
-					}
-					
 					int flujomaximo=gasoducto.flujo_Maximo(grafo2,0,g-1);
 					addConsoleLine("La produccion total de gas es de: "+produccion+" El flujo maximo del grafo es: "+flujomaximo);
 					
-					if (demanda<flujomaximo) 
+					for (JLabel lab:consumidores) 
 					{
-						addConsoleLine("Se puede suplir la demanda de los consumidores, la demanda total es de: "+demanda);
+						String name=lab.getName();
+						Integer peso=Integer.parseInt(name);
 					
+						String text=lab.getText();
+						Integer num=Integer.parseInt(text);
+						
+						int oferta=gasoducto.flujo_Maximo(grafo2, 0, num);
+						
+						addConsoleLine("\nLa cantidad de gas que alcanza al nodo "+ num + " es: "+oferta);
+						addConsoleLine("La demanda del consumidor " + num+ " es  " + peso );
+						
+						if (oferta>=peso) 
+						{
+							
+							addConsoleLine("Se puede suplir la demanda del consumidor: "+ num+"\n");
+						}
+						else 
+						{
+							addConsoleLine("NO Se puede suplir la demanda del consumidor: "+ num+"\n");
+							
+						}
+							
 					}
-					if (demanda>flujomaximo) 
-					{
-						addConsoleLine("NO Se puede suplir la demanda de los consumidores, la demanda total es de: "+demanda);
 					
-					}
+				
 				}
 
 				

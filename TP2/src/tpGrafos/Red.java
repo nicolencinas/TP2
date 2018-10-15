@@ -20,11 +20,6 @@ public class Red {
 		}
 	}
 	
-	Red () 
-	{
-		this.grafoPesos = new int[10][10];
-		this.grupo = new String[10];
-	}
 	
 	
 
@@ -114,9 +109,11 @@ public class Red {
 		visitado[inicio] = true;
 		acumulador[inicio] = -1;
 
-		while (cola.size() != 0) {
+		while (cola.size() != 0)
+		{
 			int aux = cola.poll();
-			for (int i = 0; i < grafo.length; i++) {
+			for (int i = 0; i < grafo.length; i++) 
+			{
 				if (visitado[i] == false && grafo[aux][i] > 0) {
 					cola.add(i);
 					acumulador[i] = aux;
@@ -128,7 +125,9 @@ public class Red {
 	}
 
 	// Flujo maximo
-	public int flujo_Maximo(int grafo[][], int inicio, int fin) {
+	public int flujo_Maximo(int grafo[][], int inicio, int fin) 
+	{
+		int flujoMaximo=0;
 		int aux1, aux2;
 		int acumulador[] = new int[grafoPesos.length];// guarda los caminos
 
@@ -136,8 +135,11 @@ public class Red {
 		
 		llenarGrafo(grafoTemp,grafo);
 
-		while (bfs(grafoTemp, inicio, fin, acumulador)) {
+		while (bfs(grafoTemp, inicio, fin, acumulador)) 
+		{
 			int caminoFlujo = Integer.MAX_VALUE;
+			
+
 			for (aux1 = fin; aux1 != inicio; aux1 = acumulador[aux1]) {
 				aux2 = acumulador[aux1];
 				caminoFlujo = Math.min(caminoFlujo, grafoTemp[aux2][aux1]);
@@ -148,9 +150,12 @@ public class Red {
 				grafoTemp[aux2][aux1] -= caminoFlujo;
 				grafoTemp[aux1][aux2] += caminoFlujo;
 			}
+			
+			
+				
+			
 			flujoMaximo += caminoFlujo;
 		}
-
 		return flujoMaximo;
 	}
 }

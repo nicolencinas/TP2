@@ -70,6 +70,7 @@ public class Arista
 		int size=lista.size();
 		int[][] ret=new int[size][size];
 	
+	
 		int fila=0;
 		for (HashMap <Integer,Integer> map :lista) 
 		{
