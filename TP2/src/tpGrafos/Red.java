@@ -57,10 +57,10 @@ public class Red {
 	// Imprimir
 
 	public void imprimirGrafoPesos() {
-		for (int i = 0; i < this.obtenerGrafo().length; i++) {
+		for (int i = 0; i < grafoPesos.length; i++) {
 			System.out.println("");
-			for (int j = 0; j < this.obtenerGrafo()[i].length; j++) {
-				System.out.print(this.obtenerGrafo()[i][j]);
+			for (int j = 0; j < grafoPesos.length; j++) {
+				System.out.print(grafoPesos[i][j]);
 			}
 		}
 	}
