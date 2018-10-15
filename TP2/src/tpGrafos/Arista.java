@@ -44,27 +44,6 @@ public class Arista
 		return lista.get(h).containsKey(d);
 	}
 	
-	public void imprimir() 
-	{
-		int i=0;
-		for (HashMap<Integer,Integer> map:lista) 
-		{
-			System.out.println("Desde: "+i+toString(map));
-			i++;
-		}
-		System.out.println("");
-	}
-
-	private String toString(HashMap<Integer,Integer> map) 
-	{
-		String ret="";
-		for (Entry<Integer, Integer> entry : map.entrySet()) 
-		{
-			ret+=" Hasta "+entry.getKey()+" con peso: "+entry.getValue();
-		}
-		return ret;
-	}
-	
 	public int [][] matrizDePesos()
 	{
 		int size=lista.size();
@@ -80,16 +59,6 @@ public class Arista
 			}
 			fila++;
 		}	
-		
-		for (int i=0;i<size;i++) 
-		{
-			for (int j=0;j<size;j++) 
-			{
-				System.out.print(ret[i][j]+" ");
-			}
-			System.out.println("");
-		}
-		System.out.println("");
 		
 		return ret;
 	}

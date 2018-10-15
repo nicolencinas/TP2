@@ -780,32 +780,13 @@ icono.setIcon(new ImageIcon("bajar.png"));
 			
 			String nombre=nombres[i];
 			addConsoleLine("Se agrego el Nodo ("+ub +")"+" "+nombre.toUpperCase()+" en el punto- X:"+ p.getX()+ " - Y: "+ p.getY());
-			String pe =l.getName()==null ? "0" : l.getName();
+			String pe =l.getName();
 			
+			if (pe!=null)
 			addConsoleLine("Con peso: "+ pe );
 			ub++;
 			map.repaint();
 			}
-			
-			System.out.println("Lista de productores");
-			
-			for (JLabel j:productores)
-			{
-				System.out.println(j.getText()+" "+j.getName()+" ");
-			}
-			System.out.println();
-			
-			System.out.println("Lista de consumidores");
-			
-			for (JLabel j:consumidores)
-			{
-				System.out.println(j.getText()+" "+j.getName()+" ");
-			}
-			System.out.println();
-			
-			
-			
-		
 			}
 			
 			
