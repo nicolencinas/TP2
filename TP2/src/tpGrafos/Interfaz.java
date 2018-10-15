@@ -891,8 +891,8 @@ icono.setIcon(new ImageIcon("bajar.png"));
 			{
 				public void mouseReleased(MouseEvent e) 
 				{
-					ub++;
-					Red gasoducto=new Red(ub);
+					Integer g=ub+1;
+					Red gasoducto=new Red(g);
 					
 					
 					int grafo2[][]=mapArista.matrizDePesos();
@@ -916,7 +916,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 						demanda+=num;
 					}
 					
-					int flujomaximo=gasoducto.flujo_Maximo(grafo2,0,ub-1);
+					int flujomaximo=gasoducto.flujo_Maximo(grafo2,0,g-1);
 					addConsoleLine("La produccion total de gas es de: "+produccion+" El flujo maximo del grafo es: "+flujomaximo);
 					
 					if (demanda<flujomaximo) 
