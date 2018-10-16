@@ -22,10 +22,7 @@ public class Arista
 	}
 	public void vaciar() 
 	{
-		for (HashMap <Integer, Integer> map : lista) 
-		{
-			
-		}
+		lista =new ArrayList<HashMap<Integer,Integer>>();
 		
 	}
 	public void addNodo() 

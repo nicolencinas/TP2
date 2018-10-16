@@ -9,6 +9,7 @@ import javax.swing.border.TitledBorder;
 
 import org.openstreetmap.gui.jmapviewer.*;
 
+
 import Animacion.Animacion;
 
 import java.awt.event.*;
@@ -27,6 +28,7 @@ public class Interfaz
 	private ArrayList <JLabel> aristas=new ArrayList<JLabel>();
 	private ArrayList <JLabel> consumidores=new ArrayList<JLabel>();
 	private ArrayList <JLabel> productores=new ArrayList<JLabel>();
+	private ArrayList <MapPolygonImpl> poligonos=new ArrayList<MapPolygonImpl>();
 	private Arista mapArista=new Arista();
 	private Integer ub=1;
 	private JLabel rel=new JLabel("Crear Arista entre: \n "+"X"+" A "+"X");
@@ -35,6 +37,7 @@ public class Interfaz
     private StringBuilder consoleOut=new StringBuilder("Bienvenido al sistema de planificacion de redes de gas: \n");
     private JTextArea ta = new JTextArea("",33,42);
     private boolean mostrarEjem=true;
+    
  
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -61,6 +64,50 @@ public class Interfaz
 			nodo.updateUI();
 		}
 	}
+	
+	public void LimpiarMapa()
+	{
+		if (!nodos.isEmpty()) 
+		{
+		for (JLabel nodo : nodos) 
+		{
+			map.remove(nodo);
+		}	
+		}
+		
+		
+		
+		if (!aristas.isEmpty()) 
+		{
+		for (JLabel nodo : aristas) 
+		{
+			map.remove(nodo);
+		}	
+		
+		if (!poligonos.isEmpty()) 
+		{
+		for (MapPolygonImpl poligono : poligonos) 
+		{
+			map.removeMapPolygon(poligono);
+		}
+		}
+		
+		aristas.clear();
+		nodos.clear();
+		mapArista.vaciar();
+		consumidores.clear();
+	    productores.clear();
+	    poligonos.clear();
+	    
+	    JLabel s=new JLabel(0+"");
+		nodos.add(s);
+		map.add(s);
+		mapArista.addNodo();
+		ub=1;
+		
+		
+	}
+		}
 	private void removeActionsNodes()
 	{
 	for (JLabel l:nodos)
@@ -158,6 +205,7 @@ public class Interfaz
 		Coordinate cordinada2=map.getPosition(hasta.getLocation());
 		MapPolygonImpl polygon=new MapPolygonImpl(cordinada1,cordinada2,cordinada1);
 		polygon.setColor(Color.GRAY);
+		poligonos.add(polygon);
 		
 		
 		map.addMapPolygon(polygon);
@@ -910,6 +958,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		combo.addItem("Ejemplo 1");
 		combo.addItem("Ejemplo 2");
 		combo.addItem("Ejemplo 3");
+		combo.setEnabled(false);
 		
 		combo.setBounds(10,50,120,30);
 		
@@ -921,26 +970,28 @@ icono.setIcon(new ImageIcon("bajar.png"));
 				   
 			      if (combo.getSelectedItem().equals("Ejemplo 1"))
 			      {
+			    	  LimpiarMapa();
 			    	  JOptionPane.showMessageDialog(frame, "Se selecciono el ejemplo 1");
 			    	  ejemplo1();
-			    	  combo.setEnabled(false);
-			    	  mostrarEjem=false;
+			    	  
+			    	 
 			      }
 			      
 			      if (combo.getSelectedItem().equals("Ejemplo 2"))
 			      {
+			    	  LimpiarMapa();
 			    	  JOptionPane.showMessageDialog(frame, "Se selecciono el ejemplo 2");
 			    	  ejemplo2();
-			    	  combo.setEnabled(false);
-			    	  mostrarEjem=false;
+			    	  
+			    	 
 			    	  
 			      }
 			      if (combo.getSelectedItem().equals("Ejemplo 3"))
 			      {
+			    	  LimpiarMapa();
 			    	  JOptionPane.showMessageDialog(frame, "Se selecciono el ejemplo 3");
 			    	  ejemplo3();
-			    	  combo.setEnabled(false);
-			    	  mostrarEjem=false;
+			    	
 			      }
 		{
 			
@@ -1170,8 +1221,8 @@ icono.setIcon(new ImageIcon("bajar.png"));
 						}
 							
 					}
+					combo.setEnabled(false);
 					
-				
 				}
 
 				
