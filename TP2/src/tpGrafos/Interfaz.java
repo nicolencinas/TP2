@@ -830,7 +830,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 
 	private void initialize() 
 	{
-		frame = new JFrame("Sistema de planificacion de redes de gas: Ministerio de energia y minera de la Nacion");
+		frame = new JFrame("Sistema de planificacion de redes de gas: Ministerio de energia y mineria de la Nacion");
 		frame.setBounds(100, 100, 1600, 900);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	
