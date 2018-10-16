@@ -1014,7 +1014,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 
 		    public void actionPerformed(ActionEvent e)
 		    {
-		    	int i=JOptionPane.showConfirmDialog(frame, "Esta a punto de limpiar todos los obejtos del mapa\n¿Desea Continuar" );
+		    	int i=JOptionPane.showConfirmDialog(frame, "Esta a punto de limpiar todos los objetos del mapa\n¿Desea Continuar?","Vaciar Mapa: ", JOptionPane.OK_CANCEL_OPTION );
 		    			
 		    	if (i==0)
 		    	{
@@ -1133,6 +1133,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 				if (selActual!="") 
 				{
 				addConsoleLine("\n___________________________\n Se Finalizo la entrada de  Nodos:\n");
+				addConsoleLine("Ya puede agegar aristas");
 				selActual="";	
 				}	
 				
@@ -1146,7 +1147,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 			public void mouseReleased(MouseEvent e)
 			{
 				
-				int i=JOptionPane.showConfirmDialog(paso, "¿Esta seguro que quiere finalizar el agregado de aristas. Ya no podra agregar nodos ni aristas nuevas", "Finalizar agregado de aristas", JOptionPane.OK_CANCEL_OPTION);
+				int i=JOptionPane.showConfirmDialog(paso, "¿Esta seguro que quiere finalizar el agregado de aristas?. Ya no podra agregar nodos ni aristas nuevas", "Finalizar agregado de aristas", JOptionPane.OK_CANCEL_OPTION);
 				
 				if (i==0) 
 				{
@@ -1190,6 +1191,8 @@ icono.setIcon(new ImageIcon("bajar.png"));
 				
 				removeActionsNodes();
 			
+				combo.setEnabled(false);
+				limpiar.setEnabled(false);
 			}
 				
 				}
@@ -1246,7 +1249,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 						}
 							
 					}
-					combo.setEnabled(false);
+				
 					
 				}
 
