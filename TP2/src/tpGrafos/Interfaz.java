@@ -1194,6 +1194,10 @@ icono.setIcon(new ImageIcon("bajar.png"));
 				
 				if (i==0) 
 				{
+					
+					dropmenu.remove(icono);
+					dropmenu.setLocation(0,0);
+					
 					addConsoleLine("Se finalizo la entrada de aristas. Ya puede analizar el flujo maximo:");
 				JLabel t=new JLabel(ub+""); 
 				map.add(t);
