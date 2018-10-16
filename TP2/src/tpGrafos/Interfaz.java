@@ -83,6 +83,7 @@ public class Interfaz
 		{
 			map.remove(nodo);
 		}	
+		}
 		
 		if (!poligonos.isEmpty()) 
 		{
@@ -92,12 +93,12 @@ public class Interfaz
 		}
 		}
 		
-		aristas.clear();
-		nodos.clear();
+		aristas=new ArrayList<JLabel>();
+		nodos=new ArrayList<JLabel>();
 		mapArista.vaciar();
-		consumidores.clear();
-	    productores.clear();
-	    poligonos.clear();
+		consumidores=new ArrayList<JLabel>();
+	    productores=new ArrayList<JLabel>();
+	    poligonos=new ArrayList<MapPolygonImpl>();
 	    
 	    JLabel s=new JLabel(0+"");
 		nodos.add(s);
@@ -106,7 +107,7 @@ public class Interfaz
 		ub=1;
 		
 		
-	}
+	
 		}
 	private void removeActionsNodes()
 	{
@@ -1002,7 +1003,30 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		
 		frame.add(combo);
 		
-	
+		
+		JButton limpiar=new JButton ("Limpiar mapa");
+		limpiar.setFont(new Font("Tahoma",Font.PLAIN,12));
+		limpiar.setBounds(10, 10, 105, 30);
+		map.add(limpiar);
+		
+		limpiar.addActionListener(new ActionListener() 
+		{
+
+		    public void actionPerformed(ActionEvent e)
+		    {
+		    	int i=JOptionPane.showConfirmDialog(frame, "Esta a punto de limpiar todos los obejtos del mapa\n¿Desea Continuar" );
+		    			
+		    	if (i==0)
+		    	{
+		    	LimpiarMapa();
+		    	
+		    	map.updateUI();
+		    	ub=1;	
+		    	}
+		    	
+		    }
+		    
+		});
 
 		icono.addMouseListener(new MouseAdapter() 
 		{
@@ -1059,7 +1083,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 					ImageIcon imicon=new ImageIcon( im.getScaledInstance(55, 55, Image.SCALE_DEFAULT));
 					JOptionPane.showMessageDialog(aux, "No se selecciono ningun tipo de nodo", "Seleccione nodo.", JOptionPane.ERROR_MESSAGE,imicon);
 				}
-				frame.remove(combo);
+				
 					
 			Point p=new Point();
 			p.setLocation(e.getX()-10, e.getY()-10);
@@ -1163,6 +1187,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 					mapArista.addArista(0, num, peso);
 					
 				}
+				
 				removeActionsNodes();
 			
 			}
