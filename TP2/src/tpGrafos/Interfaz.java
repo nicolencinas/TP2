@@ -67,6 +67,8 @@ public class Interfaz
 	
 	public void LimpiarMapa()
 	{
+		consoleOut=new StringBuilder();
+		consoleOut.append("Bienvenido al sistema de planificacion de redes de gas: \n");
 		if (!nodos.isEmpty()) 
 		{
 		for (JLabel nodo : nodos) 
@@ -629,6 +631,11 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		nodo3.setName("300");
 		nodo4.setName("100");
 		
+		nodo1.setToolTipText("150");
+		nodo2.setToolTipText("250");
+		nodo3.setToolTipText("300");
+		nodo4.setToolTipText("100");
+		
 		nodos.add(nodo1);
 		nodos.add(nodo2);
 		nodos.add(nodo3);
@@ -640,6 +647,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 			mapArista.addNodo();
 			
 		}
+		addConsoleLine("Se agrego el ejemplo Nº1: Caminos sin nodos de paso\n");
 		addArista(100, punto1, punto3, 1, 3);
 		mapArista.addArista(1, 3, 100);
 		addArista(130, punto1, punto4, 1, 4);
@@ -659,6 +667,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		
 		map.updateUI();
 		ub=5;
+		 
 		
 	}
 	
@@ -698,6 +707,13 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		nodo7.setName("250");
 		nodo8.setName("500");
 		
+		nodo1.setToolTipText("150");
+		nodo2.setToolTipText("250");
+		nodo3.setToolTipText("700");
+		
+		nodo7.setToolTipText("250");
+		nodo8.setToolTipText("500");
+		
 		nodos.add(nodo1);
 		nodos.add(nodo2);
 		nodos.add(nodo3);
@@ -713,7 +729,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 			mapArista.addNodo();
 			
 		}
-		
+		addConsoleLine("Se agrego el ejemplo Nº2: Dos caminos distintos\n");
 		addArista(130, punto1, punto5, 1, 5);
 		mapArista.addArista(1, 5, 130);
 		
@@ -744,6 +760,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		
 		map.updateUI();
 		ub=9;
+		 
 		
 	}
 	
@@ -768,6 +785,11 @@ icono.setIcon(new ImageIcon("bajar.png"));
 	
 		nodo4.setName("100");
 		
+		nodo1.setToolTipText("150");
+		nodo2.setToolTipText("300");
+	
+		nodo4.setToolTipText("100");
+		
 		nodos.add(nodo1);
 		nodos.add(nodo2);
 		nodos.add(nodo3);
@@ -779,6 +801,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 			mapArista.addNodo();
 			
 		}
+		addConsoleLine("Se agrego el ejemplo Nº3: Cuello de botella\n");
 		addArista(50, punto1, punto3, 1, 3);
 		mapArista.addArista(1, 3, 50);
 		
@@ -797,6 +820,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		
 		map.updateUI();
 		ub=5;
+		
 		
 	}
 	
@@ -972,7 +996,14 @@ icono.setIcon(new ImageIcon("bajar.png"));
 			      if (combo.getSelectedItem().equals("Ejemplo 1"))
 			      {
 			    	  LimpiarMapa();
-			    	  JOptionPane.showMessageDialog(frame, "Se selecciono el ejemplo 1");
+			    	  JOptionPane.showMessageDialog(frame, "Se selecciono el ejemplo 1:\nCamino sin nodos de paso\n"
+			    			  +"\n Productores:\n"
+			    			  +"Nodo 1 con produccion 150\n"
+			    			  +"Nodo 2 con produccion 250\n\n"
+			    			  +"Consumidores:\n"
+			    			  +"Nodo 3 con demanda 300\n"
+			    			  +"Nodo 4 con demanda 100");
+			    	 
 			    	  ejemplo1();
 			    	  
 			    	 
@@ -981,8 +1012,16 @@ icono.setIcon(new ImageIcon("bajar.png"));
 			      if (combo.getSelectedItem().equals("Ejemplo 2"))
 			      {
 			    	  LimpiarMapa();
-			    	  JOptionPane.showMessageDialog(frame, "Se selecciono el ejemplo 2");
+			    	  JOptionPane.showMessageDialog(frame, "Se selecciono el ejemplo 2:\nDos caminos distintos\n"
+			    			  +"\n Productores:\n"
+			    			  +"Nodo 1 con produccion 150\n"
+			    			  +"Nodo 2 con produccion 250\n\n"
+			    			  +"Nodo 3 con produccion 700\n\n"
+			    			  +"Consumidores:\n"
+			    			  +"Nodo 7 con demanda 250\n"
+			    			  +"Nodo 8 con demanda 500");
 			    	  ejemplo2();
+			    	 
 			    	  
 			    	 
 			    	  
@@ -990,7 +1029,12 @@ icono.setIcon(new ImageIcon("bajar.png"));
 			      if (combo.getSelectedItem().equals("Ejemplo 3"))
 			      {
 			    	  LimpiarMapa();
-			    	  JOptionPane.showMessageDialog(frame, "Se selecciono el ejemplo 3");
+			    	  JOptionPane.showMessageDialog(frame, "Se selecciono el ejemplo 3:\nCuello de botella\n"
+			    			  +"\n Productores:\n"
+			    			  +"Nodo 1 con produccion 150\n"
+			    			  +"Nodo 2 con produccion 300\n\n"
+			    			  +"Consumidores:\n"
+			    			  +"Nodo 4 con demanda 100");
 			    	  ejemplo3();
 			    	
 			      }
@@ -1124,7 +1168,6 @@ icono.setIcon(new ImageIcon("bajar.png"));
 			}
 
 	});
-			
 			finalizarNodos.addMouseListener(new MouseAdapter() 
 			{
 				
@@ -1136,7 +1179,6 @@ icono.setIcon(new ImageIcon("bajar.png"));
 				addConsoleLine("Ya puede agegar aristas");
 				selActual="";	
 				}	
-				
 			}
 			
 			});
