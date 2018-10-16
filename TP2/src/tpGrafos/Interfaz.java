@@ -67,6 +67,7 @@ public class Interfaz
 	
 	public void LimpiarMapa()
 	{
+		selActual="";
 		consoleOut=new StringBuilder();
 		consoleOut.append("Bienvenido al sistema de planificacion de redes de gas: \n");
 		if (!nodos.isEmpty()) 
