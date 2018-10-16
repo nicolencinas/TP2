@@ -113,7 +113,7 @@ public class Red {
 			{
 				if (visitado[i] == false && grafo[aux][i] > 0) {
 					cola.add(i);
-					acumulador[i] = aux;
+						acumulador[i] = aux;
 					visitado[i] = true;
 				}
 			}

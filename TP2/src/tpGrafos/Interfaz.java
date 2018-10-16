@@ -34,6 +34,7 @@ public class Interfaz
 	private JMapViewer map=new JMapViewer();
     private StringBuilder consoleOut=new StringBuilder("Bienvenido al sistema de planificacion de redes de gas: \n");
     private JTextArea ta = new JTextArea("",33,42);
+    private boolean mostrarEjem=true;
  
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -611,6 +612,147 @@ icono.setIcon(new ImageIcon("bajar.png"));
 		ub=5;
 		
 	}
+	
+	public void ejemplo2() 
+	{
+		Point punto1=new Point (350,350);
+		Point punto2=new Point (350,450);
+		Point punto3=new Point (350,550);
+		Point punto4=new Point (450,350);
+		Point punto5=new Point (450,450);
+		Point punto6=new Point (450,550);
+		Point punto7=new Point (550,400);
+		Point punto8=new Point (550,500);
+		
+		JLabel nodo1=generarNodo(0, 1, punto1);
+		JLabel nodo2=generarNodo(0, 2, punto2);
+		JLabel nodo3=generarNodo(0, 3, punto3);
+		productores.add(nodo1);
+		productores.add(nodo2);
+		productores.add(nodo3);
+		
+		JLabel nodo4=generarNodo(2, 4, punto4);
+		JLabel nodo5=generarNodo(2, 5, punto5);
+		JLabel nodo6=generarNodo(2, 6, punto6);
+		
+		
+		
+		JLabel nodo7=generarNodo(1,7,punto7);
+		JLabel nodo8=generarNodo(1,8,punto8);
+		consumidores.add(nodo7);
+		consumidores.add(nodo8);
+		
+		nodo1.setName("150");
+		nodo2.setName("250");
+		nodo3.setName("700");
+		
+		nodo7.setName("250");
+		nodo8.setName("500");
+		
+		nodos.add(nodo1);
+		nodos.add(nodo2);
+		nodos.add(nodo3);
+		nodos.add(nodo4);
+		nodos.add(nodo5);
+		nodos.add(nodo6);
+		nodos.add(nodo7);
+		nodos.add(nodo8);
+		
+		
+		for (int i=0;i<8;i++) 
+		{
+			mapArista.addNodo();
+			
+		}
+		
+		addArista(130, punto1, punto5, 1, 5);
+		mapArista.addArista(1, 5, 130);
+		
+		addArista(200, punto2, punto4, 2, 4);
+		mapArista.addArista(2, 4, 200);
+		
+		addArista(250, punto3, punto6, 3, 6);
+		mapArista.addArista(3, 6, 250);
+		
+		addArista(130, punto4, punto7, 4, 7);
+		mapArista.addArista(4, 7, 130);
+		
+		addArista(130, punto5, punto7, 5, 7);
+		mapArista.addArista(5, 7, 130);
+		
+		addArista(250, punto6, punto8, 6, 8);
+		mapArista.addArista(6, 8, 250);
+		
+		repintarNodos();
+		map.add(nodo1);
+		map.add(nodo2);
+		map.add(nodo3);
+		map.add(nodo4);
+		map.add(nodo5);
+		map.add(nodo6);
+		map.add(nodo7);
+		map.add(nodo8);
+		
+		map.updateUI();
+		ub=9;
+		
+	}
+	
+	public void ejemplo3() 
+	{
+		Point punto1=new Point (350,350);
+		Point punto2=new Point (350,450);
+		Point punto3=new Point (450,400);
+		Point punto4=new Point (550,400);
+		
+		JLabel nodo1=generarNodo(0, 1, punto1);
+		JLabel nodo2=generarNodo(0, 2, punto2);
+		productores.add(nodo1);
+		productores.add(nodo2);
+		JLabel nodo3=generarNodo(2, 3, punto3);
+		JLabel nodo4=generarNodo(1, 4, punto4);
+		//consumidores.add(nodo3);
+		consumidores.add(nodo4);
+		
+		nodo1.setName("150");
+		nodo2.setName("300");
+	
+		nodo4.setName("100");
+		
+		nodos.add(nodo1);
+		nodos.add(nodo2);
+		nodos.add(nodo3);
+		nodos.add(nodo4);
+		
+		
+		for (int i=0;i<4;i++) 
+		{
+			mapArista.addNodo();
+			
+		}
+		addArista(50, punto1, punto3, 1, 3);
+		mapArista.addArista(1, 3, 50);
+		
+		
+		addArista(150, punto2, punto3, 2, 3);
+		mapArista.addArista(2, 3, 150);
+		
+		addArista(140, punto3, punto4, 3, 4);
+		mapArista.addArista(3, 4, 140);
+		
+		repintarNodos();
+		map.add(nodo1);
+		map.add(nodo2);
+		map.add(nodo3);
+		map.add(nodo4);
+		
+		map.updateUI();
+		ub=5;
+		
+	}
+	
+	
+
 
 	private void initialize() 
 	{
@@ -779,8 +921,26 @@ icono.setIcon(new ImageIcon("bajar.png"));
 				   
 			      if (combo.getSelectedItem().equals("Ejemplo 1"))
 			      {
-			    	  JOptionPane.showMessageDialog(frame, "Hola");
+			    	  JOptionPane.showMessageDialog(frame, "Se selecciono el ejemplo 1");
 			    	  ejemplo1();
+			    	  combo.setEnabled(false);
+			    	  mostrarEjem=false;
+			      }
+			      
+			      if (combo.getSelectedItem().equals("Ejemplo 2"))
+			      {
+			    	  JOptionPane.showMessageDialog(frame, "Se selecciono el ejemplo 2");
+			    	  ejemplo2();
+			    	  combo.setEnabled(false);
+			    	  mostrarEjem=false;
+			    	  
+			      }
+			      if (combo.getSelectedItem().equals("Ejemplo 3"))
+			      {
+			    	  JOptionPane.showMessageDialog(frame, "Se selecciono el ejemplo 3");
+			    	  ejemplo3();
+			    	  combo.setEnabled(false);
+			    	  mostrarEjem=false;
 			      }
 		{
 			
@@ -804,6 +964,8 @@ icono.setIcon(new ImageIcon("bajar.png"));
 			dropmenu.setBorder(null);
 			icono.setToolTipText("Desplegar drop menu");
 			im_down(icono);
+			if (mostrarEjem)	
+			combo.setEnabled(true);
 		}
 		else
 		{
@@ -811,7 +973,9 @@ icono.setIcon(new ImageIcon("bajar.png"));
 			Animacion.bajar(-100, 0, 2,1, dropmenu);
 			dropmenu.setBorder(new RoundedBorder(10, color));
 			im_up(icono);
-			icono.setToolTipText("Retraer drop menu");	
+			icono.setToolTipText("Retraer drop menu");
+			
+			combo.setEnabled(false);
 		}
 	}
 		});
@@ -844,6 +1008,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 					ImageIcon imicon=new ImageIcon( im.getScaledInstance(55, 55, Image.SCALE_DEFAULT));
 					JOptionPane.showMessageDialog(aux, "No se selecciono ningun tipo de nodo", "Seleccione nodo.", JOptionPane.ERROR_MESSAGE,imicon);
 				}
+				frame.remove(combo);
 					
 			Point p=new Point();
 			p.setLocation(e.getX()-10, e.getY()-10);
@@ -875,6 +1040,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 			addConsoleLine("Con peso: "+ pe );
 			ub++;
 			map.repaint();
+			
 			}
 			}
 			
@@ -964,17 +1130,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 					
 					int grafo2[][]=mapArista.matrizDePesos();
 					
-					int [][] graf=mapArista.matrizDePesos();
-					for (int i=0;i<6;i++) 
-					{
-						for (int j=0;j<6;j++) 
-						{
-							System.out.print(grafo2[i][j]+" ");
-						}
-						System.out.println("");
-					}
-					System.out.println("");
-				
+					
 					
 					Integer produccion=0;
 					for (JLabel lab:productores

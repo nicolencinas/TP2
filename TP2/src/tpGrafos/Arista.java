@@ -10,6 +10,7 @@ public class Arista
 
 	private ArrayList <HashMap <Integer,Integer>> lista;
 	
+	
 	public Arista() 
 	{
 		lista=new ArrayList<HashMap <Integer,Integer>>();
@@ -19,7 +20,14 @@ public class Arista
 	{
 		lista.get(d).put(h, peso);
 	}
-	
+	public void vaciar() 
+	{
+		for (HashMap <Integer, Integer> map : lista) 
+		{
+			
+		}
+		
+	}
 	public void addNodo() 
 	{
 		HashMap<Integer,Integer> map=new HashMap<Integer,Integer>();
