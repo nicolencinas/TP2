@@ -1197,6 +1197,7 @@ icono.setIcon(new ImageIcon("bajar.png"));
 					
 					dropmenu.remove(icono);
 					dropmenu.setLocation(0,0);
+					frame.remove(combo);
 					
 					addConsoleLine("Se finalizo la entrada de aristas. Ya puede analizar el flujo maximo:");
 				JLabel t=new JLabel(ub+""); 
@@ -1238,7 +1239,6 @@ icono.setIcon(new ImageIcon("bajar.png"));
 				
 				removeActionsNodes();
 			
-				combo.setEnabled(false);
 				limpiar.setEnabled(false);
 			}
 				
